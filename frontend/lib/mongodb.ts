@@ -1,12 +1,16 @@
 import { MongoClient, Db } from "mongodb";
 
-const rawUri = process.env.MONGODB_URI;
-if (!rawUri && process.env.NODE_ENV === "production") {
-  throw new Error("[MongoDB Error] MONGODB_URI environment variable is required in production mode.");
-}
-let uri = (rawUri || "mongodb://localhost:27017/Skyline_Project_Engineers").trim();
-if (uri.includes("/Skyline Maintenance & Safety")) {
-  uri = uri.replace("/Skyline Maintenance & Safety", "");
+function getUri(): string {
+  const rawUri = process.env.MONGODB_URI;
+  if (!rawUri && process.env.NODE_ENV === "production" && process.env.NEXT_PHASE !== "phase-production-build") {
+    // Only warn or provide fallback during build phase if not provided
+    console.warn("[MongoDB Warning] MONGODB_URI not found.");
+  }
+  let u = (rawUri || "mongodb://localhost:27017/Skyline_Project_Engineers").trim();
+  if (u.includes("/Skyline Maintenance & Safety")) {
+    u = u.replace("/Skyline Maintenance & Safety", "");
+  }
+  return u;
 }
 
 const mongoOptions = {
@@ -17,10 +21,10 @@ const mongoOptions = {
 };
 
 /**
- * Create a fresh MongoClient promise. If it fails, the global cache is cleared
- * so the next request will retry instead of reusing the failed promise forever.
+ * Create a fresh MongoClient promise lazily when a request is made.
  */
 function createClientPromise(): Promise<MongoClient> {
+  const uri = getUri();
   const c = new MongoClient(uri, mongoOptions);
   const p = c.connect().catch((err) => {
     // Clear the cached rejected promise so next request retries
@@ -39,17 +43,19 @@ declare global {
   var _mongoClientPromise: Promise<MongoClient> | undefined;
 }
 
-let clientPromise: Promise<MongoClient>;
+let clientPromise: Promise<MongoClient> | null = null;
 
-if (process.env.NODE_ENV === "development") {
-  // In development, use a global so hot-reload doesn't create multiple connections.
-  // But if the cached promise was rejected, always retry.
-  if (!global._mongoClientPromise) {
-    global._mongoClientPromise = createClientPromise();
+function getClientPromise(): Promise<MongoClient> {
+  if (process.env.NODE_ENV === "development") {
+    if (!global._mongoClientPromise) {
+      global._mongoClientPromise = createClientPromise();
+    }
+    return global._mongoClientPromise;
   }
-  clientPromise = global._mongoClientPromise;
-} else {
-  clientPromise = createClientPromise();
+  if (!clientPromise) {
+    clientPromise = createClientPromise();
+  }
+  return clientPromise;
 }
 
 /**
@@ -57,12 +63,7 @@ if (process.env.NODE_ENV === "development") {
  * Always creates a fresh connection attempt if the previous one failed.
  */
 export async function getMongoDb(): Promise<Db> {
-  // If global promise was cleared (after failure), create a fresh one
-  if (process.env.NODE_ENV === "development" && !global._mongoClientPromise) {
-    global._mongoClientPromise = createClientPromise();
-    clientPromise = global._mongoClientPromise;
-  }
-  const connectedClient = await clientPromise;
+  const connectedClient = await getClientPromise();
   const dbName = process.env.MONGODB_DB_NAME || "Skyline_Project_Engineers";
   return connectedClient.db(dbName);
 }
@@ -95,4 +96,4 @@ export async function getCollections() {
   };
 }
 
-export default clientPromise;
+export default getClientPromise;
