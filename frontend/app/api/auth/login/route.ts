@@ -53,14 +53,16 @@ export const POST = safe(async (request: NextRequest) => {
     if (created) user = created;
   }
 
-  const valid =
-    user !== null &&
-    normalize(user.Active) === "yes" &&
-    verifyPassword(password, user["Password Hash"]);
+  const userFound = user !== null;
+  const userActive = user !== null && normalize(user.Active) === "yes";
+  const hasPasswordHash = user !== null && Boolean(user["Password Hash"]);
+  const passwordMatches = user !== null && hasPasswordHash && verifyPassword(password, user["Password Hash"]);
+  const valid = userFound && userActive && passwordMatches;
 
   if (!user || !valid) {
     if (!user) fakeVerify(password);
     recordLoginFailure(throttleKey);
+    console.warn(`[Auth Diagnostic] Login failed for login identifier. Reason: user_found=${userFound}, active=${userActive}, has_hash=${hasPasswordHash}, password_valid=${passwordMatches}`);
     return NextResponse.json(
       { success: false, message: "Invalid User ID / email or password." },
       { status: 401 }

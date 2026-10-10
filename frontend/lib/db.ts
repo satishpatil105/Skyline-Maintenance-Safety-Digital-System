@@ -44,11 +44,13 @@ function mergeAccess(users: UserRecord[], access: AccessMap): void {
     const emailK = emailKey(user["Login Email"]);
     const idK = emailKey(user["User ID"] ?? "");
     const entry = (emailK ? access[emailK] : undefined) ?? (idK ? access[idK] : undefined);
-    user["App Access"] = entry?.accessLevel ?? "User";
-    user["Password Hash"] = entry?.passwordHash ?? "";
-    user["Display Password"] = entry?.displayPassword ?? (entry?.passwordHash ? "••••••••" : "");
-    user["Can Add Machine"] = entry?.canAddMachine ? "Yes" : "No";
-    user["Can Edit Machine"] = entry?.canEditMachine ? "Yes" : "No";
+    if (entry) {
+      if (entry.accessLevel) user["App Access"] = entry.accessLevel;
+      if (entry.passwordHash) user["Password Hash"] = entry.passwordHash;
+      if (entry.displayPassword) user["Display Password"] = entry.displayPassword;
+      user["Can Add Machine"] = entry.canAddMachine ? "Yes" : "No";
+      user["Can Edit Machine"] = entry.canEditMachine ? "Yes" : "No";
+    }
   }
 }
 
@@ -104,7 +106,7 @@ export async function readDb(): Promise<Database> {
     mongoDb = await Promise.race([
       getMongoDb(),
       new Promise<never>((_, reject) =>
-        setTimeout(() => reject(new Error("MongoDB connection timeout after 8s")), 8000)
+        setTimeout(() => reject(new Error("MongoDB connection timeout after 15s")), 15000)
       ),
     ]);
   } catch (err) {
@@ -127,7 +129,7 @@ export async function readDb(): Promise<Database> {
       const [machines, users, maintenanceRecords, safetyRecords, mongoChecklists, mongoPmParts, mongoDocs, mongoNotifs] = await Promise.race([
         queryPromise,
         new Promise<never>((_, reject) =>
-          setTimeout(() => reject(new Error("MongoDB query timeout after 8s")), 8000)
+          setTimeout(() => reject(new Error("MongoDB query timeout after 15s")), 15000)
         ),
       ]);
 
