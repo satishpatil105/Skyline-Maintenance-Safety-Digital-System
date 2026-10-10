@@ -1,0 +1,9 @@
+node_modules
+.next
+.env*.local
+public/uploads/*
+*.log
+data/*.xlsx
+data/app-access.json
+data/uploads
+.env

@@ -1,0 +1,56 @@
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# Next.js & Build outputs & Caches
+.next/
+.next-*/
+out/
+build/
+dist/
+.turbo/
+*.tsbuildinfo
+
+# Environment files & secrets
+.env
+.env*.local
+.env.production
+.env.staging
+*.env
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS & Editor files
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Project data, local db dumps & user uploads
+data/*.xlsx
+!data/.gitkeep
+data/app-access.json
+data/backups/
+data/uploads/
+data/~$*.xlsx
+public/uploads/*
+!public/uploads/.gitkeep
+backend/data/*.xlsx
+backend/data/app-access.json
+backend/data/backups/
+backend/data/uploads/
+frontend/data/*.xlsx
+frontend/data/app-access.json
+frontend/data/backups/
+frontend/data/uploads/
+frontend/public/uploads/*
+!frontend/public/uploads/.gitkeep

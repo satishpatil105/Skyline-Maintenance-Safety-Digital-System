@@ -1,0 +1,275 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  background: #ffffff;
+  color: #2e2022;
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid #f4dde0;
+  box-shadow: 0 3px 14px rgba(160, 13, 23, 0.08);
+}
+
+/* Standard Form UI Utility Classes */
+.label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 0.375rem;
+}
+
+.input {
+  display: block;
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: #0f172a;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transition: all 0.15s ease-in-out;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  padding: 0.625rem 1.125rem;
+  border-radius: 0.5rem;
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+  border: 1px solid transparent;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-secondary {
+  background-color: #f1f5f9;
+  color: #334155;
+  border-color: #cbd5e1;
+}
+
+.btn-secondary:hover {
+  background-color: #e2e8f0;
+  color: #0f172a;
+}
+
+.field-label {
+  display: block;
+  margin-top: 14px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #4a3437;
+}
+
+.field-input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  border: 1px solid #e8c4c8;
+  border-radius: 7px;
+  font-size: 0.875rem;
+  background: #ffffff;
+  color: #2e2022;
+}
+
+.field-input:focus {
+  outline: none;
+  border-color: #A00D17;
+  box-shadow: 0 0 0 2px rgba(160, 13, 23, 0.14);
+}
+
+.section-title {
+  margin-top: 25px;
+  margin-bottom: 12px;
+  padding: 11px 13px;
+  border-left: 5px solid #A00D17;
+  border-radius: 4px;
+  background: #fbeced;
+  color: #A00D17;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.primary-button {
+  width: 100%;
+  padding: 13px;
+  margin-top: 18px;
+  border: none;
+  border-radius: 7px;
+  background: #A00D17;
+  color: white;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.primary-button:hover:not(:disabled) {
+  background: #720912;
+}
+
+.primary-button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.status-banner {
+  padding: 12px;
+  border-radius: 7px;
+  margin-top: 15px;
+  font-weight: 700;
+  white-space: pre-line;
+}
+
+.status-success {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #86efac;
+}
+
+.status-error {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+.status-info {
+  background: #fcf1f2;
+  color: #720912;
+  border: 1px solid #e8c4c8;
+}
+
+
+/* ---- Skyline branding ---- */
+
+/* Page header: deep crimson taken from the logo. */
+.brand-header {
+  background: linear-gradient(135deg, #6f0912 0%, #a00d17 55%, #c2202c 100%);
+  border-bottom: 3px solid #e7a3a8;
+}
+
+/* The round emblem in the header, cropped out of the logo file's white margin. */
+.brand-badge {
+  background-image: url("/skyline-logo.png");
+  background-size: 150%;
+  background-position: 50% 26%;
+  background-repeat: no-repeat;
+}
+
+/*
+ * The logo as a faint watermark over every page. It sits above the content but
+ * ignores clicks, and "multiply" makes the logo's white background vanish so
+ * only the red shows through, very lightly, so nothing becomes harder to read.
+ */
+.watermark {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  background: url("/skyline-logo.png") center / min(80vmin, 680px) no-repeat;
+  opacity: 0.015;
+  mix-blend-mode: multiply;
+}
+
+@media print {
+  .watermark {
+    opacity: 0.05;
+  }
+}
+
+/* ---- White + red buttons ---- */
+
+/* Secondary buttons (they carry bg-slate-*): white with a red outline. */
+.primary-button.bg-slate-500 {
+  background: #ffffff;
+  color: #a00d17;
+  border: 2px solid #a00d17;
+}
+
+.primary-button.bg-slate-500:hover:not(:disabled) {
+  background: #fcf1f2;
+}
+
+/* The green "checklist" buttons become the standard solid red. */
+.primary-button.bg-green-700 {
+  background: #a00d17;
+}
+
+.primary-button.bg-green-700:hover:not(:disabled) {
+  background: #720912;
+}
+
+@keyframes progress {
+  0% {
+    width: 0%;
+  }
+
+  50% {
+    width: 70%;
+  }
+
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Custom Thin Enterprise Horizontal Scrollbar (6px height) */
+.overflow-x-auto::-webkit-scrollbar {
+  height: 6px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
