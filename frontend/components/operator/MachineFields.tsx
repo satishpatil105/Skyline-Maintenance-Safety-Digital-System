@@ -24,6 +24,7 @@ const TEXT_FIELDS: {
   { key: "AMC Contact", label: "AMC Contact" },
   { key: "AMC Expiry", label: "AMC Expiry", placeholder: "e.g. 31-03-2027" },
   { key: "Installation Date", label: "Installation Date", placeholder: "e.g. 15-06-2021" },
+  { key: "QR Link", label: "QR Link", placeholder: "Auto-generated e.g. http://localhost:3000/machine/..." },
 ];
 
 const SELECT_FIELDS: { key: FieldKey; label: string; options: string[] }[] = [

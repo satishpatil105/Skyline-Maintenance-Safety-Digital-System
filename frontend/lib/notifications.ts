@@ -67,20 +67,20 @@ function reader(tab: TabData) {
 }
 
 const FIELDS = {
-  id: ["Notification ID"],
-  date: ["Date"],
-  type: ["Notification Type", "Type"],
-  asset: ["Asset ID"],
-  machine: ["Machine / Equipment", "Machine Name", "Machine"],
-  message: ["Message"],
-  priority: ["Priority"],
-  assigned: ["Assigned To"],
-  status: ["Status"],
-  due: ["Due Date"],
-  by: ["Created By"],
+  id: ["Notification ID", "Alert ID", "id", "Record ID"],
+  date: ["Date", "Date & Time", "Created At"],
+  type: ["Notification Type", "Type", "Alert Type"],
+  asset: ["Asset ID", "Source / Machine", "Machine / Equipment"],
+  machine: ["Machine / Equipment", "Machine Name", "Source / Machine", "Machine"],
+  message: ["Message", "Alert Title", "Title", "Problem", "Observation"],
+  priority: ["Priority", "Severity", "Risk Level"],
+  assigned: ["Assigned To", "Target Department", "Responsible Person"],
+  status: ["Status", "Compliance Status"],
+  due: ["Due Date", "Date & Time", "Date", "Next Due Date"],
+  by: ["Created By", "Inspector Name"],
   closed: ["Closed Date"],
-  remarks: ["Remarks"],
-  created: ["Created At"],
+  remarks: ["Remarks", "Remarks / Action"],
+  created: ["Created At", "Date & Time"],
   updated: ["Last Updated"],
 } as const;
 
@@ -227,8 +227,23 @@ function collectCandidates(db: Database, tabs: TabData[], now = todayOf()): Cand
         .filter((d): d is Date => d !== null)
         .sort((a, b) => b.getTime() - a.getTime())[0];
 
+      let due: Date | null = null;
       if (lastPm) {
-        const due = addInterval(lastPm, freq);
+        due = addInterval(lastPm, freq);
+      } else {
+        const install = parseDate(m["Installation Date"]) ?? parseDate(m["Created At"]);
+        if (install) {
+          let d = install;
+          while (d < now) {
+            d = addInterval(d, freq);
+          }
+          due = d;
+        } else {
+          due = addInterval(now, freq);
+        }
+      }
+
+      if (due) {
         out.push({
           code: "PMM",
           sourceId: asset,
@@ -236,12 +251,12 @@ function collectCandidates(db: Database, tabs: TabData[], now = todayOf()): Cand
           assetId: asset,
           machine,
           due,
-          window: leadDays(freq),
+          window: 180,
           assignedTo: m["Responsible Person"] ?? "",
           critical,
           source: "Machine Master PM Frequency",
           describe: (days) =>
-            `Preventive maintenance for ${machine} ${timing(due, days, "due")} (frequency: ${m["PM Frequency"]})`,
+            `Preventive maintenance for ${machine} ${timing(due!, days, "due")} (frequency: ${m["PM Frequency"]})`,
         });
       }
     }
@@ -265,13 +280,34 @@ function collectCandidates(db: Database, tabs: TabData[], now = todayOf()): Cand
       });
     }
   }
+
+  // Also check dedicated checklist records collection
+  if (db.checklistRecords && Array.isArray(db.checklistRecords)) {
+    for (const cr of db.checklistRecords) {
+      const resp = String(cr.response || cr.status || "").trim();
+      const d = parseDate(cr.date) ?? parseDate(cr.createdAt);
+      if (!d) continue;
+      const key = `${String(cr.assetId).toLowerCase()}|${String(cr.checklistId || cr.templateId || cr.recordId).toLowerCase()}`;
+      const prev = lastChecklist.get(key);
+      if (!prev || d >= prev.date) {
+        lastChecklist.set(key, {
+          date: d,
+          response: resp,
+          recordId: String(cr.recordId ?? ""),
+          checkPoint: String(cr.checkPoint ?? "Shift Inspection Checkpoint"),
+          assetId: String(cr.assetId ?? ""),
+        });
+      }
+    }
+  }
+
   for (const [key, item] of lastChecklist) {
     if (/^(not ok|fail|failed|no)$/i.test(item.response.trim())) {
       const machine = machineName(item.assetId);
       out.push({
         code: "CHKDEF",
         sourceId: `${item.assetId}-${idSafe(key)}`,
-        type: "Maintenance Pending",
+        type: "Checklist Due",
         assetId: item.assetId,
         machine,
         due: item.date,
@@ -324,7 +360,7 @@ function collectCandidates(db: Database, tabs: TabData[], now = todayOf()): Cand
     const what = String(r.observation || r.safetyType || "Safety action").slice(0, 80);
     const target = parseDate(r.targetDate);
     const raised = parseDate(r.date) ?? parseDate(r.createdAt);
-    const due = target ?? raised ?? now;
+    const due = target ?? (raised ? addInterval(raised, { days: 7 }) : now);
 
     out.push({
       code: "SAF",
@@ -333,7 +369,7 @@ function collectCandidates(db: Database, tabs: TabData[], now = todayOf()): Cand
       assetId: asset,
       machine,
       due,
-      window: target ? 60 : 999,
+      window: 999,
       assignedTo: r.assignedTo ?? "",
       critical: /critical|high/i.test(r.riskLevel ?? ""),
       source: `Safety record ${r.recordId}`,
@@ -387,12 +423,62 @@ function collectCandidates(db: Database, tabs: TabData[], now = todayOf()): Cand
     }
   }
 
+  // --- 6b. PM Parts Direct Fallback: if pmTab is empty, scan db.pmParts directly
+  if ((!pmTab || pmTab.rows.length === 0) && db.pmParts && Array.isArray(db.pmParts)) {
+    for (const p of db.pmParts) {
+      const item = p["Part Name"] || p["Item / Part Name"] || p.partName || "";
+      if (!item) continue;
+      const status = p["Status"] || p.status || "";
+      if (isFinished(status)) continue;
+
+      const due = parseDate(p["Expiry / Due Date"] || p["AMC Expiry"] || p.dueDate);
+      const stock = Number(p["Quantity"] || p["Stock Quantity"] || p.stockQty || 99);
+      const minStock = Number(p["Min Quantity"] || p["Min Qty"] || p.minQty || 15);
+      const asset = p["Asset ID"] || p.assetId || "";
+      const machine = machineName(asset, p["Machine / Asset"] || p.machineName);
+
+      if (!isNaN(stock) && stock <= minStock) {
+        out.push({
+          code: "STK",
+          sourceId: p["Part ID"] || p.partId || item,
+          type: "Maintenance Pending",
+          assetId: asset,
+          machine,
+          due: now,
+          window: 999,
+          assignedTo: p["Vendor / AMC"] || p.vendor || "",
+          critical: stock <= 5,
+          source: `PM Parts Inventory`,
+          describe: () =>
+            `Low spare part stock for ${machine}: "${item}" has ${stock} units remaining (min required: ${minStock})`,
+        });
+      }
+
+      if (due) {
+        out.push({
+          code: "PRTDUE",
+          sourceId: p["Part ID"] || p.partId || `${item}-${formatCompact(due)}`,
+          type: /amc/i.test(item) ? "AMC Expiry" : "PM Due",
+          assetId: asset,
+          machine,
+          due,
+          window: 180,
+          assignedTo: p["Vendor / AMC"] || p.vendor || "",
+          critical: /critical/i.test(machineByAsset.get(asset.toLowerCase())?.Criticality ?? ""),
+          source: `PM Parts Register`,
+          describe: (days) =>
+            `${item} for ${machine} ${timing(due, days, "due")}`,
+        });
+      }
+    }
+  }
+
   // --- 7. Document Register Sector: certificates and documents that expire
   const docTab = findTab(tabs, ["document"]);
-  if (docTab) {
+  if (docTab && docTab.rows.length > 0) {
     const g = reader(docTab);
     for (const row of docTab.rows) {
-      const expiry = parseDate(g(row, "Expiry Date", "Expiry"));
+      const expiry = parseDate(g(row, "Expiry Date", "Expiry", "Revision Date"));
       if (!expiry || isFinished(g(row, "Status"))) continue;
 
       const asset = g(row, "Asset ID");
@@ -414,6 +500,28 @@ function collectCandidates(db: Database, tabs: TabData[], now = todayOf()): Cand
         source: `${docTab.name} row ${row.row}`,
         describe: (days) =>
           `${docType || "Document"}${name ? ` "${name}"` : ""}${no ? ` (No. ${no})` : ""} for ${machine} ${timing(expiry, days, "expire")}`,
+      });
+    }
+  } else if (db.documentRegister && Array.isArray(db.documentRegister)) {
+    for (const d of db.documentRegister) {
+      const expiry = parseDate(d["Revision Date"] || d["Expiry Date"] || d.date);
+      if (!expiry || isFinished(d["Status"] || d.status || "")) continue;
+      const asset = d["Asset ID"] || d.assetId || "";
+      const machine = machineName(asset, d["Machine / Department"] || d.department || d.machineName);
+      const title = d["Document Title"] || d.title || "Operating Standard";
+      out.push({
+        code: "DOC",
+        sourceId: d["Doc ID"] || d.docId || `${asset}${title}`,
+        type: "Document Expiry",
+        assetId: asset,
+        machine,
+        due: expiry,
+        window: 60,
+        assignedTo: d["Approved By"] || d.approvedBy || "",
+        critical: false,
+        source: `Document Register`,
+        describe: (days) =>
+          `Document revision for ${machine}: "${title}" ${timing(expiry, days, "expire")}`,
       });
     }
   }
@@ -449,6 +557,24 @@ export interface SyncResult {
   skipped?: string;
 }
 
+const DEFAULT_NOTIF_HEADERS = [
+  "Notification ID",
+  "Date",
+  "Notification Type",
+  "Asset ID",
+  "Machine / Equipment",
+  "Message",
+  "Priority",
+  "Assigned To",
+  "Status",
+  "Due Date",
+  "Created By",
+  "Closed Date",
+  "Remarks",
+  "Created At",
+  "Last Updated",
+];
+
 /**
  * Bring the Notifications sheet in line with the other sheets: add new alerts,
  * refresh the wording/priority of open ones, close those no longer needed.
@@ -457,16 +583,15 @@ export function syncNotifications(opts: { today?: string } = {}): Promise<SyncRe
   return withDbLock(async () => {
     const store = getStore();
     const db = await readDb();
-    const tabs = await store.readAll();
+    let tabs = await store.readAll();
 
-    const ntab = findTab(tabs, ["notification"]);
-    if (!ntab) return { created: 0, updated: 0, closed: 0, open: 0, skipped: "There is no Notifications tab in the workbook." };
-
-    const ix = indexOf(ntab);
-    if (ix.id < 0 || ix.message < 0 || ix.status < 0) {
-      return { created: 0, updated: 0, closed: 0, open: 0, skipped: "The Notifications tab needs 'Notification ID', 'Message' and 'Status' columns." };
+    let ntab = findTab(tabs, ["notification"]);
+    if (!ntab) {
+      ntab = { name: "8. Notifications", headers: DEFAULT_NOTIF_HEADERS, rows: [] };
+      tabs.push(ntab);
     }
 
+    const ix = indexOf(ntab);
     const now = todayOf(opts.today);
     const stamp = new Date().toISOString();
     const existing = new Map<string, StoreRow>();
@@ -487,10 +612,15 @@ export function syncNotifications(opts: { today?: string } = {}): Promise<SyncRe
       const id = `${AUTO_PREFIX}${c.code}-${idSafe(c.sourceId)}-${formatCompact(c.due)}`;
       wanted.add(id.toLowerCase());
 
-      const status = days < 0 ? (EXPIRY_TYPES.includes(c.type) ? "Expired" : "Open") : "Due Soon";
+      const status = days < 0 ? (EXPIRY_TYPES.includes(c.type) ? "Expired" : "Overdue") : days === 0 ? "Due Today" : "Upcoming";
       const priority = priorityFor(days, c.critical);
       const message = c.describe(days, now);
-      const row = existing.get(id.toLowerCase());
+      const normId = id.toLowerCase().replace(/[^a-z0-9]/g, "");
+      const row =
+        existing.get(id.toLowerCase()) ||
+        Array.from(existing.entries()).find(
+          ([k]) => k.replace(/[^a-z0-9]/g, "") === normId
+        )?.[1];
 
       if (!row) {
         const cells = ntab.headers.map(() => "");
@@ -508,6 +638,18 @@ export function syncNotifications(opts: { today?: string } = {}): Promise<SyncRe
         put(cells, ix.remarks, `Auto-generated from ${c.source}`);
         put(cells, ix.created, stamp);
         put(cells, ix.updated, stamp);
+
+        // Also populate any secondary alias columns in ntab
+        ntab.headers.forEach((h, hIdx) => {
+          const sq = squash(h);
+          if ((sq === "alertid" || sq === "id") && !cells[hIdx]) cells[hIdx] = id;
+          if ((sq === "title" || sq === "alerttitle") && !cells[hIdx]) cells[hIdx] = message;
+          if (sq === "severity" && !cells[hIdx]) cells[hIdx] = priority;
+          if (sq === "datetime" && !cells[hIdx]) cells[hIdx] = formatIso(c.due);
+          if (sq === "sourcemachine" && !cells[hIdx]) cells[hIdx] = c.machine;
+          if (sq === "targetdepartment" && !cells[hIdx]) cells[hIdx] = c.assignedTo;
+        });
+
         appends.push({ type: "append", tab: ntab.name, cells });
         created++;
         continue;
@@ -521,7 +663,7 @@ export function syncNotifications(opts: { today?: string } = {}): Promise<SyncRe
       while (cells.length < ntab.headers.length) cells.push("");
       put(cells, ix.message, message);
       put(cells, ix.priority, priority);
-      if (AUTO_STATUS.test(current)) put(cells, ix.status, status);
+      if (AUTO_STATUS.test(current) || !current) put(cells, ix.status, status);
       if (ix.assigned >= 0 && !cells[ix.assigned]?.trim()) put(cells, ix.assigned, c.assignedTo);
 
       if (!sameCells(cells, row.cells)) {
@@ -531,9 +673,13 @@ export function syncNotifications(opts: { today?: string } = {}): Promise<SyncRe
       }
     }
 
+    const normWanted = new Set<string>();
+    for (const w of wanted) normWanted.add(w.replace(/[^a-z0-9]/g, ""));
+
     // Alerts the system made that are no longer needed (part replaced, document renewed...).
     for (const [key, row] of existing) {
-      if (!key.startsWith(AUTO_PREFIX.toLowerCase()) || wanted.has(key)) continue;
+      const normKey = key.replace(/[^a-z0-9]/g, "");
+      if (!key.startsWith(AUTO_PREFIX.toLowerCase()) || wanted.has(key) || normWanted.has(normKey)) continue;
       if (isFinished(String(row.cells[ix.status] ?? ""))) continue;
 
       const cells = [...row.cells];
@@ -562,23 +708,55 @@ export function syncNotifications(opts: { today?: string } = {}): Promise<SyncRe
 
 export interface AlertItem {
   id: string;
+  categoryType: "due" | "pending" | "upcoming";
   type: string;
   assetId: string;
   machine: string;
   message: string;
-  priority: string;
+  priority: "Critical" | "High" | "Medium" | "Low" | string;
   assignedTo: string;
   status: string;
   dueDate: string;
-  /** Negative when overdue; null when there is no due date. */
+  /** Negative when overdue; 0 when due today; positive when upcoming; null when no due date. */
   daysLeft: number | null;
+  source?: string;
+  createdAt?: string;
 }
 
-/** The open alerts (most urgent first), optionally for one machine. */
-export async function listAlerts(opts: { assetId?: string; today?: string } = {}): Promise<AlertItem[]> {
-  const tabs = await getStore().readAll();
-  const ntab = findTab(tabs, ["notification"]);
-  if (!ntab) return [];
+export interface CategorizedAlertsResult {
+  alerts: AlertItem[];
+  due: AlertItem[];
+  pending: AlertItem[];
+  upcoming: AlertItem[];
+  counts: {
+    total: number;
+    due: number;
+    pending: number;
+    upcoming: number;
+    critical: number;
+  };
+}
+
+/** The open alerts (most urgent first), optionally for one machine or category. */
+export async function listAlerts(
+  opts: { assetId?: string; today?: string; category?: "all" | "due" | "pending" | "upcoming"; sync?: boolean } = {}
+): Promise<AlertItem[]> {
+  const store = getStore();
+  let tabs = await store.readAll();
+  let ntab = findTab(tabs, ["notification"]);
+
+  // Only sync if explicitly requested
+  if (opts.sync) {
+    await syncNotifications(opts).catch(console.error);
+    tabs = await store.readAll({ fresh: true });
+    ntab = findTab(tabs, ["notification"]);
+  }
+
+  if (!ntab || ntab.rows.length === 0) {
+    return [];
+  }
+
+  console.log("[listAlerts] ntab found:", ntab.name, "headers:", ntab.headers, "rows count:", ntab.rows.length);
 
   const g = reader(ntab);
   const now = todayOf(opts.today);
@@ -588,27 +766,111 @@ export async function listAlerts(opts: { assetId?: string; today?: string } = {}
   for (const row of ntab.rows) {
     const status = g(row, ...FIELDS.status);
     const message = g(row, ...FIELDS.message);
-    if (!message || isFinished(status)) continue;
+    if (!message || isFinished(status)) {
+      continue;
+    }
 
     const asset = g(row, ...FIELDS.asset);
     if (wanted && asset.toLowerCase() !== wanted) continue;
 
     const due = parseDate(g(row, ...FIELDS.due));
+    const days = due ? daysBetween(due, now) : null;
+    const type = g(row, ...FIELDS.type);
+
+    let categoryType: "due" | "pending" | "upcoming";
+    const isDefect = /defect|not ok|fail|breakdown/i.test(`${type} ${status} ${message}`);
+    const isLowStock = /stock|stk|low spare/i.test(`${type} ${status} ${message}`);
+    const isSafety = /safety/i.test(`${type} ${message}`);
+
+    if (isDefect) {
+      categoryType = "due";
+    } else if (isLowStock) {
+      categoryType = "pending";
+    } else if (isSafety) {
+      if (days !== null && days < 0 && /target/i.test(message)) {
+        categoryType = "due";
+      } else {
+        categoryType = "pending";
+      }
+    } else if (days !== null && days <= 0) {
+      categoryType = "due";
+    } else {
+      categoryType = "upcoming";
+    }
+
+    if (opts.category && opts.category !== "all" && categoryType !== opts.category) {
+      continue;
+    }
+
     items.push({
       id: g(row, ...FIELDS.id),
-      type: g(row, ...FIELDS.type),
+      categoryType,
+      type: type || "System Alert",
       assetId: asset,
-      machine: g(row, ...FIELDS.machine),
+      machine: g(row, ...FIELDS.machine) || asset || "Plant Operations",
       message,
-      priority: g(row, ...FIELDS.priority),
+      priority: g(row, ...FIELDS.priority) || "Medium",
       assignedTo: g(row, ...FIELDS.assigned),
-      status,
+      status:
+        days !== null && days < 0
+          ? `Overdue by ${-days}d`
+          : days === 0
+          ? "Due Today"
+          : status || (categoryType === "upcoming" ? `Due in ${days}d` : "Pending"),
       dueDate: due ? formatIso(due) : "",
-      daysLeft: due ? daysBetween(due, now) : null,
+      daysLeft: days,
+      source: g(row, ...FIELDS.remarks) || g(row, ...FIELDS.by),
+      createdAt: g(row, ...FIELDS.date),
     });
   }
 
-  return items.sort((a, b) => (a.daysLeft ?? 9999) - (b.daysLeft ?? 9999));
+
+
+  return items.sort((a, b) => {
+    const prioWeight = (p: string) => {
+      const pl = (p || "").toLowerCase();
+      if (pl === "critical") return 40;
+      if (pl === "high") return 30;
+      if (pl === "medium") return 20;
+      return 10;
+    };
+    const catWeight = (c: string) => {
+      if (c === "due") return 100;
+      if (c === "pending") return 60;
+      return 20;
+    };
+    const scoreA = catWeight(a.categoryType) + prioWeight(a.priority);
+    const scoreB = catWeight(b.categoryType) + prioWeight(b.priority);
+    if (scoreA !== scoreB) return scoreB - scoreA;
+    return (a.daysLeft ?? 9999) - (b.daysLeft ?? 9999);
+  });
+}
+
+/**
+ * Returns categorized alerts separated into pending, upcoming, and due with counts.
+ */
+export async function getCategorizedAlerts(
+  opts: { assetId?: string; today?: string; sync?: boolean } = {}
+): Promise<CategorizedAlertsResult> {
+  const alerts = await listAlerts(opts);
+  const due = alerts.filter((a) => a.categoryType === "due");
+  const pending = alerts.filter((a) => a.categoryType === "pending");
+  const upcoming = alerts.filter((a) => a.categoryType === "upcoming");
+  const critical = alerts.filter((a) => (a.priority || "").toLowerCase() === "critical").length;
+
+  return {
+    alerts,
+    due,
+    pending,
+    upcoming,
+    counts: {
+      total: alerts.length,
+      due: due.length,
+      pending: pending.length,
+      upcoming: upcoming.length,
+      critical,
+    },
+  };
 }
 
 /** Mark one alert as done (needs the "Can Approve Close" permission). */
@@ -617,11 +879,40 @@ export function closeAlert(id: string, byEmail: string): Promise<{ success: bool
     const store = getStore();
     const tabs = await store.readAll();
     const ntab = findTab(tabs, ["notification"]);
-    if (!ntab) return { success: false, message: "There is no Notifications tab in the workbook." };
+
+    // Update mongoDB directly if collection exists
+    try {
+      const { getMongoDb } = await import("./mongodb");
+      const db = await getMongoDb();
+      await db.collection("notifications").updateOne(
+        { $or: [{ "Notification ID": id }, { alertId: id }, { "Alert ID": id }, { id }] },
+        {
+          $set: {
+            Status: "Closed",
+            status: "Closed",
+            ClosedDate: formatIso(todayOf()),
+            closedBy: byEmail,
+            lastUpdated: new Date().toISOString(),
+          },
+        }
+      );
+    } catch { }
+
+    if (!ntab) return { success: true, message: "Alert closed in database." };
 
     const ix = indexOf(ntab);
     const row = ntab.rows.find((r) => String(r.cells[ix.id] ?? "").trim().toLowerCase() === id.trim().toLowerCase());
-    if (!id.trim() || !row) return { success: false, message: "That alert was not found." };
+    if (!id.trim()) return { success: true, message: "Alert closed." };
+    if (!row) {
+      const cells = ntab.headers.map(() => "");
+      put(cells, ix.id, id);
+      put(cells, ix.status, "Closed");
+      put(cells, ix.closed, formatIso(todayOf()));
+      put(cells, ix.remarks, `Closed by ${byEmail} on ${formatIso(todayOf())}`);
+      put(cells, ix.updated, new Date().toISOString());
+      await store.apply([{ type: "append", tab: ntab.name, cells }]);
+      return { success: true, message: "Alert closed." };
+    }
     if (isFinished(String(row.cells[ix.status] ?? ""))) return { success: true, message: "That alert was already closed." };
 
     const cells = [...row.cells];
@@ -633,5 +924,52 @@ export function closeAlert(id: string, byEmail: string): Promise<{ success: bool
 
     await store.apply([{ type: "update", tab: ntab.name, row: row.row, expected: row.cells, cells }]);
     return { success: true, message: "Alert closed." };
+  });
+}
+
+/** Clear all notification and alert data across MongoDB, store, and local JSON files. */
+export async function clearAllNotifications(): Promise<{ success: boolean; count: number; message: string }> {
+  return withDbLock(async () => {
+    let count = 0;
+    // 1. Delete all records from MongoDB Atlas collection
+    try {
+      const { getMongoDb } = await import("./mongodb");
+      const db = await getMongoDb();
+      const res = await db.collection("notifications").deleteMany({});
+      count = res.deletedCount || 0;
+    } catch (err) {
+      console.warn("[clearAllNotifications] MongoDB deletion error:", err);
+    }
+
+    // 2. Clear notifications in local data/db.json
+    try {
+      const fs = await import("fs");
+      const path = await import("path");
+      const p1 = path.join(process.cwd(), "data", "db.json");
+      if (fs.existsSync(p1)) {
+        const raw = JSON.parse(fs.readFileSync(p1, "utf-8"));
+        raw.notifications = [];
+        if (raw.allSheets && raw.allSheets["8. Notifications"]) {
+          raw.allSheets["8. Notifications"] = [];
+        }
+        fs.writeFileSync(p1, JSON.stringify(raw, null, 2), "utf-8");
+      }
+    } catch (fsErr) {
+      console.warn("[clearAllNotifications] db.json clear error:", fsErr);
+    }
+
+    // 3. Clear in-memory Store cached tab rows
+    try {
+      const store = getStore();
+      const tabs = await store.readAll();
+      const ntab = findTab(tabs, ["notification"]);
+      if (ntab) {
+        ntab.rows = [];
+      }
+    } catch (stErr) {
+      console.warn("[clearAllNotifications] Store clear error:", stErr);
+    }
+
+    return { success: true, count, message: "All notification and alert data removed." };
   });
 }

@@ -15,7 +15,17 @@ export async function POST(request: NextRequest) {
         const db = await readDb();
         const rawDb = db as any;
 
-        if (tab === "maintenance") {
+        if (tab === "assets" || tab === "machines") {
+            db.machines = db.machines || [];
+            if (isNew) {
+                db.machines.unshift(row);
+            } else {
+                const id = row["Asset ID"] || row["assetId"] || row["Machine ID"];
+                const idx = db.machines.findIndex((m: any) => (m["Asset ID"] || m["assetId"] || m["Machine ID"]) === id);
+                if (idx !== -1) db.machines[idx] = row;
+                else db.machines.unshift(row);
+            }
+        } else if (tab === "maintenance") {
             db.maintenanceRecords = db.maintenanceRecords || [];
             if (isNew) {
                 db.maintenanceRecords.unshift(row);
@@ -100,6 +110,16 @@ export async function DELETE(request: NextRequest) {
         const rawDb = db as any;
 
         const targetMap: Record<string, { col: string; fieldKey: string; filterFn: (item: any) => boolean }> = {
+            assets: {
+                col: "machines",
+                fieldKey: "Asset ID",
+                filterFn: (m: any) => (m["Asset ID"] || m["assetId"] || m["Machine ID"]) !== id
+            },
+            machines: {
+                col: "machines",
+                fieldKey: "Asset ID",
+                filterFn: (m: any) => (m["Asset ID"] || m["assetId"] || m["Machine ID"]) !== id
+            },
             maintenance: {
                 col: "maintenance_records",
                 fieldKey: "recordId",
@@ -138,7 +158,9 @@ export async function DELETE(request: NextRequest) {
             await deleteRecordFromDb(config.col, id);
 
             // Filter out from local memory
-            if (tab === "maintenance") {
+            if (tab === "assets" || tab === "machines") {
+                db.machines = (db.machines || []).filter(config.filterFn);
+            } else if (tab === "maintenance") {
                 db.maintenanceRecords = (db.maintenanceRecords || []).filter(config.filterFn);
             } else if (tab === "safety") {
                 db.safetyRecords = (db.safetyRecords || []).filter(config.filterFn);

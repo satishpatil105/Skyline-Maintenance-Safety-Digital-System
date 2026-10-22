@@ -7,7 +7,12 @@ export const dynamic = "force-dynamic";
 
 /** Machine lookup. Protected by operator machine-assignment restrictions. */
 export const GET = safe(async (request: NextRequest) => {
-  const assetId = request.nextUrl.searchParams.get("assetId") || "";
+  const assetId =
+    request.nextUrl.searchParams.get("assetId") ||
+    request.nextUrl.searchParams.get("id") ||
+    request.nextUrl.searchParams.get("machineId") ||
+    request.nextUrl.searchParams.get("machineCode") ||
+    "";
   const result = await findMachineByAssetId(assetId);
   if (!result.success || !result.machine) return NextResponse.json(result);
 

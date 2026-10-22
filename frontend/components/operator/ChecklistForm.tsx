@@ -481,6 +481,25 @@ export default function ChecklistForm({
           </section>
         ) : (
           <>
+            {/* General Shift Schedule & Sunday Weekly Off Information */}
+            <div className="flex flex-wrap items-center justify-between gap-2.5 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white p-3.5 shadow-sm border border-slate-700/60">
+              <div className="flex items-center gap-2.5">
+                <span className="flex h-3 w-3 items-center justify-center rounded-full bg-emerald-500/20 ring-4 ring-emerald-500/30">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                </span>
+                <div>
+                  <span className="text-[10px] font-bold text-slate-400 block uppercase tracking-wider">Plant Schedule</span>
+                  <span className="text-xs sm:text-sm font-black text-white">General Shift: 9:00 AM – 8:00 PM (Mon – Sat)</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 rounded-xl bg-rose-500/20 px-3 py-1 text-xs font-black text-rose-300 border border-rose-400/30">
+                  <span>📅</span>
+                  <span>Weekly Off: Sunday (Checklist Off)</span>
+                </span>
+              </div>
+            </div>
+
             {/* Machine Selection Card */}
             <section className="card shadow-sm border border-slate-200">
               <div className="flex items-center justify-between">
@@ -550,33 +569,60 @@ export default function ChecklistForm({
                   </div>
                 </section>
 
-                {dueEntries.length === 0 && (
+                {checklist.isWeeklyOff ? (
+                  <section className="rounded-2xl bg-white p-8 text-center shadow-md border-2 border-rose-300 space-y-4">
+                    <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-rose-100 text-3xl font-extrabold text-rose-800 shadow-inner">
+                      📅
+                    </div>
+                    <div className="space-y-1">
+                      <span className="inline-block rounded-full bg-rose-100 px-3 py-1 text-xs font-black text-rose-800 uppercase tracking-wider border border-rose-200">
+                        Sunday Weekly Off
+                      </span>
+                      <h2 className="text-2xl font-black text-slate-900">
+                        Sunday is Weekly Off
+                      </h2>
+                      <p className="text-sm font-bold text-slate-700">
+                        Checklist Filling is Closed Today for {checklist.machine.name}
+                      </p>
+                    </div>
+
+                    <div className="rounded-xl bg-slate-50 border border-slate-200 p-4 max-w-lg mx-auto text-xs text-slate-600 space-y-2 text-left">
+                      <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+                        <span className="font-semibold text-slate-500">Working Schedule:</span>
+                        <span className="font-bold text-slate-800">Monday to Saturday</span>
+                      </div>
+                      <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+                        <span className="font-semibold text-slate-500">Working Hours:</span>
+                        <span className="font-bold text-slate-800">General Shift: 9:00 AM – 8:00 PM</span>
+                      </div>
+                      <div className="flex items-center justify-between pt-1">
+                        <span className="font-semibold text-slate-500">Next Inspection Unlock:</span>
+                        <strong className="text-emerald-700">
+                          Monday ({checklist.nextUnlock ? niceLongDate(checklist.nextUnlock.date) : "Tomorrow"}) at 9:00 AM
+                        </strong>
+                      </div>
+                    </div>
+
+                    <p className="text-xs text-slate-500 max-w-md mx-auto leading-relaxed">
+                      Factory operations and daily checklist submissions are officially OFF on Sunday. All routine machine maintenance & safety inspections will resume on Monday morning at 9:00 AM.
+                    </p>
+                  </section>
+                ) : dueEntries.length === 0 ? (
                   <section className="rounded-2xl bg-white p-8 text-center shadow-md border border-emerald-200 space-y-3">
                     <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-100 text-3xl font-extrabold text-emerald-800 shadow-inner">
-                      {checklist.isWeeklyOff ? "📅" : "✓"}
+                      ✓
                     </div>
                     <h2 className="text-xl font-black text-slate-900">
-                      {checklist.isWeeklyOff
-                        ? `Sunday is Weekly Off for ${checklist.machine.name}`
-                        : `All checks for ${checklist.machine.name} are completed`}
+                      All checks for {checklist.machine.name} are completed
                     </h2>
-                    {checklist.isWeeklyOff ? (
+                    {checklist.nextUnlock && (
                       <p className="text-xs text-slate-600 max-w-md mx-auto">
-                        No checklist submissions are required on Sunday. Routine inspections will resume on{" "}
-                        <strong>
-                          Monday ({checklist.nextUnlock ? niceLongDate(checklist.nextUnlock.date) : "tomorrow"})
-                        </strong>.
+                        Next scheduled check: <strong>{checklist.nextUnlock.label}</strong>
+                        {" "}({niceLongDate(checklist.nextUnlock.date)})
                       </p>
-                    ) : (
-                      checklist.nextUnlock && (
-                        <p className="text-xs text-slate-600 max-w-md mx-auto">
-                          Next scheduled check: <strong>{checklist.nextUnlock.label}</strong>
-                          {" "}({niceLongDate(checklist.nextUnlock.date)})
-                        </p>
-                      )
                     )}
                   </section>
-                )}
+                ) : null}
 
                 {/* Grouped Category Checkpoints */}
                 {categoryGroups.map(([category, list]) => (

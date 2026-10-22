@@ -288,6 +288,7 @@ export default function SafetyDeptClient({
     return shown.slice(start, start + rowsPerPage);
   }, [shown, currentPage, rowsPerPage]);
 
+
   function renderField(f: DeptField) {
     const id = `f-${slug(f.label)}`;
     const wrap = f.half ? "" : "sm:col-span-2";
@@ -470,6 +471,7 @@ export default function SafetyDeptClient({
               <option key={loc} value={loc}>{loc}</option>
             ))}
           </select>
+
         </div>
       </div>
 

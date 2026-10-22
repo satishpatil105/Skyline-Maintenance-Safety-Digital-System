@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireUser } from "@/lib/auth";
+import { isMachineAuthorized, requireUser } from "@/lib/auth";
 import { safe } from "@/lib/api";
 import { findMachineByAssetId, readDb, saveSafetyRecord } from "@/lib/db";
 import { missingRequired } from "@/lib/validate";
@@ -46,6 +46,14 @@ export const POST = safe(async (request: NextRequest) => {
     return NextResponse.json(
       { success: false, message: machine.message },
       { status: 404 }
+    );
+  }
+
+  const machineAuth = isMachineAuthorized(auth.user, machine.machine);
+  if (!machineAuth.allowed) {
+    return NextResponse.json(
+      { success: false, message: machineAuth.reason || "Unauthorized to submit safety observation for this machine." },
+      { status: 403 }
     );
   }
 

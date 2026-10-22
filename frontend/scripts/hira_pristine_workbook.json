@@ -1,0 +1,7136 @@
+[
+  {
+    "id": 1,
+    "name": "Legend & Instructions",
+    "rowCount": 32,
+    "columnCount": 8,
+    "rows": [
+      {
+        "rowNumber": 2,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A2",
+            "value": null,
+            "type": 0
+          },
+          {
+            "col": 2,
+            "address": "B2",
+            "value": "SKYLINE PROJECT & ENGINEERS",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C2",
+            "value": "SKYLINE PROJECT & ENGINEERS",
+            "type": 1
+          },
+          {
+            "col": 4,
+            "address": "D2",
+            "value": "SKYLINE PROJECT & ENGINEERS",
+            "type": 1
+          },
+          {
+            "col": 5,
+            "address": "E2",
+            "value": "SKYLINE PROJECT & ENGINEERS",
+            "type": 1
+          },
+          {
+            "col": 6,
+            "address": "F2",
+            "value": "SKYLINE PROJECT & ENGINEERS",
+            "type": 1
+          },
+          {
+            "col": 7,
+            "address": "G2",
+            "value": "SKYLINE PROJECT & ENGINEERS",
+            "type": 1
+          },
+          {
+            "col": 8,
+            "address": "H2",
+            "value": "SKYLINE PROJECT & ENGINEERS",
+            "type": 1
+          }
+        ]
+      },
+      {
+        "rowNumber": 3,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A3",
+            "value": null,
+            "type": 0
+          },
+          {
+            "col": 2,
+            "address": "B3",
+            "value": "Chakan, Pune, Maharashtra",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C3",
+            "value": "Chakan, Pune, Maharashtra",
+            "type": 1
+          },
+          {
+            "col": 4,
+            "address": "D3",
+            "value": "Chakan, Pune, Maharashtra",
+            "type": 1
+          },
+          {
+            "col": 5,
+            "address": "E3",
+            "value": "Chakan, Pune, Maharashtra",
+            "type": 1
+          },
+          {
+            "col": 6,
+            "address": "F3",
+            "value": "Chakan, Pune, Maharashtra",
+            "type": 1
+          },
+          {
+            "col": 7,
+            "address": "G3",
+            "value": "Chakan, Pune, Maharashtra",
+            "type": 1
+          },
+          {
+            "col": 8,
+            "address": "H3",
+            "value": "Chakan, Pune, Maharashtra",
+            "type": 1
+          }
+        ]
+      },
+      {
+        "rowNumber": 5,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A5",
+            "value": null,
+            "type": 0
+          },
+          {
+            "col": 2,
+            "address": "B5",
+            "value": "HAZARD IDENTIFICATION & RISK ASSESSMENT (HIRA) REGISTER",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C5",
+            "value": "HAZARD IDENTIFICATION & RISK ASSESSMENT (HIRA) REGISTER",
+            "type": 1
+          },
+          {
+            "col": 4,
+            "address": "D5",
+            "value": "HAZARD IDENTIFICATION & RISK ASSESSMENT (HIRA) REGISTER",
+            "type": 1
+          },
+          {
+            "col": 5,
+            "address": "E5",
+            "value": "HAZARD IDENTIFICATION & RISK ASSESSMENT (HIRA) REGISTER",
+            "type": 1
+          },
+          {
+            "col": 6,
+            "address": "F5",
+            "value": "HAZARD IDENTIFICATION & RISK ASSESSMENT (HIRA) REGISTER",
+            "type": 1
+          },
+          {
+            "col": 7,
+            "address": "G5",
+            "value": "HAZARD IDENTIFICATION & RISK ASSESSMENT (HIRA) REGISTER",
+            "type": 1
+          },
+          {
+            "col": 8,
+            "address": "H5",
+            "value": "HAZARD IDENTIFICATION & RISK ASSESSMENT (HIRA) REGISTER",
+            "type": 1
+          }
+        ]
+      },
+      {
+        "rowNumber": 6,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A6",
+            "value": null,
+            "type": 0
+          },
+          {
+            "col": 2,
+            "address": "B6",
+            "value": "ISO 45001:2018 — Occupational Health & Safety Management System",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C6",
+            "value": "ISO 45001:2018 — Occupational Health & Safety Management System",
+            "type": 1
+          },
+          {
+            "col": 4,
+            "address": "D6",
+            "value": "ISO 45001:2018 — Occupational Health & Safety Management System",
+            "type": 1
+          },
+          {
+            "col": 5,
+            "address": "E6",
+            "value": "ISO 45001:2018 — Occupational Health & Safety Management System",
+            "type": 1
+          },
+          {
+            "col": 6,
+            "address": "F6",
+            "value": "ISO 45001:2018 — Occupational Health & Safety Management System",
+            "type": 1
+          },
+          {
+            "col": 7,
+            "address": "G6",
+            "value": "ISO 45001:2018 — Occupational Health & Safety Management System",
+            "type": 1
+          },
+          {
+            "col": 8,
+            "address": "H6",
+            "value": "ISO 45001:2018 — Occupational Health & Safety Management System",
+            "type": 1
+          }
+        ]
+      },
+      {
+        "rowNumber": 8,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A8",
+            "value": null,
+            "type": 0
+          },
+          {
+            "col": 2,
+            "address": "B8",
+            "value": "Doc No.",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C8",
+            "value": "SKY/QA/HIRA/01",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 10,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A10",
+            "value": null,
+            "type": 0
+          },
+          {
+            "col": 2,
+            "address": "B10",
+            "value": "Doc Date",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C10",
+            "value": "17.08.2026",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 12,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A12",
+            "value": null,
+            "type": 0
+          },
+          {
+            "col": 2,
+            "address": "B12",
+            "value": "Rev. No. / Rev. Date",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C12",
+            "value": "0  /  -",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 14,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A14",
+            "value": null,
+            "type": 0
+          },
+          {
+            "col": 2,
+            "address": "B14",
+            "value": "Scope covered",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C14",
+            "value": "All routine & identified non-routine activities across Skyline's fabrication,\nsurface-treatment, assembly and support processes at Chakan, Pune",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 16,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A16",
+            "value": null,
+            "type": 0
+          },
+          {
+            "col": 2,
+            "address": "B16",
+            "value": "Risk methodology",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C16",
+            "value": "5 x 5 matrix — Risk Score = Likelihood (L) x Severity (S), scored 1-5 each (max score 25)",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 19,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A19",
+            "value": null,
+            "type": 0
+          },
+          {
+            "col": 2,
+            "address": "B19",
+            "value": "HOW TO USE THIS REGISTER",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 20,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A20",
+            "value": null,
+            "type": 0
+          },
+          {
+            "col": 2,
+            "address": "B20",
+            "value": "•  Tabs: \"Risk Matrix (Reference)\" defines the Likelihood/Severity scales and risk-level bands used throughout; \"HIRA Register\" is the working register (38 hazards across 20 department/process areas); \"Risk Summary Dashboard\" auto-counts risk levels before vs. after additional controls.",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C20",
+            "value": "•  Tabs: \"Risk Matrix (Reference)\" defines the Likelihood/Severity scales and risk-level bands used throughout; \"HIRA Register\" is the working register (38 hazards across 20 department/process areas); \"Risk Summary Dashboard\" auto-counts risk levels before vs. after additional controls.",
+            "type": 1
+          },
+          {
+            "col": 4,
+            "address": "D20",
+            "value": "•  Tabs: \"Risk Matrix (Reference)\" defines the Likelihood/Severity scales and risk-level bands used throughout; \"HIRA Register\" is the working register (38 hazards across 20 department/process areas); \"Risk Summary Dashboard\" auto-counts risk levels before vs. after additional controls.",
+            "type": 1
+          },
+          {
+            "col": 5,
+            "address": "E20",
+            "value": "•  Tabs: \"Risk Matrix (Reference)\" defines the Likelihood/Severity scales and risk-level bands used throughout; \"HIRA Register\" is the working register (38 hazards across 20 department/process areas); \"Risk Summary Dashboard\" auto-counts risk levels before vs. after additional controls.",
+            "type": 1
+          },
+          {
+            "col": 6,
+            "address": "F20",
+            "value": "•  Tabs: \"Risk Matrix (Reference)\" defines the Likelihood/Severity scales and risk-level bands used throughout; \"HIRA Register\" is the working register (38 hazards across 20 department/process areas); \"Risk Summary Dashboard\" auto-counts risk levels before vs. after additional controls.",
+            "type": 1
+          },
+          {
+            "col": 7,
+            "address": "G20",
+            "value": "•  Tabs: \"Risk Matrix (Reference)\" defines the Likelihood/Severity scales and risk-level bands used throughout; \"HIRA Register\" is the working register (38 hazards across 20 department/process areas); \"Risk Summary Dashboard\" auto-counts risk levels before vs. after additional controls.",
+            "type": 1
+          },
+          {
+            "col": 8,
+            "address": "H20",
+            "value": "•  Tabs: \"Risk Matrix (Reference)\" defines the Likelihood/Severity scales and risk-level bands used throughout; \"HIRA Register\" is the working register (38 hazards across 20 department/process areas); \"Risk Summary Dashboard\" auto-counts risk levels before vs. after additional controls.",
+            "type": 1
+          }
+        ]
+      },
+      {
+        "rowNumber": 22,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A22",
+            "value": null,
+            "type": 0
+          },
+          {
+            "col": 2,
+            "address": "B22",
+            "value": "•  Every hazard is assessed twice: \"Risk Rating — With Existing Controls\" (columns H-K) reflects the current state as controls stand today; \"Residual Risk — After Additional Controls\" (columns O-R) is the projected risk once the recommended additional controls in column L are implemented.",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C22",
+            "value": "•  Every hazard is assessed twice: \"Risk Rating — With Existing Controls\" (columns H-K) reflects the current state as controls stand today; \"Residual Risk — After Additional Controls\" (columns O-R) is the projected risk once the recommended additional controls in column L are implemented.",
+            "type": 1
+          },
+          {
+            "col": 4,
+            "address": "D22",
+            "value": "•  Every hazard is assessed twice: \"Risk Rating — With Existing Controls\" (columns H-K) reflects the current state as controls stand today; \"Residual Risk — After Additional Controls\" (columns O-R) is the projected risk once the recommended additional controls in column L are implemented.",
+            "type": 1
+          },
+          {
+            "col": 5,
+            "address": "E22",
+            "value": "•  Every hazard is assessed twice: \"Risk Rating — With Existing Controls\" (columns H-K) reflects the current state as controls stand today; \"Residual Risk — After Additional Controls\" (columns O-R) is the projected risk once the recommended additional controls in column L are implemented.",
+            "type": 1
+          },
+          {
+            "col": 6,
+            "address": "F22",
+            "value": "•  Every hazard is assessed twice: \"Risk Rating — With Existing Controls\" (columns H-K) reflects the current state as controls stand today; \"Residual Risk — After Additional Controls\" (columns O-R) is the projected risk once the recommended additional controls in column L are implemented.",
+            "type": 1
+          },
+          {
+            "col": 7,
+            "address": "G22",
+            "value": "•  Every hazard is assessed twice: \"Risk Rating — With Existing Controls\" (columns H-K) reflects the current state as controls stand today; \"Residual Risk — After Additional Controls\" (columns O-R) is the projected risk once the recommended additional controls in column L are implemented.",
+            "type": 1
+          },
+          {
+            "col": 8,
+            "address": "H22",
+            "value": "•  Every hazard is assessed twice: \"Risk Rating — With Existing Controls\" (columns H-K) reflects the current state as controls stand today; \"Residual Risk — After Additional Controls\" (columns O-R) is the projected risk once the recommended additional controls in column L are implemented.",
+            "type": 1
+          }
+        ]
+      },
+      {
+        "rowNumber": 24,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A24",
+            "value": null,
+            "type": 0
+          },
+          {
+            "col": 2,
+            "address": "B24",
+            "value": "•  Columns shaded YELLOW (L, S ratings and Status) are the working/input cells. Risk Score and Risk Level are FORMULAS (Score = L x S; Level derived from Score) and recalculate automatically if you change an L or S rating — do not type over the Risk Score/Risk Level cells directly.",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C24",
+            "value": "•  Columns shaded YELLOW (L, S ratings and Status) are the working/input cells. Risk Score and Risk Level are FORMULAS (Score = L x S; Level derived from Score) and recalculate automatically if you change an L or S rating — do not type over the Risk Score/Risk Level cells directly.",
+            "type": 1
+          },
+          {
+            "col": 4,
+            "address": "D24",
+            "value": "•  Columns shaded YELLOW (L, S ratings and Status) are the working/input cells. Risk Score and Risk Level are FORMULAS (Score = L x S; Level derived from Score) and recalculate automatically if you change an L or S rating — do not type over the Risk Score/Risk Level cells directly.",
+            "type": 1
+          },
+          {
+            "col": 5,
+            "address": "E24",
+            "value": "•  Columns shaded YELLOW (L, S ratings and Status) are the working/input cells. Risk Score and Risk Level are FORMULAS (Score = L x S; Level derived from Score) and recalculate automatically if you change an L or S rating — do not type over the Risk Score/Risk Level cells directly.",
+            "type": 1
+          },
+          {
+            "col": 6,
+            "address": "F24",
+            "value": "•  Columns shaded YELLOW (L, S ratings and Status) are the working/input cells. Risk Score and Risk Level are FORMULAS (Score = L x S; Level derived from Score) and recalculate automatically if you change an L or S rating — do not type over the Risk Score/Risk Level cells directly.",
+            "type": 1
+          },
+          {
+            "col": 7,
+            "address": "G24",
+            "value": "•  Columns shaded YELLOW (L, S ratings and Status) are the working/input cells. Risk Score and Risk Level are FORMULAS (Score = L x S; Level derived from Score) and recalculate automatically if you change an L or S rating — do not type over the Risk Score/Risk Level cells directly.",
+            "type": 1
+          },
+          {
+            "col": 8,
+            "address": "H24",
+            "value": "•  Columns shaded YELLOW (L, S ratings and Status) are the working/input cells. Risk Score and Risk Level are FORMULAS (Score = L x S; Level derived from Score) and recalculate automatically if you change an L or S rating — do not type over the Risk Score/Risk Level cells directly.",
+            "type": 1
+          }
+        ]
+      },
+      {
+        "rowNumber": 26,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A26",
+            "value": null,
+            "type": 0
+          },
+          {
+            "col": 2,
+            "address": "B26",
+            "value": "•  IMPORTANT: The Likelihood, Severity, existing controls and additional-control recommendations in this register are a professional DRAFT prepared from Skyline's process documents (Quality Manual, Process Control Plan, SOPs, Work Instructions) and general sheet-metal/surface-treatment industry knowledge — they have NOT been validated by an on-site walkthrough. Skyline's safety committee / EHS in-charge should review every row against actual site conditions, adjust L/S ratings and controls as needed, and formally approve before this is treated as the official HIRA.",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C26",
+            "value": "•  IMPORTANT: The Likelihood, Severity, existing controls and additional-control recommendations in this register are a professional DRAFT prepared from Skyline's process documents (Quality Manual, Process Control Plan, SOPs, Work Instructions) and general sheet-metal/surface-treatment industry knowledge — they have NOT been validated by an on-site walkthrough. Skyline's safety committee / EHS in-charge should review every row against actual site conditions, adjust L/S ratings and controls as needed, and formally approve before this is treated as the official HIRA.",
+            "type": 1
+          },
+          {
+            "col": 4,
+            "address": "D26",
+            "value": "•  IMPORTANT: The Likelihood, Severity, existing controls and additional-control recommendations in this register are a professional DRAFT prepared from Skyline's process documents (Quality Manual, Process Control Plan, SOPs, Work Instructions) and general sheet-metal/surface-treatment industry knowledge — they have NOT been validated by an on-site walkthrough. Skyline's safety committee / EHS in-charge should review every row against actual site conditions, adjust L/S ratings and controls as needed, and formally approve before this is treated as the official HIRA.",
+            "type": 1
+          },
+          {
+            "col": 5,
+            "address": "E26",
+            "value": "•  IMPORTANT: The Likelihood, Severity, existing controls and additional-control recommendations in this register are a professional DRAFT prepared from Skyline's process documents (Quality Manual, Process Control Plan, SOPs, Work Instructions) and general sheet-metal/surface-treatment industry knowledge — they have NOT been validated by an on-site walkthrough. Skyline's safety committee / EHS in-charge should review every row against actual site conditions, adjust L/S ratings and controls as needed, and formally approve before this is treated as the official HIRA.",
+            "type": 1
+          },
+          {
+            "col": 6,
+            "address": "F26",
+            "value": "•  IMPORTANT: The Likelihood, Severity, existing controls and additional-control recommendations in this register are a professional DRAFT prepared from Skyline's process documents (Quality Manual, Process Control Plan, SOPs, Work Instructions) and general sheet-metal/surface-treatment industry knowledge — they have NOT been validated by an on-site walkthrough. Skyline's safety committee / EHS in-charge should review every row against actual site conditions, adjust L/S ratings and controls as needed, and formally approve before this is treated as the official HIRA.",
+            "type": 1
+          },
+          {
+            "col": 7,
+            "address": "G26",
+            "value": "•  IMPORTANT: The Likelihood, Severity, existing controls and additional-control recommendations in this register are a professional DRAFT prepared from Skyline's process documents (Quality Manual, Process Control Plan, SOPs, Work Instructions) and general sheet-metal/surface-treatment industry knowledge — they have NOT been validated by an on-site walkthrough. Skyline's safety committee / EHS in-charge should review every row against actual site conditions, adjust L/S ratings and controls as needed, and formally approve before this is treated as the official HIRA.",
+            "type": 1
+          },
+          {
+            "col": 8,
+            "address": "H26",
+            "value": "•  IMPORTANT: The Likelihood, Severity, existing controls and additional-control recommendations in this register are a professional DRAFT prepared from Skyline's process documents (Quality Manual, Process Control Plan, SOPs, Work Instructions) and general sheet-metal/surface-treatment industry knowledge — they have NOT been validated by an on-site walkthrough. Skyline's safety committee / EHS in-charge should review every row against actual site conditions, adjust L/S ratings and controls as needed, and formally approve before this is treated as the official HIRA.",
+            "type": 1
+          }
+        ]
+      },
+      {
+        "rowNumber": 28,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A28",
+            "value": null,
+            "type": 0
+          },
+          {
+            "col": 2,
+            "address": "B28",
+            "value": "•  A few rows are explicitly flagged \"to be confirmed\" where applicability depends on equipment Skyline may or may not have installed (e.g., overhead crane, internal fuel-tank entry) — resolve these first, as they materially change the risk rating.",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C28",
+            "value": "•  A few rows are explicitly flagged \"to be confirmed\" where applicability depends on equipment Skyline may or may not have installed (e.g., overhead crane, internal fuel-tank entry) — resolve these first, as they materially change the risk rating.",
+            "type": 1
+          },
+          {
+            "col": 4,
+            "address": "D28",
+            "value": "•  A few rows are explicitly flagged \"to be confirmed\" where applicability depends on equipment Skyline may or may not have installed (e.g., overhead crane, internal fuel-tank entry) — resolve these first, as they materially change the risk rating.",
+            "type": 1
+          },
+          {
+            "col": 5,
+            "address": "E28",
+            "value": "•  A few rows are explicitly flagged \"to be confirmed\" where applicability depends on equipment Skyline may or may not have installed (e.g., overhead crane, internal fuel-tank entry) — resolve these first, as they materially change the risk rating.",
+            "type": 1
+          },
+          {
+            "col": 6,
+            "address": "F28",
+            "value": "•  A few rows are explicitly flagged \"to be confirmed\" where applicability depends on equipment Skyline may or may not have installed (e.g., overhead crane, internal fuel-tank entry) — resolve these first, as they materially change the risk rating.",
+            "type": 1
+          },
+          {
+            "col": 7,
+            "address": "G28",
+            "value": "•  A few rows are explicitly flagged \"to be confirmed\" where applicability depends on equipment Skyline may or may not have installed (e.g., overhead crane, internal fuel-tank entry) — resolve these first, as they materially change the risk rating.",
+            "type": 1
+          },
+          {
+            "col": 8,
+            "address": "H28",
+            "value": "•  A few rows are explicitly flagged \"to be confirmed\" where applicability depends on equipment Skyline may or may not have installed (e.g., overhead crane, internal fuel-tank entry) — resolve these first, as they materially change the risk rating.",
+            "type": 1
+          }
+        ]
+      },
+      {
+        "rowNumber": 30,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A30",
+            "value": null,
+            "type": 0
+          },
+          {
+            "col": 2,
+            "address": "B30",
+            "value": "•  REVIEW: review this register at least annually, and immediately after (a) any incident/near-miss, (b) a new process, machine or chemical introduced, (c) a change in legal requirement, or (d) findings from an internal or certification-body audit. Cross-reference with Skyline's separate Environmental & OH&S Legal Register for licensing/compliance items related to these same hazards (e.g., PESO licenses, Fire NOC, MSIHC).",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C30",
+            "value": "•  REVIEW: review this register at least annually, and immediately after (a) any incident/near-miss, (b) a new process, machine or chemical introduced, (c) a change in legal requirement, or (d) findings from an internal or certification-body audit. Cross-reference with Skyline's separate Environmental & OH&S Legal Register for licensing/compliance items related to these same hazards (e.g., PESO licenses, Fire NOC, MSIHC).",
+            "type": 1
+          },
+          {
+            "col": 4,
+            "address": "D30",
+            "value": "•  REVIEW: review this register at least annually, and immediately after (a) any incident/near-miss, (b) a new process, machine or chemical introduced, (c) a change in legal requirement, or (d) findings from an internal or certification-body audit. Cross-reference with Skyline's separate Environmental & OH&S Legal Register for licensing/compliance items related to these same hazards (e.g., PESO licenses, Fire NOC, MSIHC).",
+            "type": 1
+          },
+          {
+            "col": 5,
+            "address": "E30",
+            "value": "•  REVIEW: review this register at least annually, and immediately after (a) any incident/near-miss, (b) a new process, machine or chemical introduced, (c) a change in legal requirement, or (d) findings from an internal or certification-body audit. Cross-reference with Skyline's separate Environmental & OH&S Legal Register for licensing/compliance items related to these same hazards (e.g., PESO licenses, Fire NOC, MSIHC).",
+            "type": 1
+          },
+          {
+            "col": 6,
+            "address": "F30",
+            "value": "•  REVIEW: review this register at least annually, and immediately after (a) any incident/near-miss, (b) a new process, machine or chemical introduced, (c) a change in legal requirement, or (d) findings from an internal or certification-body audit. Cross-reference with Skyline's separate Environmental & OH&S Legal Register for licensing/compliance items related to these same hazards (e.g., PESO licenses, Fire NOC, MSIHC).",
+            "type": 1
+          },
+          {
+            "col": 7,
+            "address": "G30",
+            "value": "•  REVIEW: review this register at least annually, and immediately after (a) any incident/near-miss, (b) a new process, machine or chemical introduced, (c) a change in legal requirement, or (d) findings from an internal or certification-body audit. Cross-reference with Skyline's separate Environmental & OH&S Legal Register for licensing/compliance items related to these same hazards (e.g., PESO licenses, Fire NOC, MSIHC).",
+            "type": 1
+          },
+          {
+            "col": 8,
+            "address": "H30",
+            "value": "•  REVIEW: review this register at least annually, and immediately after (a) any incident/near-miss, (b) a new process, machine or chemical introduced, (c) a change in legal requirement, or (d) findings from an internal or certification-body audit. Cross-reference with Skyline's separate Environmental & OH&S Legal Register for licensing/compliance items related to these same hazards (e.g., PESO licenses, Fire NOC, MSIHC).",
+            "type": 1
+          }
+        ]
+      },
+      {
+        "rowNumber": 32,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A32",
+            "value": null,
+            "type": 0
+          },
+          {
+            "col": 2,
+            "address": "B32",
+            "value": "•  Hierarchy of controls: when proposing \"Additional Controls Required\", prefer Elimination > Substitution > Engineering Controls > Administrative Controls > PPE, in that order — PPE is the last line of defense, not the first.",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C32",
+            "value": "•  Hierarchy of controls: when proposing \"Additional Controls Required\", prefer Elimination > Substitution > Engineering Controls > Administrative Controls > PPE, in that order — PPE is the last line of defense, not the first.",
+            "type": 1
+          },
+          {
+            "col": 4,
+            "address": "D32",
+            "value": "•  Hierarchy of controls: when proposing \"Additional Controls Required\", prefer Elimination > Substitution > Engineering Controls > Administrative Controls > PPE, in that order — PPE is the last line of defense, not the first.",
+            "type": 1
+          },
+          {
+            "col": 5,
+            "address": "E32",
+            "value": "•  Hierarchy of controls: when proposing \"Additional Controls Required\", prefer Elimination > Substitution > Engineering Controls > Administrative Controls > PPE, in that order — PPE is the last line of defense, not the first.",
+            "type": 1
+          },
+          {
+            "col": 6,
+            "address": "F32",
+            "value": "•  Hierarchy of controls: when proposing \"Additional Controls Required\", prefer Elimination > Substitution > Engineering Controls > Administrative Controls > PPE, in that order — PPE is the last line of defense, not the first.",
+            "type": 1
+          },
+          {
+            "col": 7,
+            "address": "G32",
+            "value": "•  Hierarchy of controls: when proposing \"Additional Controls Required\", prefer Elimination > Substitution > Engineering Controls > Administrative Controls > PPE, in that order — PPE is the last line of defense, not the first.",
+            "type": 1
+          },
+          {
+            "col": 8,
+            "address": "H32",
+            "value": "•  Hierarchy of controls: when proposing \"Additional Controls Required\", prefer Elimination > Substitution > Engineering Controls > Administrative Controls > PPE, in that order — PPE is the last line of defense, not the first.",
+            "type": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Risk Matrix (Reference)",
+    "rowCount": 30,
+    "columnCount": 6,
+    "rows": [
+      {
+        "rowNumber": 1,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A1",
+            "value": "SKYLINE PROJECT & ENGINEERS — RISK ASSESSMENT MATRIX (5 x 5)",
+            "type": 3
+          },
+          {
+            "col": 2,
+            "address": "B1",
+            "value": "SKYLINE PROJECT & ENGINEERS — RISK ASSESSMENT MATRIX (5 x 5)",
+            "type": 1
+          },
+          {
+            "col": 3,
+            "address": "C1",
+            "value": "SKYLINE PROJECT & ENGINEERS — RISK ASSESSMENT MATRIX (5 x 5)",
+            "type": 1
+          },
+          {
+            "col": 4,
+            "address": "D1",
+            "value": "SKYLINE PROJECT & ENGINEERS — RISK ASSESSMENT MATRIX (5 x 5)",
+            "type": 1
+          },
+          {
+            "col": 5,
+            "address": "E1",
+            "value": "SKYLINE PROJECT & ENGINEERS — RISK ASSESSMENT MATRIX (5 x 5)",
+            "type": 1
+          },
+          {
+            "col": 6,
+            "address": "F1",
+            "value": "SKYLINE PROJECT & ENGINEERS — RISK ASSESSMENT MATRIX (5 x 5)",
+            "type": 1
+          }
+        ]
+      },
+      {
+        "rowNumber": 3,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A3",
+            "value": "LIKELIHOOD (L) SCALE",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 4,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A4",
+            "value": 1,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B4",
+            "value": "Rare",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C4",
+            "value": "May occur only in exceptional circumstances; not expected to occur",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D4",
+            "value": "May occur only in exceptional circumstances; not expected to occur",
+            "type": 1
+          },
+          {
+            "col": 5,
+            "address": "E4",
+            "value": "May occur only in exceptional circumstances; not expected to occur",
+            "type": 1
+          },
+          {
+            "col": 6,
+            "address": "F4",
+            "value": "May occur only in exceptional circumstances; not expected to occur",
+            "type": 1
+          }
+        ]
+      },
+      {
+        "rowNumber": 5,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A5",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B5",
+            "value": "Unlikely",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C5",
+            "value": "Could occur at some time; has happened elsewhere in the industry",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D5",
+            "value": "Could occur at some time; has happened elsewhere in the industry",
+            "type": 1
+          },
+          {
+            "col": 5,
+            "address": "E5",
+            "value": "Could occur at some time; has happened elsewhere in the industry",
+            "type": 1
+          },
+          {
+            "col": 6,
+            "address": "F5",
+            "value": "Could occur at some time; has happened elsewhere in the industry",
+            "type": 1
+          }
+        ]
+      },
+      {
+        "rowNumber": 6,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A6",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B6",
+            "value": "Possible",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C6",
+            "value": "Might occur at some time; occurs occasionally in similar operations",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D6",
+            "value": "Might occur at some time; occurs occasionally in similar operations",
+            "type": 1
+          },
+          {
+            "col": 5,
+            "address": "E6",
+            "value": "Might occur at some time; occurs occasionally in similar operations",
+            "type": 1
+          },
+          {
+            "col": 6,
+            "address": "F6",
+            "value": "Might occur at some time; occurs occasionally in similar operations",
+            "type": 1
+          }
+        ]
+      },
+      {
+        "rowNumber": 7,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A7",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B7",
+            "value": "Likely",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C7",
+            "value": "Will probably occur in most circumstances; has occurred before at this site",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D7",
+            "value": "Will probably occur in most circumstances; has occurred before at this site",
+            "type": 1
+          },
+          {
+            "col": 5,
+            "address": "E7",
+            "value": "Will probably occur in most circumstances; has occurred before at this site",
+            "type": 1
+          },
+          {
+            "col": 6,
+            "address": "F7",
+            "value": "Will probably occur in most circumstances; has occurred before at this site",
+            "type": 1
+          }
+        ]
+      },
+      {
+        "rowNumber": 8,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A8",
+            "value": 5,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B8",
+            "value": "Almost Certain",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C8",
+            "value": "Expected to occur in most circumstances; occurs frequently",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D8",
+            "value": "Expected to occur in most circumstances; occurs frequently",
+            "type": 1
+          },
+          {
+            "col": 5,
+            "address": "E8",
+            "value": "Expected to occur in most circumstances; occurs frequently",
+            "type": 1
+          },
+          {
+            "col": 6,
+            "address": "F8",
+            "value": "Expected to occur in most circumstances; occurs frequently",
+            "type": 1
+          }
+        ]
+      },
+      {
+        "rowNumber": 10,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A10",
+            "value": "SEVERITY (S) SCALE",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 11,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A11",
+            "value": 1,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B11",
+            "value": "Negligible",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C11",
+            "value": "No injury, or first-aid only; no lost time",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D11",
+            "value": "No injury, or first-aid only; no lost time",
+            "type": 1
+          },
+          {
+            "col": 5,
+            "address": "E11",
+            "value": "No injury, or first-aid only; no lost time",
+            "type": 1
+          },
+          {
+            "col": 6,
+            "address": "F11",
+            "value": "No injury, or first-aid only; no lost time",
+            "type": 1
+          }
+        ]
+      },
+      {
+        "rowNumber": 12,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A12",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B12",
+            "value": "Minor",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C12",
+            "value": "Minor injury / medical treatment case; no or minimal lost time (<1 day)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D12",
+            "value": "Minor injury / medical treatment case; no or minimal lost time (<1 day)",
+            "type": 1
+          },
+          {
+            "col": 5,
+            "address": "E12",
+            "value": "Minor injury / medical treatment case; no or minimal lost time (<1 day)",
+            "type": 1
+          },
+          {
+            "col": 6,
+            "address": "F12",
+            "value": "Minor injury / medical treatment case; no or minimal lost time (<1 day)",
+            "type": 1
+          }
+        ]
+      },
+      {
+        "rowNumber": 13,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A13",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B13",
+            "value": "Moderate",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C13",
+            "value": "Injury requiring medical treatment; lost-time injury; fully reversible",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D13",
+            "value": "Injury requiring medical treatment; lost-time injury; fully reversible",
+            "type": 1
+          },
+          {
+            "col": 5,
+            "address": "E13",
+            "value": "Injury requiring medical treatment; lost-time injury; fully reversible",
+            "type": 1
+          },
+          {
+            "col": 6,
+            "address": "F13",
+            "value": "Injury requiring medical treatment; lost-time injury; fully reversible",
+            "type": 1
+          }
+        ]
+      },
+      {
+        "rowNumber": 14,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A14",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B14",
+            "value": "Major",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C14",
+            "value": "Serious injury/illness, permanent partial disability; major property/environmental damage",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D14",
+            "value": "Serious injury/illness, permanent partial disability; major property/environmental damage",
+            "type": 1
+          },
+          {
+            "col": 5,
+            "address": "E14",
+            "value": "Serious injury/illness, permanent partial disability; major property/environmental damage",
+            "type": 1
+          },
+          {
+            "col": 6,
+            "address": "F14",
+            "value": "Serious injury/illness, permanent partial disability; major property/environmental damage",
+            "type": 1
+          }
+        ]
+      },
+      {
+        "rowNumber": 15,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A15",
+            "value": 5,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B15",
+            "value": "Catastrophic",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C15",
+            "value": "Fatality or multiple fatalities; irreversible disability; major fire/explosion/release",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D15",
+            "value": "Fatality or multiple fatalities; irreversible disability; major fire/explosion/release",
+            "type": 1
+          },
+          {
+            "col": 5,
+            "address": "E15",
+            "value": "Fatality or multiple fatalities; irreversible disability; major fire/explosion/release",
+            "type": 1
+          },
+          {
+            "col": 6,
+            "address": "F15",
+            "value": "Fatality or multiple fatalities; irreversible disability; major fire/explosion/release",
+            "type": 1
+          }
+        ]
+      },
+      {
+        "rowNumber": 17,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A17",
+            "value": "RISK LEVEL BANDS (Risk Score = L x S)",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 18,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A18",
+            "value": "1 - 4",
+            "type": 3
+          },
+          {
+            "col": 2,
+            "address": "B18",
+            "value": "Low",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C18",
+            "value": "Acceptable — monitor; no immediate additional action required",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D18",
+            "value": "Acceptable — monitor; no immediate additional action required",
+            "type": 1
+          },
+          {
+            "col": 5,
+            "address": "E18",
+            "value": "Acceptable — monitor; no immediate additional action required",
+            "type": 1
+          },
+          {
+            "col": 6,
+            "address": "F18",
+            "value": "Acceptable — monitor; no immediate additional action required",
+            "type": 1
+          }
+        ]
+      },
+      {
+        "rowNumber": 19,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A19",
+            "value": "5 - 9",
+            "type": 3
+          },
+          {
+            "col": 2,
+            "address": "B19",
+            "value": "Medium",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C19",
+            "value": "Tolerable — additional controls to be considered and planned",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D19",
+            "value": "Tolerable — additional controls to be considered and planned",
+            "type": 1
+          },
+          {
+            "col": 5,
+            "address": "E19",
+            "value": "Tolerable — additional controls to be considered and planned",
+            "type": 1
+          },
+          {
+            "col": 6,
+            "address": "F19",
+            "value": "Tolerable — additional controls to be considered and planned",
+            "type": 1
+          }
+        ]
+      },
+      {
+        "rowNumber": 20,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A20",
+            "value": "10 - 14",
+            "type": 3
+          },
+          {
+            "col": 2,
+            "address": "B20",
+            "value": "High",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C20",
+            "value": "Action required — implement additional controls promptly",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D20",
+            "value": "Action required — implement additional controls promptly",
+            "type": 1
+          },
+          {
+            "col": 5,
+            "address": "E20",
+            "value": "Action required — implement additional controls promptly",
+            "type": 1
+          },
+          {
+            "col": 6,
+            "address": "F20",
+            "value": "Action required — implement additional controls promptly",
+            "type": 1
+          }
+        ]
+      },
+      {
+        "rowNumber": 21,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A21",
+            "value": "15 - 25",
+            "type": 3
+          },
+          {
+            "col": 2,
+            "address": "B21",
+            "value": "Very High",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C21",
+            "value": "Immediate action required — consider stopping the activity until controls are implemented",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D21",
+            "value": "Immediate action required — consider stopping the activity until controls are implemented",
+            "type": 1
+          },
+          {
+            "col": 5,
+            "address": "E21",
+            "value": "Immediate action required — consider stopping the activity until controls are implemented",
+            "type": 1
+          },
+          {
+            "col": 6,
+            "address": "F21",
+            "value": "Immediate action required — consider stopping the activity until controls are implemented",
+            "type": 1
+          }
+        ]
+      },
+      {
+        "rowNumber": 24,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A24",
+            "value": "5 x 5 RISK MATRIX GRID",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 25,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A25",
+            "value": "S \\ L",
+            "type": 3
+          },
+          {
+            "col": 2,
+            "address": "B25",
+            "value": 1,
+            "type": 2
+          },
+          {
+            "col": 3,
+            "address": "C25",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 4,
+            "address": "D25",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 5,
+            "address": "E25",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 6,
+            "address": "F25",
+            "value": 5,
+            "type": 2
+          }
+        ]
+      },
+      {
+        "rowNumber": 26,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A26",
+            "value": 5,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B26",
+            "value": 5,
+            "type": 2
+          },
+          {
+            "col": 3,
+            "address": "C26",
+            "value": 10,
+            "type": 2
+          },
+          {
+            "col": 4,
+            "address": "D26",
+            "value": 15,
+            "type": 2
+          },
+          {
+            "col": 5,
+            "address": "E26",
+            "value": 20,
+            "type": 2
+          },
+          {
+            "col": 6,
+            "address": "F26",
+            "value": 25,
+            "type": 2
+          }
+        ]
+      },
+      {
+        "rowNumber": 27,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A27",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B27",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 3,
+            "address": "C27",
+            "value": 8,
+            "type": 2
+          },
+          {
+            "col": 4,
+            "address": "D27",
+            "value": 12,
+            "type": 2
+          },
+          {
+            "col": 5,
+            "address": "E27",
+            "value": 16,
+            "type": 2
+          },
+          {
+            "col": 6,
+            "address": "F27",
+            "value": 20,
+            "type": 2
+          }
+        ]
+      },
+      {
+        "rowNumber": 28,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A28",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B28",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 3,
+            "address": "C28",
+            "value": 6,
+            "type": 2
+          },
+          {
+            "col": 4,
+            "address": "D28",
+            "value": 9,
+            "type": 2
+          },
+          {
+            "col": 5,
+            "address": "E28",
+            "value": 12,
+            "type": 2
+          },
+          {
+            "col": 6,
+            "address": "F28",
+            "value": 15,
+            "type": 2
+          }
+        ]
+      },
+      {
+        "rowNumber": 29,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A29",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B29",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 3,
+            "address": "C29",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 4,
+            "address": "D29",
+            "value": 6,
+            "type": 2
+          },
+          {
+            "col": 5,
+            "address": "E29",
+            "value": 8,
+            "type": 2
+          },
+          {
+            "col": 6,
+            "address": "F29",
+            "value": 10,
+            "type": 2
+          }
+        ]
+      },
+      {
+        "rowNumber": 30,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A30",
+            "value": 1,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B30",
+            "value": 1,
+            "type": 2
+          },
+          {
+            "col": 3,
+            "address": "C30",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 4,
+            "address": "D30",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 5,
+            "address": "E30",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 6,
+            "address": "F30",
+            "value": 5,
+            "type": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "HIRA Register",
+    "rowCount": 44,
+    "columnCount": 19,
+    "rows": [
+      {
+        "rowNumber": 1,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A1",
+            "value": "SKYLINE PROJECT & ENGINEERS",
+            "type": 3
+          },
+          {
+            "col": 2,
+            "address": "B1",
+            "value": "SKYLINE PROJECT & ENGINEERS",
+            "type": 1
+          },
+          {
+            "col": 3,
+            "address": "C1",
+            "value": "SKYLINE PROJECT & ENGINEERS",
+            "type": 1
+          },
+          {
+            "col": 4,
+            "address": "D1",
+            "value": null,
+            "type": 0
+          },
+          {
+            "col": 5,
+            "address": "E1",
+            "value": "Doc No. :-",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F1",
+            "value": "SKY/QA/HIRA/01",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 2,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A2",
+            "value": "Chakan, Pune, Maharashtra",
+            "type": 3
+          },
+          {
+            "col": 2,
+            "address": "B2",
+            "value": "Chakan, Pune, Maharashtra",
+            "type": 1
+          },
+          {
+            "col": 3,
+            "address": "C2",
+            "value": "Chakan, Pune, Maharashtra",
+            "type": 1
+          },
+          {
+            "col": 4,
+            "address": "D2",
+            "value": null,
+            "type": 0
+          },
+          {
+            "col": 5,
+            "address": "E2",
+            "value": "Doc. Date :-",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F2",
+            "value": "01.08.2026",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 3,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A3",
+            "value": "HAZARD IDENTIFICATION & RISK ASSESSMENT (HIRA)\n",
+            "type": 3
+          },
+          {
+            "col": 2,
+            "address": "B3",
+            "value": "HAZARD IDENTIFICATION & RISK ASSESSMENT (HIRA)\n",
+            "type": 1
+          },
+          {
+            "col": 3,
+            "address": "C3",
+            "value": "HAZARD IDENTIFICATION & RISK ASSESSMENT (HIRA)\n",
+            "type": 1
+          },
+          {
+            "col": 4,
+            "address": "D3",
+            "value": null,
+            "type": 0
+          },
+          {
+            "col": 5,
+            "address": "E3",
+            "value": "Rev. No :-",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F3",
+            "value": "0",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 4,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A4",
+            "value": "HAZARD IDENTIFICATION & RISK ASSESSMENT (HIRA)\n",
+            "type": 1
+          },
+          {
+            "col": 2,
+            "address": "B4",
+            "value": "HAZARD IDENTIFICATION & RISK ASSESSMENT (HIRA)\n",
+            "type": 1
+          },
+          {
+            "col": 3,
+            "address": "C4",
+            "value": "HAZARD IDENTIFICATION & RISK ASSESSMENT (HIRA)\n",
+            "type": 1
+          },
+          {
+            "col": 4,
+            "address": "D4",
+            "value": null,
+            "type": 0
+          },
+          {
+            "col": 5,
+            "address": "E4",
+            "value": "Rev. Date :-",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F4",
+            "value": "-",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 6,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A6",
+            "value": "Sr.\nNo.",
+            "type": 3
+          },
+          {
+            "col": 2,
+            "address": "B6",
+            "value": "Department /\nProcess Area",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C6",
+            "value": "Activity / Task\n(Routine / Non-Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D6",
+            "value": "Hazard\nCategory",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E6",
+            "value": "Hazard Description",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F6",
+            "value": "Potential Consequence /\nWho is Affected",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G6",
+            "value": "Existing Control Measures",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H6",
+            "value": "L",
+            "type": 3
+          },
+          {
+            "col": 9,
+            "address": "I6",
+            "value": "S",
+            "type": 3
+          },
+          {
+            "col": 10,
+            "address": "J6",
+            "value": "Risk\nScore",
+            "type": 3
+          },
+          {
+            "col": 11,
+            "address": "K6",
+            "value": "Risk\nLevel",
+            "type": 3
+          },
+          {
+            "col": 12,
+            "address": "L6",
+            "value": "Additional Controls Required\n(Hierarchy of Controls)",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M6",
+            "value": "Responsible\nPerson / Dept.",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N6",
+            "value": "Target\nTimeframe",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O6",
+            "value": "L",
+            "type": 3
+          },
+          {
+            "col": 16,
+            "address": "P6",
+            "value": "S",
+            "type": 3
+          },
+          {
+            "col": 17,
+            "address": "Q6",
+            "value": "Residual\nRisk Score",
+            "type": 3
+          },
+          {
+            "col": 18,
+            "address": "R6",
+            "value": "Residual\nRisk Level",
+            "type": 3
+          },
+          {
+            "col": 19,
+            "address": "S6",
+            "value": "Status",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 7,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A7",
+            "value": 1,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B7",
+            "value": "Raw Material Store",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C7",
+            "value": "Unloading & manual handling of MS sheets/coils (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D7",
+            "value": "Ergonomic / Mechanical",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E7",
+            "value": "Manual lifting/carrying of heavy sheet metal; sharp/burred edges of sheets",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F7",
+            "value": "Musculoskeletal injury (back/shoulder strain); cuts & lacerations to hands",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G7",
+            "value": "Hand gloves, safety shoes issued; trained store personnel; edge de-burring at inward stage",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H7",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I7",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J7",
+            "value": 9,
+            "formula": "H7*I7",
+            "result": 9,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K7",
+            "value": "Medium",
+            "formula": "IF(J7=\"\",\"\",IF(J7<=4,\"Low\",IF(J7<=9,\"Medium\",IF(J7<=14,\"High\",\"Very High\"))))",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L7",
+            "value": "Provide mechanical handling aids (hydraulic trolley/sheet lifter); edge-protection training refresher; team-lifting SOP for loads >20 kg",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M7",
+            "value": "Store In-charge / EHS",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N7",
+            "value": "60 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O7",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P7",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q7",
+            "value": 6,
+            "formula": "O7*P7",
+            "result": 6,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R7",
+            "value": "Medium",
+            "formula": "IF(Q7=\"\",\"\",IF(Q7<=4,\"Low\",IF(Q7<=9,\"Medium\",IF(Q7<=14,\"High\",\"Very High\"))))",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S7",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 8,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A8",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B8",
+            "value": "Raw Material Store",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C8",
+            "value": "Forklift / hand-pallet-truck movement in store & yard (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D8",
+            "value": "Mechanical",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E8",
+            "value": "Collision with pedestrians or racking; overturning on uneven surface",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F8",
+            "value": "Struck-by injury to personnel; property damage",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G8",
+            "value": "Trained operator, speed limit signage",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H8",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I8",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J8",
+            "value": 12,
+            "result": 12,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K8",
+            "value": "High",
+            "result": "High",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L8",
+            "value": "Mark pedestrian walkways; install convex mirrors at blind corners; reversing alarm/beacon on forklift; periodic refresher training",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M8",
+            "value": "Store In-charge / EHS",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N8",
+            "value": "60 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O8",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P8",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q8",
+            "value": 8,
+            "result": 8,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R8",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S8",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 9,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A9",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B9",
+            "value": "Shearing",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C9",
+            "value": "Shearing machine operation — cutting MS sheet to size (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D9",
+            "value": "Mechanical",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E9",
+            "value": "Hand/finger entrapment at blade; sheet-edge cuts while feeding/removing material",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F9",
+            "value": "Crush injury / amputation of fingers; lacerations",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G9",
+            "value": "Fixed blade guard, two-hand operation switch, cut-resistant gloves (away from blade), trained operator",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H9",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I9",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J9",
+            "value": 8,
+            "result": 8,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K9",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L9",
+            "value": "Verify interlock/guard functioning on periodic PM schedule; refresher training on safe feeding technique",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M9",
+            "value": "Production / EHS",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N9",
+            "value": "30 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O9",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P9",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q9",
+            "value": 8,
+            "result": 8,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R9",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S9",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 10,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A10",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B10",
+            "value": "Turret Punching",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C10",
+            "value": "Turret punch press operation (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D10",
+            "value": "Mechanical",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E10",
+            "value": "Hand entrapment in punch/die area; ejected metal slug/chip",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F10",
+            "value": "Crush injury to hand; eye injury from flying chip",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G10",
+            "value": "Machine guarding, safety glasses, trained operator",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H10",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I10",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J10",
+            "value": 8,
+            "result": 8,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K10",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L10",
+            "value": "Fixed polycarbonate chip guard at punch zone; mandatory face shield during operation; guard interlock verification",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M10",
+            "value": "Production / EHS",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N10",
+            "value": "45 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O10",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P10",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q10",
+            "value": 6,
+            "result": 6,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R10",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S10",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 11,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A11",
+            "value": 5,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B11",
+            "value": "Turret Punching",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C11",
+            "value": "Turret punch press — continuous operation (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D11",
+            "value": "Physical (Noise)",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E11",
+            "value": "Continuous machine noise during punching cycles",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F11",
+            "value": "Noise-induced hearing loss (cumulative, long-term exposure)",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G11",
+            "value": "Ear plugs issued",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H11",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I11",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J11",
+            "value": 6,
+            "result": 6,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K11",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L11",
+            "value": "Noise-level survey at operator position; enforce ear-plug/ear-muff use; consider acoustic enclosure if levels exceed 85 dB(A)",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M11",
+            "value": "EHS",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N11",
+            "value": "90 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O11",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P11",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q11",
+            "value": 4,
+            "result": 4,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R11",
+            "value": "Low",
+            "result": "Low",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S11",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 12,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A12",
+            "value": 6,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B12",
+            "value": "Laser Cutting",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C12",
+            "value": "Laser cutting machine operation (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D12",
+            "value": "Physical (Laser radiation / Fire)",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E12",
+            "value": "Direct/reflected laser beam exposure; fire from combustible residue; fume generation",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F12",
+            "value": "Eye injury (retinal damage); burns; respiratory irritation; fire",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G12",
+            "value": "Enclosed laser cabin with interlock, fume extraction system, trained operator",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H12",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I12",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J12",
+            "value": 8,
+            "result": 8,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K12",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L12",
+            "value": "Verify cabin interlock function each shift; fume-extraction system efficiency test; assign trained Laser Safety focal point; keep fire extinguisher (CO2/DCP) at station",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M12",
+            "value": "Production / EHS",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N12",
+            "value": "45 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O12",
+            "value": 1,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P12",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q12",
+            "value": 4,
+            "result": 4,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R12",
+            "value": "Low",
+            "result": "Low",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S12",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 13,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A13",
+            "value": 7,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B13",
+            "value": "Bending (Press Brake)",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C13",
+            "value": "Press brake bending operation (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D13",
+            "value": "Mechanical",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E13",
+            "value": "Hand/finger crush between punch and die during bending",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F13",
+            "value": "Crush injury / amputation",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G13",
+            "value": "Light curtain / two-hand control, guarding, trained operator",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H13",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I13",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J13",
+            "value": 8,
+            "result": 8,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K13",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L13",
+            "value": "Daily functional check of light curtain before start of shift (checklist); operator refresher training; restrict bystanders from work zone",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M13",
+            "value": "Production / EHS",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N13",
+            "value": "30 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O13",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P13",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q13",
+            "value": 8,
+            "result": 8,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R13",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S13",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 14,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A14",
+            "value": 8,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B14",
+            "value": "Welding & Fabrication",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C14",
+            "value": "Arc / MIG welding of canopy & base-frame components (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D14",
+            "value": "Physical (Arc flash / UV)",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E14",
+            "value": "Arc flash and UV/IR radiation exposure to eyes and skin",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F14",
+            "value": "Arc eye (photokeratitis); skin burns",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G14",
+            "value": "Welding helmet with auto-darkening filter, apron, gloves, welding screens between bays",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H14",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I14",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J14",
+            "value": 9,
+            "result": 9,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K14",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L14",
+            "value": "PPE compliance spot-audit; ensure welding curtains maintained/replaced when damaged; awareness training on arc-flash hazard",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M14",
+            "value": "Production / EHS",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N14",
+            "value": "30 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O14",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P14",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q14",
+            "value": 6,
+            "result": 6,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R14",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S14",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 15,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A15",
+            "value": 9,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B15",
+            "value": "Welding & Fabrication",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C15",
+            "value": "Arc / MIG / gas welding — fume generation (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D15",
+            "value": "Chemical",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E15",
+            "value": "Inhalation of welding fume (metal oxides, ozone)",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F15",
+            "value": "Respiratory irritation; long-term occupational lung disease",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G15",
+            "value": "General shop ventilation; some local exhaust at select stations",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H15",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I15",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J15",
+            "value": 9,
+            "result": 9,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K15",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L15",
+            "value": "Install/extend Local Exhaust Ventilation (LEV) at all welding stations; periodic workplace air-quality monitoring; respiratory PPE for confined/poorly-ventilated bays",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M15",
+            "value": "EHS / Production",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N15",
+            "value": "90 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O15",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P15",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q15",
+            "value": 6,
+            "result": 6,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R15",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S15",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 16,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A16",
+            "value": 10,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B16",
+            "value": "Welding & Fabrication",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C16",
+            "value": "Operation of welding machines / electrical connections (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D16",
+            "value": "Electrical",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E16",
+            "value": "Electric shock from damaged cables, poor earthing, wet conditions",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F16",
+            "value": "Electric shock; electrocution; burns",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G16",
+            "value": "Earthing of welding machines, periodic electrical inspection",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H16",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I16",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J16",
+            "value": 8,
+            "result": 8,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K16",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L16",
+            "value": "Install RCCB/ELCB on welding power circuits; scheduled insulation/cable-condition checks; replace damaged cables immediately (do not repair with tape)",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M16",
+            "value": "Electrical Maintenance / EHS",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N16",
+            "value": "45 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O16",
+            "value": 1,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P16",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q16",
+            "value": 4,
+            "result": 4,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R16",
+            "value": "Low",
+            "result": "Low",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S16",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 17,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A17",
+            "value": 11,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B17",
+            "value": "Welding & Fabrication",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C17",
+            "value": "Welding near stored combustibles / packing material (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D17",
+            "value": "Fire",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E17",
+            "value": "Sparks/spatter igniting nearby combustible material (packing, oil rags, powder coating area)",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F17",
+            "value": "Fire; burns; property damage",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G17",
+            "value": "Fire extinguishers in shop, general housekeeping",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H17",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I17",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J17",
+            "value": 12,
+            "result": 12,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K17",
+            "value": "High",
+            "result": "High",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L17",
+            "value": "Implement formal Hot Work Permit system; mandatory fire-watch during/after welding near combustibles; spark-containment screens; maintain minimum clearance from powder-coating/paint areas",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M17",
+            "value": "EHS / Production Head",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N17",
+            "value": "45 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O17",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P17",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q17",
+            "value": 8,
+            "result": 8,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R17",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S17",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 18,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A18",
+            "value": 12,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B18",
+            "value": "Grinding / Deburring",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C18",
+            "value": "Portable grinder use for deburring welds (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D18",
+            "value": "Mechanical / Physical",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E18",
+            "value": "Abrasive wheel burst; flying particles; hand-arm vibration; noise",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F18",
+            "value": "Eye injury; lacerations; hand-arm vibration syndrome (long-term); hearing loss",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G18",
+            "value": "Wheel guard, face shield, gloves issued",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H18",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I18",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J18",
+            "value": 9,
+            "result": 9,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K18",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L18",
+            "value": "Maintain Abrasive Wheel inspection register (mandatory record); rotate operators to limit vibration exposure duration; noise/vibration exposure assessment",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M18",
+            "value": "Production / EHS",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N18",
+            "value": "60 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O18",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P18",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q18",
+            "value": 6,
+            "result": 6,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R18",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S18",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 19,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A19",
+            "value": 13,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B19",
+            "value": "Shot Blasting",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C19",
+            "value": "Shot blasting of fabricated parts prior to pretreatment (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D19",
+            "value": "Physical (Dust / Noise)",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E19",
+            "value": "Airborne dust from blasting media; high noise levels; ricochet of blast media",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F19",
+            "value": "Respiratory illness (pneumoconiosis if silica-containing media used); noise-induced hearing loss; eye/skin injury from ricochet",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G19",
+            "value": "Enclosed blasting cabin, dust collector, PPE (respirator, ear muffs) per WI22",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H19",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I19",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J19",
+            "value": 9,
+            "result": 9,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K19",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L19",
+            "value": "Verify dust-extraction system efficiency (differential pressure check) periodically; confirm blast media is non-silica (steel grit/shot) or provide additional respiratory protection if silica-based; annual audiometry & PFT for exposed workers",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M19",
+            "value": "EHS",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N19",
+            "value": "90 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O19",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P19",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q19",
+            "value": 6,
+            "result": 6,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R19",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S19",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 20,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A20",
+            "value": 14,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B20",
+            "value": "Pretreatment (Phosphating)",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C20",
+            "value": "Handling/dipping of components in degreasing, acid-pickling & phosphating tanks (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D20",
+            "value": "Chemical",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E20",
+            "value": "Splash/contact with corrosive acid, alkali or phosphating chemicals; inhalation of vapours",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F20",
+            "value": "Chemical burns to skin/eyes; respiratory irritation",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G20",
+            "value": "Acid-resistant gloves, apron, face shield/goggles issued; MSDS available (per SOP-04)",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H20",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I20",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J20",
+            "value": 12,
+            "result": 12,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K20",
+            "value": "High",
+            "result": "High",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L20",
+            "value": "Install and test emergency eyewash & safety shower at pretreatment line; refresher training on chemical handling; maintain spill-containment kit at the line",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M20",
+            "value": "EHS / Production",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N20",
+            "value": "45 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O20",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P20",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q20",
+            "value": 8,
+            "result": 8,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R20",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S20",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 21,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A21",
+            "value": 15,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B21",
+            "value": "Pretreatment (Phosphating)",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C21",
+            "value": "Working near pretreatment tank line — wet floor (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D21",
+            "value": "Physical (Slip)",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E21",
+            "value": "Wet, chemically-contaminated floor around tanks",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F21",
+            "value": "Slip and fall injury; secondary chemical contact from fall onto contaminated surface",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G21",
+            "value": "Floor drainage channels, warning signage",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H21",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I21",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J21",
+            "value": 9,
+            "result": 9,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K21",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L21",
+            "value": "Install anti-skid flooring/mats at tank line; enforce housekeeping schedule (mop/squeegee wet areas each shift)",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M21",
+            "value": "EHS / Production",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N21",
+            "value": "60 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O21",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P21",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q21",
+            "value": 6,
+            "result": 6,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R21",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S21",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 22,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A22",
+            "value": 16,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B22",
+            "value": "Pretreatment (Phosphating)",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C22",
+            "value": "Fume/vapour generation from heated pretreatment tanks (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D22",
+            "value": "Chemical / Environmental",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E22",
+            "value": "Acidic/alkaline fume evolution from heated baths",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F22",
+            "value": "Respiratory irritation to operators; air emission requiring MPCB compliance",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G22",
+            "value": "Local exhaust ventilation over tanks; ETP for effluent (per legal register)",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H22",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I22",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J22",
+            "value": 6,
+            "result": 6,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K22",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L22",
+            "value": "Verify LEV hood capture-velocity periodically; confirm exhaust routed through scrubber before discharge; cross-check with Environmental legal register (Air Act consent)",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M22",
+            "value": "EHS",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N22",
+            "value": "90 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O22",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P22",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q22",
+            "value": 6,
+            "result": 6,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R22",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S22",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 23,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A23",
+            "value": 17,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B23",
+            "value": "Powder Coating",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C23",
+            "value": "Electrostatic powder-coating booth operation (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D23",
+            "value": "Fire / Explosion",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E23",
+            "value": "Combustible powder-dust cloud in booth; static electricity build-up; potential ignition source",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F23",
+            "value": "Dust explosion / flash fire; burns",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G23",
+            "value": "Booth earthing/bonding, dust collection system, no open ignition sources permitted",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H23",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I23",
+            "value": 5,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J23",
+            "value": 10,
+            "result": 10,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K23",
+            "value": "High",
+            "result": "High",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L23",
+            "value": "Verify explosion-relief venting/panels are unobstructed; periodic static-electricity/earthing continuity test; strict \"No Smoking / No Open Flame\" enforcement with signage",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M23",
+            "value": "EHS / Production",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N23",
+            "value": "45 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O23",
+            "value": 1,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P23",
+            "value": 5,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q23",
+            "value": 5,
+            "result": 5,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R23",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S23",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 24,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A24",
+            "value": 18,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B24",
+            "value": "Powder Coating",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C24",
+            "value": "Powder-coating curing oven operation (LPG/electric fired) (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D24",
+            "value": "Fire / Thermal",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E24",
+            "value": "Hot oven surfaces; possible LPG leak (if gas-fired); overheating",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F24",
+            "value": "Burns; fire",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G24",
+            "value": "Temperature controller, oven door interlock",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H24",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I24",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J24",
+            "value": 8,
+            "result": 8,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K24",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L24",
+            "value": "Scheduled testing of oven safety interlocks & temperature cut-off; LPG leak-detection check if gas-fired; hot-surface warning signage",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M24",
+            "value": "Maintenance / EHS",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N24",
+            "value": "60 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O24",
+            "value": 1,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P24",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q24",
+            "value": 4,
+            "result": 4,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R24",
+            "value": "Low",
+            "result": "Low",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S24",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 25,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A25",
+            "value": 19,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B25",
+            "value": "Powder Coating",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C25",
+            "value": "Powder application / booth housekeeping (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D25",
+            "value": "Chemical",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E25",
+            "value": "Inhalation of respirable powder-coating dust",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F25",
+            "value": "Respiratory irritation; long-term respiratory sensitization",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G25",
+            "value": "Dust mask (PPE), booth extraction",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H25",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I25",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J25",
+            "value": 6,
+            "result": 6,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K25",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L25",
+            "value": "Respirator fit-testing for booth operators; periodic health check-up for exposed workers",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M25",
+            "value": "EHS",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N25",
+            "value": "90 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O25",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P25",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q25",
+            "value": 4,
+            "result": 4,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R25",
+            "value": "Low",
+            "result": "Low",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S25",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 26,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A26",
+            "value": 20,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B26",
+            "value": "Painting",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C26",
+            "value": "Liquid paint / solvent touch-up application (Routine / Non-Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D26",
+            "value": "Chemical / Fire",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E26",
+            "value": "Flammable solvent vapours; VOC inhalation; contact dermatitis",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F26",
+            "value": "Fire; respiratory irritation; skin sensitization",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G26",
+            "value": "Ventilated area, PPE (mask, gloves), fire extinguisher nearby (per WI38)",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H26",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I26",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J26",
+            "value": 12,
+            "result": 12,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K26",
+            "value": "High",
+            "result": "High",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L26",
+            "value": "Use flameproof electrical fittings in the painting area; store solvents/paint in designated flammable-liquid cabinet away from ignition sources; periodic VOC exposure monitoring",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M26",
+            "value": "EHS / Production",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N26",
+            "value": "60 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O26",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P26",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q26",
+            "value": 8,
+            "result": 8,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R26",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S26",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 27,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A27",
+            "value": 21,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B27",
+            "value": "Assembly",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C27",
+            "value": "Use of hand/power tools during assembly & foam cutting (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D27",
+            "value": "Mechanical",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E27",
+            "value": "Cuts from cutting blades/knives; hand injury from power tools (per Assembly SOP)",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F27",
+            "value": "Lacerations; puncture wounds; hand injury",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G27",
+            "value": "Cut-resistant gloves, tool guards, trained operators (per SOP/ASSLY/01)",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H27",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I27",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J27",
+            "value": 6,
+            "result": 6,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K27",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L27",
+            "value": "Periodic tool-guard inspection checklist; mandatory PPE compliance check before task start",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M27",
+            "value": "Production / EHS",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N27",
+            "value": "30 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O27",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P27",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q27",
+            "value": 4,
+            "result": 4,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R27",
+            "value": "Low",
+            "result": "Low",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S27",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 28,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A28",
+            "value": 22,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B28",
+            "value": "Assembly",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C28",
+            "value": "Manual handling of canopy panels/components during assembly (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D28",
+            "value": "Ergonomic",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E28",
+            "value": "Lifting/carrying heavy or bulky fabricated panels",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F28",
+            "value": "Musculoskeletal injury; crush injury if panel is dropped",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G28",
+            "value": "Team-lifting practice for larger panels",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H28",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I28",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J28",
+            "value": 9,
+            "result": 9,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K28",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L28",
+            "value": "Provide mechanical lifting aids (chain hoist/jib crane) for heavy panels; formal manual-handling training",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M28",
+            "value": "Production / EHS",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N28",
+            "value": "60 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O28",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P28",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q28",
+            "value": 6,
+            "result": 6,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R28",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S28",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 29,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A29",
+            "value": 23,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B29",
+            "value": "Fuel Tank Fabrication & Testing",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C29",
+            "value": "Hydrostatic (bund) test of fabricated fuel tank with water — up to 1200 L (Routine, per SPEPR035)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D29",
+            "value": "Physical (Pressure / Water)",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E29",
+            "value": "Water spillage / slip hazard; structural failure of tank/weld joint under test pressure",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F29",
+            "value": "Slip and fall; injury from sudden water release if tank fails; property damage",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G29",
+            "value": "Written test procedure (SPEPR035), barricading of test area, PPE, tank placed on stable/level supports",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H29",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I29",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J29",
+            "value": 6,
+            "result": 6,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K29",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L29",
+            "value": "Maintain a pressure/water-level monitoring log during test; define and mark drainage path for test water; periodic review of technician adherence to SPEPR035",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M29",
+            "value": "QA / EHS",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N29",
+            "value": "45 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O29",
+            "value": 1,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P29",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q29",
+            "value": 3,
+            "result": 3,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R29",
+            "value": "Low",
+            "result": "Low",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S29",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 30,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A30",
+            "value": 24,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B30",
+            "value": "Fuel Tank Fabrication & Testing",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C30",
+            "value": "Internal inspection/entry into fabricated fuel tank, if performed (Non-Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D30",
+            "value": "Confined Space",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E30",
+            "value": "Restricted entry/exit, potential oxygen deficiency or residual fumes inside tank shell",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F30",
+            "value": "Asphyxiation; entrapment; fatality",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G30",
+            "value": "To be confirmed with Skyline whether internal tank entry is currently practiced",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H30",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I30",
+            "value": 5,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J30",
+            "value": 15,
+            "result": 15,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K30",
+            "value": "Very High",
+            "result": "Very High",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L30",
+            "value": "If internal entry is practiced: implement a formal Confined Space Entry Permit system, pre-entry gas testing, continuous ventilation, standby person and rescue plan. If not practiced, formally prohibit internal entry and state so in the SOP.",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M30",
+            "value": "EHS / Production Head",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N30",
+            "value": "30 days (confirm applicability first)",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O30",
+            "value": 1,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P30",
+            "value": 5,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q30",
+            "value": 5,
+            "result": 5,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R30",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S30",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 31,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A31",
+            "value": 25,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B31",
+            "value": "Compressor Room",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C31",
+            "value": "Air compressor operation for pneumatic tools & painting/blasting lines (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D31",
+            "value": "Mechanical / Pressure",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E31",
+            "value": "Entanglement in belt/moving parts; pressure-vessel rupture; high noise",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F31",
+            "value": "Serious injury from entanglement; injury from vessel failure; hearing loss",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G31",
+            "value": "Belt/flywheel guarding, periodic statutory pressure-vessel inspection, ear protection issued",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H31",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I31",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J31",
+            "value": 8,
+            "result": 8,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K31",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L31",
+            "value": "Track statutory pressure-vessel test-certificate renewal in compliance calendar; acoustic enclosure/canopy for compressor to reduce noise at source",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M31",
+            "value": "Maintenance / EHS",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N31",
+            "value": "60 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O31",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P31",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q31",
+            "value": 6,
+            "result": 6,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R31",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S31",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 32,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A32",
+            "value": 26,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B32",
+            "value": "Electrical Systems",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C32",
+            "value": "Electrical panel operation, maintenance & DG-set running (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D32",
+            "value": "Electrical",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E32",
+            "value": "Electric shock, arc flash, or fire from panels/wiring/DG set",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F32",
+            "value": "Electrocution; burns; fire; fatality",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G32",
+            "value": "Earthing provided, work carried out by licensed electrician",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H32",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I32",
+            "value": 5,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J32",
+            "value": 10,
+            "result": 10,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K32",
+            "value": "High",
+            "result": "High",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L32",
+            "value": "Implement formal Lock-Out-Tag-Out (LOTO) procedure for all electrical maintenance; periodic thermographic/electrical safety audit; arc-flash warning labels on panels",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M32",
+            "value": "Electrical Maintenance / EHS",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N32",
+            "value": "45 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O32",
+            "value": 1,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P32",
+            "value": 5,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q32",
+            "value": 5,
+            "result": 5,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R32",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S32",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 33,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A33",
+            "value": 27,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B33",
+            "value": "Material Handling / Internal Transport",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C33",
+            "value": "Overhead crane / chain-hoist use for heavy fabrication parts, if installed (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D33",
+            "value": "Mechanical",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E33",
+            "value": "Load fall; struck-by suspended load; entanglement",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F33",
+            "value": "Crush injury; fatality; property damage",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G33",
+            "value": "To be confirmed whether an EOT crane/hoist is installed at Skyline; if yes — trained operator, visual pre-use check",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H33",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I33",
+            "value": 5,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J33",
+            "value": 15,
+            "result": 15,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K33",
+            "value": "Very High",
+            "result": "Very High",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L33",
+            "value": "Confirm crane/hoist inventory; obtain/track statutory load-test certificates; daily pre-use checklist; mark exclusion zone under suspended loads",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M33",
+            "value": "Maintenance / EHS",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N33",
+            "value": "45 days (confirm applicability first)",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O33",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P33",
+            "value": 5,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q33",
+            "value": 10,
+            "result": 10,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R33",
+            "value": "High",
+            "result": "High",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S33",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 34,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A34",
+            "value": 28,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B34",
+            "value": "Material Handling / Internal Transport",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C34",
+            "value": "Movement of forklifts/hand-trolleys within plant aisles (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D34",
+            "value": "Mechanical",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E34",
+            "value": "Collision between MHE and pedestrians/racking at blind corners",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F34",
+            "value": "Struck-by / crush injury",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G34",
+            "value": "Designated walkways, speed limit signage",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H34",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I34",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J34",
+            "value": 9,
+            "result": 9,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K34",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L34",
+            "value": "Physical segregation (barriers/bollards) on high-traffic aisles; convex mirrors at blind corners; periodic MHE operator refresher",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M34",
+            "value": "EHS / Store",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N34",
+            "value": "60 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O34",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P34",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q34",
+            "value": 6,
+            "result": 6,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R34",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S34",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 35,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A35",
+            "value": 29,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B35",
+            "value": "Housekeeping & Fire",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C35",
+            "value": "General shop-floor housekeeping — scrap, off-cuts, oil/chemical spills (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D35",
+            "value": "Physical (Slip / Trip)",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E35",
+            "value": "Cluttered walkways; oil/chemical spillage on floor",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F35",
+            "value": "Slip, trip and fall injury",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G35",
+            "value": "Periodic housekeeping; Safety Policy WI displayed at site",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H35",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I35",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J35",
+            "value": 6,
+            "result": 6,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K35",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L35",
+            "value": "Formal 5S audit schedule with checklist; spill-response kit positioned at each high-risk work station",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M35",
+            "value": "EHS / Shift Supervisors",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N35",
+            "value": "30 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O35",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P35",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q35",
+            "value": 4,
+            "result": 4,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R35",
+            "value": "Low",
+            "result": "Low",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S35",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 36,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A36",
+            "value": 30,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B36",
+            "value": "Housekeeping & Fire",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C36",
+            "value": "Fire risk across shop floor (combustible storage, hot work, electrical) (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D36",
+            "value": "Fire",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E36",
+            "value": "Ignition of combustible material (packing, powder, solvent, scrap) from hot work or electrical fault",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F36",
+            "value": "Fire; smoke inhalation; property/life loss",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G36",
+            "value": "Fire extinguishers positioned across shop, Fire NOC maintained (per legal register)",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H36",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I36",
+            "value": 5,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J36",
+            "value": 10,
+            "result": 10,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K36",
+            "value": "High",
+            "result": "High",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L36",
+            "value": "Conduct fire drills at least half-yearly; appoint & train fire wardens per shift; display evacuation routes & assembly point signage; verify extinguisher/hydrant AMC records",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M36",
+            "value": "EHS / Admin",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N36",
+            "value": "90 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O36",
+            "value": 1,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P36",
+            "value": 5,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q36",
+            "value": 5,
+            "result": 5,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R36",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S36",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 37,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A37",
+            "value": 31,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B37",
+            "value": "Warehouse / Dispatch",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C37",
+            "value": "Loading of finished canopies/generator enclosures onto trucks (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D37",
+            "value": "Mechanical / Ergonomic",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E37",
+            "value": "Struck-by reversing/moving truck; fall from truck bed/loading platform; manual handling strain",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F37",
+            "value": "Struck-by injury; fall injury; musculoskeletal injury",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G37",
+            "value": "PPE issued, informal ground-guide during loading",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H37",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I37",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J37",
+            "value": 12,
+            "result": 12,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K37",
+            "value": "High",
+            "result": "High",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L37",
+            "value": "Formal wheel-chocking procedure before loading; edge protection/guard-rail at loading bay; trained banksman/signal person for every loading operation",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M37",
+            "value": "Store / EHS",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N37",
+            "value": "60 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O37",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P37",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q37",
+            "value": 8,
+            "result": 8,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R37",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S37",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 38,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A38",
+            "value": 32,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B38",
+            "value": "Office / Administration",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C38",
+            "value": "Prolonged desk-based work — office & QA/administration staff (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D38",
+            "value": "Ergonomic",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E38",
+            "value": "Poor workstation posture, prolonged sitting",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F38",
+            "value": "Musculoskeletal discomfort (neck/back/wrist)",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G38",
+            "value": "Standard office furniture provided",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H38",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I38",
+            "value": 1,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J38",
+            "value": 3,
+            "result": 3,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K38",
+            "value": "Low",
+            "result": "Low",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L38",
+            "value": "Ergonomic assessment of office workstations; awareness on micro-breaks/posture",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M38",
+            "value": "HR / Admin",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N38",
+            "value": "90 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O38",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P38",
+            "value": 1,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q38",
+            "value": 2,
+            "result": 2,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R38",
+            "value": "Low",
+            "result": "Low",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S38",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 39,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A39",
+            "value": 33,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B39",
+            "value": "Office / Administration",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C39",
+            "value": "Use of electrical equipment / extension boards in office (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D39",
+            "value": "Electrical",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E39",
+            "value": "Loose or overloaded wiring/extension boards",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F39",
+            "value": "Minor electric shock; fire",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G39",
+            "value": "Periodic informal electrical checks",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H39",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I39",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J39",
+            "value": 9,
+            "result": 9,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K39",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L39",
+            "value": "Eliminate temporary/loose wiring; scheduled electrical safety inspection of office area; portable fire extinguisher in office",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M39",
+            "value": "Admin / EHS",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N39",
+            "value": "60 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O39",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P39",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q39",
+            "value": 6,
+            "result": 6,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R39",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S39",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 40,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A40",
+            "value": 34,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B40",
+            "value": "Contractor / Visitor Management",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C40",
+            "value": "Engagement of contract workers for maintenance/civil/housekeeping work (Non-Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D40",
+            "value": "Multiple (Induction Gap)",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E40",
+            "value": "Contract workers unfamiliar with site-specific hazards; uncontrolled entry to hazardous areas",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F40",
+            "value": "Injury to contract worker due to unfamiliarity with hazards; uncontrolled work near live processes",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G40",
+            "value": "Informal briefing to contractors before work",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H40",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I40",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J40",
+            "value": 12,
+            "result": 12,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K40",
+            "value": "High",
+            "result": "High",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L40",
+            "value": "Formal Contractor Safety Induction (mandatory before site entry); Permit-to-Work system for maintenance/hot work/height/confined space jobs; verify contractor's own EHS/PPE compliance & insurance",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M40",
+            "value": "EHS / HR",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N40",
+            "value": "45 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O40",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P40",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q40",
+            "value": 6,
+            "result": 6,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R40",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S40",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 41,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A41",
+            "value": 35,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B41",
+            "value": "Emergency Preparedness",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C41",
+            "value": "Site-wide emergency scenarios — fire, chemical spill, medical emergency (Non-Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D41",
+            "value": "Emergency",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E41",
+            "value": "Escalation of an incident due to delayed/uncoordinated response",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F41",
+            "value": "Casualties; property loss; business disruption",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G41",
+            "value": "Fire extinguishers, first-aid box available",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H41",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I41",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J41",
+            "value": 12,
+            "result": 12,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K41",
+            "value": "High",
+            "result": "High",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L41",
+            "value": "Conduct mock drills (fire, chemical spill, medical emergency) at planned intervals; maintain trained first-aider roster per shift; display emergency contact numbers & assembly point signage at all entrances",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M41",
+            "value": "EHS / Admin",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N41",
+            "value": "90 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O41",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P41",
+            "value": 4,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q41",
+            "value": 8,
+            "result": 8,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R41",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S41",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 42,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A42",
+            "value": 36,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B42",
+            "value": "Cross-Cutting / Plant-Wide",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C42",
+            "value": "Cumulative occupational noise exposure across machine shop (shearing, punching, bending, shot blasting, compressor) (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D42",
+            "value": "Physical (Noise)",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E42",
+            "value": "Continuous/intermittent high noise levels across multiple work areas",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F42",
+            "value": "Noise-induced hearing loss (cumulative, long-term)",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G42",
+            "value": "Ear protection issued in high-noise zones",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H42",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I42",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J42",
+            "value": 9,
+            "result": 9,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K42",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L42",
+            "value": "Plant-wide noise mapping/survey; mandatory hearing-protection zones with signage; annual audiometric testing for exposed workers",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M42",
+            "value": "EHS",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N42",
+            "value": "90 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O42",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P42",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q42",
+            "value": 6,
+            "result": 6,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R42",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S42",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 43,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A43",
+            "value": 37,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B43",
+            "value": "Cross-Cutting / Plant-Wide",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C43",
+            "value": "Heat exposure near curing oven, pretreatment tanks & shop floor in summer (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D43",
+            "value": "Physical (Heat Stress)",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E43",
+            "value": "Elevated ambient/radiant heat near ovens and heated chemical tanks, compounded by seasonal temperature",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F43",
+            "value": "Heat exhaustion / heat stress; reduced alertness",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G43",
+            "value": "General shop ventilation",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H43",
+            "value": 3,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I43",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J43",
+            "value": 6,
+            "result": 6,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K43",
+            "value": "Medium",
+            "result": "Medium",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L43",
+            "value": "Provide rest breaks & drinking-water points near high-heat zones; awareness training on heat-stress symptoms, especially during summer months",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M43",
+            "value": "EHS",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N43",
+            "value": "90 days",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O43",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P43",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q43",
+            "value": 4,
+            "result": 4,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R43",
+            "value": "Low",
+            "result": "Low",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S43",
+            "value": "Open",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 44,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A44",
+            "value": 38,
+            "type": 2
+          },
+          {
+            "col": 2,
+            "address": "B44",
+            "value": "Calibration / Quality Lab",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C44",
+            "value": "Handling of gauges, weighing scales & measuring instruments (Routine)",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D44",
+            "value": "General (Low Risk)",
+            "type": 3
+          },
+          {
+            "col": 5,
+            "address": "E44",
+            "value": "Minor risk of instrument damage or minor hand strain during handling",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F44",
+            "value": "Negligible — first-aid level at most",
+            "type": 3
+          },
+          {
+            "col": 7,
+            "address": "G44",
+            "value": "Trained personnel, dedicated calibration area (per Calibration Schedule)",
+            "type": 3
+          },
+          {
+            "col": 8,
+            "address": "H44",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 9,
+            "address": "I44",
+            "value": 1,
+            "type": 2
+          },
+          {
+            "col": 10,
+            "address": "J44",
+            "value": 2,
+            "result": 2,
+            "type": 6
+          },
+          {
+            "col": 11,
+            "address": "K44",
+            "value": "Low",
+            "result": "Low",
+            "type": 6
+          },
+          {
+            "col": 12,
+            "address": "L44",
+            "value": "Maintain as-is; continue periodic calibration per existing schedule",
+            "type": 3
+          },
+          {
+            "col": 13,
+            "address": "M44",
+            "value": "QA",
+            "type": 3
+          },
+          {
+            "col": 14,
+            "address": "N44",
+            "value": "N/A",
+            "type": 3
+          },
+          {
+            "col": 15,
+            "address": "O44",
+            "value": 2,
+            "type": 2
+          },
+          {
+            "col": 16,
+            "address": "P44",
+            "value": 1,
+            "type": 2
+          },
+          {
+            "col": 17,
+            "address": "Q44",
+            "value": 2,
+            "result": 2,
+            "type": 6
+          },
+          {
+            "col": 18,
+            "address": "R44",
+            "value": "Low",
+            "result": "Low",
+            "type": 6
+          },
+          {
+            "col": 19,
+            "address": "S44",
+            "value": "Closed",
+            "type": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Risk Summary Dashboard",
+    "rowCount": 21,
+    "columnCount": 6,
+    "rows": [
+      {
+        "rowNumber": 1,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A1",
+            "value": "SKYLINE PROJECT & ENGINEERS",
+            "type": 3
+          },
+          {
+            "col": 2,
+            "address": "B1",
+            "value": "SKYLINE PROJECT & ENGINEERS",
+            "type": 1
+          },
+          {
+            "col": 3,
+            "address": "C1",
+            "value": "SKYLINE PROJECT & ENGINEERS",
+            "type": 1
+          },
+          {
+            "col": 4,
+            "address": "D1",
+            "value": null,
+            "type": 0
+          },
+          {
+            "col": 5,
+            "address": "E1",
+            "value": "Doc No. :-",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F1",
+            "value": "SKY/QA/HIRA-SUM/01",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 2,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A2",
+            "value": "Chakan, Pune, Maharashtra",
+            "type": 3
+          },
+          {
+            "col": 2,
+            "address": "B2",
+            "value": "Chakan, Pune, Maharashtra",
+            "type": 1
+          },
+          {
+            "col": 3,
+            "address": "C2",
+            "value": "Chakan, Pune, Maharashtra",
+            "type": 1
+          },
+          {
+            "col": 4,
+            "address": "D2",
+            "value": null,
+            "type": 0
+          },
+          {
+            "col": 5,
+            "address": "E2",
+            "value": "Doc. Date :-",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F2",
+            "value": "17.08.2026",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 3,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A3",
+            "value": "HIRA — RISK LEVEL SUMMARY DASHBOARD",
+            "type": 3
+          },
+          {
+            "col": 2,
+            "address": "B3",
+            "value": "HIRA — RISK LEVEL SUMMARY DASHBOARD",
+            "type": 1
+          },
+          {
+            "col": 3,
+            "address": "C3",
+            "value": "HIRA — RISK LEVEL SUMMARY DASHBOARD",
+            "type": 1
+          },
+          {
+            "col": 4,
+            "address": "D3",
+            "value": null,
+            "type": 0
+          },
+          {
+            "col": 5,
+            "address": "E3",
+            "value": "Rev. No :-",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F3",
+            "value": "0",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 4,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A4",
+            "value": "HIRA — RISK LEVEL SUMMARY DASHBOARD",
+            "type": 1
+          },
+          {
+            "col": 2,
+            "address": "B4",
+            "value": "HIRA — RISK LEVEL SUMMARY DASHBOARD",
+            "type": 1
+          },
+          {
+            "col": 3,
+            "address": "C4",
+            "value": "HIRA — RISK LEVEL SUMMARY DASHBOARD",
+            "type": 1
+          },
+          {
+            "col": 4,
+            "address": "D4",
+            "value": null,
+            "type": 0
+          },
+          {
+            "col": 5,
+            "address": "E4",
+            "value": "Rev. Date :-",
+            "type": 3
+          },
+          {
+            "col": 6,
+            "address": "F4",
+            "value": "-",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 7,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A7",
+            "value": "RISK LEVEL DISTRIBUTION — BEFORE vs. AFTER ADDITIONAL CONTROLS",
+            "type": 3
+          },
+          {
+            "col": 2,
+            "address": "B7",
+            "value": "RISK LEVEL DISTRIBUTION — BEFORE vs. AFTER ADDITIONAL CONTROLS",
+            "type": 1
+          },
+          {
+            "col": 3,
+            "address": "C7",
+            "value": "RISK LEVEL DISTRIBUTION — BEFORE vs. AFTER ADDITIONAL CONTROLS",
+            "type": 1
+          },
+          {
+            "col": 4,
+            "address": "D7",
+            "value": "RISK LEVEL DISTRIBUTION — BEFORE vs. AFTER ADDITIONAL CONTROLS",
+            "type": 1
+          }
+        ]
+      },
+      {
+        "rowNumber": 8,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A8",
+            "value": "Risk Level",
+            "type": 3
+          },
+          {
+            "col": 2,
+            "address": "B8",
+            "value": "Count — With Existing Controls",
+            "type": 3
+          },
+          {
+            "col": 3,
+            "address": "C8",
+            "value": "Count — After Additional Controls",
+            "type": 3
+          },
+          {
+            "col": 4,
+            "address": "D8",
+            "value": "Reduction",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 9,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A9",
+            "value": "Low",
+            "type": 3
+          },
+          {
+            "col": 2,
+            "address": "B9",
+            "value": 2,
+            "formula": "COUNTIF('HIRA Register'!$K$7:$K$44,A9)",
+            "result": 2,
+            "type": 6
+          },
+          {
+            "col": 3,
+            "address": "C9",
+            "value": 11,
+            "formula": "COUNTIF('HIRA Register'!$R$7:$R$44,A9)",
+            "result": 11,
+            "type": 6
+          },
+          {
+            "col": 4,
+            "address": "D9",
+            "value": -9,
+            "formula": "B9-C9",
+            "result": -9,
+            "type": 6
+          }
+        ]
+      },
+      {
+        "rowNumber": 10,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A10",
+            "value": "Medium",
+            "type": 3
+          },
+          {
+            "col": 2,
+            "address": "B10",
+            "value": 24,
+            "formula": "COUNTIF('HIRA Register'!$K$7:$K$44,A10)",
+            "result": 24,
+            "type": 6
+          },
+          {
+            "col": 3,
+            "address": "C10",
+            "value": 26,
+            "formula": "COUNTIF('HIRA Register'!$R$7:$R$44,A10)",
+            "result": 26,
+            "type": 6
+          },
+          {
+            "col": 4,
+            "address": "D10",
+            "value": -2,
+            "formula": "B10-C10",
+            "result": -2,
+            "type": 6
+          }
+        ]
+      },
+      {
+        "rowNumber": 11,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A11",
+            "value": "High",
+            "type": 3
+          },
+          {
+            "col": 2,
+            "address": "B11",
+            "value": 10,
+            "formula": "COUNTIF('HIRA Register'!$K$7:$K$44,A11)",
+            "result": 10,
+            "type": 6
+          },
+          {
+            "col": 3,
+            "address": "C11",
+            "value": 1,
+            "formula": "COUNTIF('HIRA Register'!$R$7:$R$44,A11)",
+            "result": 1,
+            "type": 6
+          },
+          {
+            "col": 4,
+            "address": "D11",
+            "value": 9,
+            "formula": "B11-C11",
+            "result": 9,
+            "type": 6
+          }
+        ]
+      },
+      {
+        "rowNumber": 12,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A12",
+            "value": "Very High",
+            "type": 3
+          },
+          {
+            "col": 2,
+            "address": "B12",
+            "value": 2,
+            "formula": "COUNTIF('HIRA Register'!$K$7:$K$44,A12)",
+            "result": 2,
+            "type": 6
+          },
+          {
+            "col": 3,
+            "address": "C12",
+            "value": {
+              "formula": "COUNTIF('HIRA Register'!$R$7:$R$44,A12)"
+            },
+            "formula": "COUNTIF('HIRA Register'!$R$7:$R$44,A12)",
+            "result": 0,
+            "type": 6
+          },
+          {
+            "col": 4,
+            "address": "D12",
+            "value": 2,
+            "formula": "B12-C12",
+            "result": 2,
+            "type": 6
+          }
+        ]
+      },
+      {
+        "rowNumber": 13,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A13",
+            "value": "Total",
+            "type": 3
+          },
+          {
+            "col": 2,
+            "address": "B13",
+            "value": 38,
+            "formula": "SUM(B9:B12)",
+            "result": 38,
+            "type": 6
+          },
+          {
+            "col": 3,
+            "address": "C13",
+            "value": 38,
+            "formula": "SUM(C9:C12)",
+            "result": 38,
+            "type": 6
+          },
+          {
+            "col": 4,
+            "address": "D13",
+            "value": null,
+            "type": 0
+          }
+        ]
+      },
+      {
+        "rowNumber": 16,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A16",
+            "value": "STATUS OF ADDITIONAL CONTROLS (ACTION TRACKING)",
+            "type": 3
+          },
+          {
+            "col": 2,
+            "address": "B16",
+            "value": "STATUS OF ADDITIONAL CONTROLS (ACTION TRACKING)",
+            "type": 1
+          },
+          {
+            "col": 3,
+            "address": "C16",
+            "value": "STATUS OF ADDITIONAL CONTROLS (ACTION TRACKING)",
+            "type": 1
+          },
+          {
+            "col": 4,
+            "address": "D16",
+            "value": "STATUS OF ADDITIONAL CONTROLS (ACTION TRACKING)",
+            "type": 1
+          }
+        ]
+      },
+      {
+        "rowNumber": 17,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A17",
+            "value": "Status",
+            "type": 3
+          },
+          {
+            "col": 2,
+            "address": "B17",
+            "value": "Count",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "rowNumber": 18,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A18",
+            "value": "Open",
+            "type": 3
+          },
+          {
+            "col": 2,
+            "address": "B18",
+            "value": 37,
+            "formula": "COUNTIF('HIRA Register'!$S$7:$S$44,A18)",
+            "result": 37,
+            "type": 6
+          }
+        ]
+      },
+      {
+        "rowNumber": 19,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A19",
+            "value": "In Progress",
+            "type": 3
+          },
+          {
+            "col": 2,
+            "address": "B19",
+            "value": {
+              "formula": "COUNTIF('HIRA Register'!$S$7:$S$44,A19)"
+            },
+            "formula": "COUNTIF('HIRA Register'!$S$7:$S$44,A19)",
+            "result": 0,
+            "type": 6
+          }
+        ]
+      },
+      {
+        "rowNumber": 20,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A20",
+            "value": "Closed",
+            "type": 3
+          },
+          {
+            "col": 2,
+            "address": "B20",
+            "value": 1,
+            "formula": "COUNTIF('HIRA Register'!$S$7:$S$44,A20)",
+            "result": 1,
+            "type": 6
+          }
+        ]
+      },
+      {
+        "rowNumber": 21,
+        "cells": [
+          {
+            "col": 1,
+            "address": "A21",
+            "value": "Total",
+            "type": 3
+          },
+          {
+            "col": 2,
+            "address": "B21",
+            "value": 38,
+            "formula": "SUM(B18:B20)",
+            "result": 38,
+            "type": 6
+          }
+        ]
+      }
+    ]
+  }
+]

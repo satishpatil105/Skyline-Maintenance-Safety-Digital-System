@@ -92,7 +92,8 @@ export default function UserMasterTable({
         const name = (r["Name"] || "").toLowerCase();
         const userId = (r["User ID"] || r["__id"] || "").toLowerCase();
         const email = (r["Login Email"] || "").toLowerCase();
-        const matchesSearch = !s || userId.includes(s) || name.includes(s) || email.includes(s);
+        const assigned = (r["Assigned Machines"] || (Array.isArray((r as any).assignedMachines) ? (r as any).assignedMachines.join(" ") : "")).toLowerCase();
+        const matchesSearch = !s || userId.includes(s) || name.includes(s) || email.includes(s) || assigned.includes(s);
 
         const roleVal = r["Role"] || r["App Access"] || "";
         const matchesRole =
@@ -133,6 +134,23 @@ export default function UserMasterTable({
         setCopiedId(userId);
         setTimeout(() => setCopiedId(null), 2500);
     };
+
+    const formatUserPermissions = (r: Row) => {
+        const perms = [];
+        if (r["Can Submit Maintenance"] === "Yes") perms.push("Maintenance");
+        if (r["Can Submit Safety"] === "Yes") perms.push("Safety");
+        if (r["Can Approve Close"] === "Yes") perms.push("Approver");
+        if (r["Can Add Machine"] === "Yes") perms.push("Add Machine");
+        if (r["Can Edit Machine"] === "Yes") perms.push("Edit Machine");
+        return perms.join(", ") || "Standard";
+    };
+
+    const formatAssignedMachines = (r: Row) => {
+        const raw = (r as any).assignedMachines || r["Assigned Machines"] || "";
+        if (Array.isArray(raw)) return raw.join(", ") || "None";
+        return String(raw || "").trim() || "None";
+    };
+
 
     return (
         <div className="space-y-3 w-full">
@@ -219,6 +237,7 @@ export default function UserMasterTable({
                                 ✕ Clear Filters
                             </button>
                         )}
+
                     </div>
                 </div>
             </div>
@@ -233,15 +252,16 @@ export default function UserMasterTable({
                                 <th className="px-3.5 py-2.5 whitespace-nowrap w-[180px]">USER</th>
                                 <th className="px-3.5 py-2.5 whitespace-nowrap w-[220px]">LOGIN EMAIL</th>
                                 <th className="px-3.5 py-2.5 whitespace-nowrap w-[130px]">ROLE</th>
+                                <th className="px-3.5 py-2.5 whitespace-nowrap min-w-[170px]">ASSIGNED MACHINES</th>
                                 <th className="px-3.5 py-2.5 whitespace-nowrap w-[105px]">STATUS</th>
-                                <th className="px-3.5 py-2.5 whitespace-nowrap min-w-[200px]">PERMISSIONS</th>
+                                <th className="px-3.5 py-2.5 whitespace-nowrap min-w-[180px]">PERMISSIONS</th>
                                 <th className="px-3.5 py-2.5 text-right whitespace-nowrap w-[190px]">ACTIONS</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100 bg-white">
                             {pageRows.length === 0 ? (
                                 <tr>
-                                    <td colSpan={7} className="px-4 py-10 text-center text-slate-500">
+                                    <td colSpan={8} className="px-4 py-10 text-center text-slate-500">
                                         <div className="flex flex-col items-center justify-center gap-1">
                                             <span className="text-xl">👥</span>
                                             <span className="font-bold text-slate-700">No users found</span>
@@ -256,6 +276,11 @@ export default function UserMasterTable({
                                     const role = r["Role"] || r["App Access"] || "User";
                                     const email = r["Login Email"] || "—";
                                     const active = r["Active"] || "Yes";
+
+                                    const rawAssigned = (r as any).assignedMachines || r["Assigned Machines"] || [];
+                                    const assignedList: string[] = Array.isArray(rawAssigned)
+                                        ? rawAssigned
+                                        : String(rawAssigned || "").split(",").map((s: string) => s.trim()).filter(Boolean);
 
                                     const permissions = [];
                                     if (r["Can Submit Maintenance"] === "Yes") permissions.push("Maint");
@@ -306,6 +331,33 @@ export default function UserMasterTable({
                                                     <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2.5 py-0.5 text-[11px] font-semibold text-blue-700 border border-blue-200">
                                                         👤 Operator
                                                     </span>
+                                                )}
+                                            </td>
+
+                                            {/* ASSIGNED MACHINES */}
+                                            <td className="px-3.5 py-2 whitespace-nowrap">
+                                                {assignedList.length === 0 ? (
+                                                    <span className="text-[11px] text-slate-400 italic">None assigned</span>
+                                                ) : (
+                                                    <div className="flex flex-wrap items-center gap-1 max-w-[220px]">
+                                                        {assignedList.slice(0, 2).map((mId) => (
+                                                            <span
+                                                                key={mId}
+                                                                className="inline-flex items-center gap-1 rounded bg-sky-50 px-2 py-0.5 text-[10px] font-semibold text-sky-800 border border-sky-200"
+                                                                title={mId}
+                                                            >
+                                                                ⚙️ {mId}
+                                                            </span>
+                                                        ))}
+                                                        {assignedList.length > 2 && (
+                                                            <span
+                                                                className="rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-bold text-slate-600 border border-slate-200"
+                                                                title={assignedList.slice(2).join(", ")}
+                                                            >
+                                                                +{assignedList.length - 2}
+                                                            </span>
+                                                        )}
+                                                    </div>
                                                 )}
                                             </td>
 

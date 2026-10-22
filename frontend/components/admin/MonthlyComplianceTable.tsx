@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import type { Row } from "./UserMasterTable";
 
 interface MonthlyComplianceTableProps {
@@ -31,6 +31,7 @@ export default function MonthlyComplianceTable({
     const endIndex = Math.min(startIndex + pageSize, totalRecords);
     const pageRows = filtered.slice(startIndex, endIndex);
 
+
     // Pagination number buttons logic (1, 2, 3 ... totalPages)
     const getPageNumbers = () => {
         const pages: (number | string)[] = [];
@@ -50,9 +51,9 @@ export default function MonthlyComplianceTable({
 
     return (
         <div className="space-y-3.5 w-full font-sans antialiased">
-            {/* Search Toolbar */}
-            <div className="rounded-xl border border-slate-200 bg-white p-3.5 shadow-2xs">
-                <div className="relative">
+            {/* Search & Export Toolbar */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white p-3.5 shadow-2xs">
+                <div className="relative flex-1">
                     <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400 text-sm">🔍</span>
                     <input
                         type="text"

@@ -19,6 +19,7 @@ const FIELDS: (keyof Machine)[] = [
   "Serial No.",
   "Criticality",
   "Responsible Person",
+  "Assigned Users",
   "Status",
   "PM Frequency",
   "AMC Vendor",
@@ -159,6 +160,77 @@ export default function MachineLanding({
                 </div>
               ))}
             </div>
+
+            {/* Dedicated Assigned Personnel & Operators Section */}
+            {(() => {
+              let rawAssigned = (machine as any).assignedUsers;
+              if (!Array.isArray(rawAssigned) || rawAssigned.length === 0) {
+                if (machine["Assigned Users"]) {
+                  rawAssigned = typeof machine["Assigned Users"] === "string"
+                    ? machine["Assigned Users"].split(",").map((s: string) => s.trim()).filter(Boolean)
+                    : Array.isArray(machine["Assigned Users"]) ? machine["Assigned Users"] : [];
+                }
+              }
+              const assignedList: string[] = Array.isArray(rawAssigned)
+                ? Array.from(new Set(rawAssigned.map(String).map((s) => s.trim()).filter(Boolean)))
+                : [];
+              const userDetails: any[] = (machine as any).assignedUserDetails || [];
+
+              return (
+                <div className="rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50/40 via-white to-slate-50 p-5 shadow-xs space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="text-base">👥</span>
+                      <div>
+                        <h3 className="text-xs font-black text-slate-900 tracking-tight">Assigned Personnel &amp; Operators</h3>
+                        <p className="text-[11px] font-medium text-slate-500">
+                          Personnel authorized to operate, inspect, and service this machine
+                        </p>
+                      </div>
+                    </div>
+                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black bg-indigo-100 text-indigo-900 border border-indigo-200">
+                      {assignedList.length} Assigned
+                    </span>
+                  </div>
+
+                  {assignedList.length === 0 ? (
+                    <div className="text-xs text-slate-400 italic py-1">
+                      No users currently assigned to this machine.
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                      {assignedList.map((uId) => {
+                        const match = userDetails.find(
+                          (u: any) => String(u.userId || "").toUpperCase() === String(uId).toUpperCase()
+                        );
+                        const displayName = match && match.name && match.name !== uId ? match.name : uId;
+                        const role = match?.role || "Operator";
+                        const email = match?.email || "";
+                        return (
+                          <div key={uId} className="flex items-center justify-between rounded-xl border border-slate-200/90 bg-white p-3 shadow-2xs">
+                            <div className="flex items-center gap-2.5 min-w-0">
+                              <div className="h-8 w-8 rounded-full bg-indigo-100 text-indigo-800 flex items-center justify-center font-bold text-xs shrink-0">
+                                👤
+                              </div>
+                              <div className="min-w-0">
+                                <div className="text-xs font-black text-slate-900 truncate">{displayName}</div>
+                                <div className="text-[11px] font-mono font-medium text-slate-500 flex items-center gap-1.5 truncate">
+                                  <span className="bg-slate-100 px-1 py-0.2 rounded text-[10px]">{uId}</span>
+                                  {email && <span className="truncate">· {email}</span>}
+                                </div>
+                              </div>
+                            </div>
+                            <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-200 shrink-0">
+                              {role}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
           </section>
         )}
 

@@ -1,19 +1,9 @@
-import { redirect } from "next/navigation";
-import { getSessionUser } from "@/lib/auth";
 import SupervisorDashboard from "@/components/supervisor/SupervisorDashboard";
+import { loadSupervisorPortalProps } from "@/lib/supervisorData";
 
 export const dynamic = "force-dynamic";
 
 export default async function SupervisorChecklistsPage() {
-    const user = await getSessionUser();
-    if (!user) {
-        redirect("/login");
-    }
-
-    return (
-        <SupervisorDashboard
-            user={user}
-            initialTab="2. Checklist Master"
-        />
-    );
+    const props = await loadSupervisorPortalProps("checklist");
+    return <SupervisorDashboard {...props} />;
 }

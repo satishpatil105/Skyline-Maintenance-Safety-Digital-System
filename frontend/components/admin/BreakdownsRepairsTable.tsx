@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import type { Row } from "./UserMasterTable";
 
 interface BreakdownsRepairsTableProps {
@@ -56,6 +56,7 @@ export default function BreakdownsRepairsTable({
         }
         return pages;
     };
+
 
     return (
         <div className="space-y-3.5 w-full font-sans antialiased">
@@ -113,6 +114,7 @@ export default function BreakdownsRepairsTable({
                                 ✕ Clear
                             </button>
                         )}
+
                     </div>
                 </div>
             </div>

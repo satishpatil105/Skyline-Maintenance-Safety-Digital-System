@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import logoImg from "@/app/logo.png";
@@ -21,6 +21,13 @@ interface OperatorPortalProps {
     Location?: string;
     Status?: string;
   } | null;
+  assignedMachines?: Array<{
+    "Asset ID": string;
+    "Machine Name": string;
+    Department?: string;
+    Location?: string;
+    Status?: string;
+  }>;
   allMachines?: Array<{
     "Asset ID": string;
     "Machine Name": string;
@@ -34,8 +41,21 @@ export default function OperatorPortal({
   user,
   initialTab = "dashboard",
   assignedMachine = null,
+  assignedMachines = [],
   allMachines = [],
 }: OperatorPortalProps) {
+  const [currentMachine, setCurrentMachine] = useState(
+    assignedMachine || (assignedMachines.length > 0 ? assignedMachines[0] : null)
+  );
+
+  useEffect(() => {
+    if (assignedMachine) {
+      setCurrentMachine(assignedMachine);
+    } else if (assignedMachines.length > 0) {
+      setCurrentMachine(assignedMachines[0]);
+    }
+  }, [assignedMachine, assignedMachines]);
+
   const [showScanner, setShowScanner] = useState(false);
 
   type ActionTab = "hub" | "maintenance" | "safety" | "shift-checklist";
@@ -73,89 +93,95 @@ export default function OperatorPortal({
     priorityCounts: { Critical: 0, High: 0, Medium: 0, Low: 0 },
   });
 
-  useEffect(() => {
-    async function loadDashboardStats() {
-      try {
-        const [mRes, sRes] = await Promise.all([
-          fetch("/api/maintenance", { cache: "no-store" }),
-          fetch("/api/safety", { cache: "no-store" }),
-        ]);
-        const mJson = await mRes.json();
-        const sJson = await sRes.json();
+  const loadDashboardStats = useCallback(async () => {
+    try {
+      const [mRes, sRes] = await Promise.all([
+        fetch("/api/maintenance", { cache: "no-store" }),
+        fetch("/api/safety", { cache: "no-store" }),
+      ]);
+      const mJson = await mRes.json();
+      const sJson = await sRes.json();
 
-        const assignedAsset = (assignedMachine?.["Asset ID"] || user?.departmentMachine || "").trim().toLowerCase();
-        const assignedName = (assignedMachine?.["Machine Name"] || user?.departmentMachine || "").trim().toLowerCase();
+      const assignedAsset = (currentMachine?.["Asset ID"] || user?.departmentMachine || "").trim().toLowerCase();
+      const assignedName = (currentMachine?.["Machine Name"] || user?.departmentMachine || "").trim().toLowerCase();
 
-        let mRecords = mJson.success && Array.isArray(mJson.records) ? mJson.records : [];
-        let sRecords = sJson.success && Array.isArray(sJson.records) ? sJson.records : [];
+      // Strictly exclude routine checklist inspection records (CHK-...) so only genuine breakdown tickets are counted and shown
+      let mRecords = (mJson.success && Array.isArray(mJson.records) ? mJson.records : []).filter((r: any) => {
+        const id = String(r.recordId || r["Record ID"] || r.logId || r["Log ID"] || "");
+        const type = String(r.recordType || r["Record Type"] || r.maintenanceType || "").toLowerCase();
+        return !id.startsWith("CHK-") && type !== "inspection";
+      });
+      let sRecords = sJson.success && Array.isArray(sJson.records) ? sJson.records : [];
 
-        if (user?.role !== "Admin" && user?.role !== "Supervisor" && (assignedAsset || assignedName)) {
-          mRecords = mRecords.filter((r: any) => {
-            const rAsset = (r.assetId || r["Asset ID"] || "").trim().toLowerCase();
-            const rName = (r.machineName || r["Machine Name"] || r["Machine / Equipment"] || r["Machine"] || "").trim().toLowerCase();
-            return (assignedAsset && rAsset && (rAsset === assignedAsset || rAsset.includes(assignedAsset) || assignedAsset.includes(rAsset))) ||
-              (assignedName && rName && (rName === assignedName || rName.includes(assignedName) || assignedName.includes(rName)));
-          });
-
-          sRecords = sRecords.filter((r: any) => {
-            const rAsset = (r.assetId || r["Asset ID"] || "").trim().toLowerCase();
-            const rName = (r.machineName || r["Machine Name"] || r["Machine / Equipment"] || r["Machine"] || "").trim().toLowerCase();
-            return (assignedAsset && rAsset && (rAsset === assignedAsset || rAsset.includes(assignedAsset) || assignedAsset.includes(rAsset))) ||
-              (assignedName && rName && (rName === assignedName || rName.includes(assignedName) || assignedName.includes(rName)));
-          });
-        }
-
-        const openBreakdowns = mRecords.filter((r: any) => {
-          const st = (r.status || r["Status"] || "").toLowerCase();
-          return st === "open" || st === "in progress" || st === "pending";
-        }).length;
-
-        const safetyHazards = sRecords.filter((r: any) => {
-          const st = (r.status || r["Status"] || "").toLowerCase();
-          return st === "open" || st === "in progress" || st === "pending";
-        }).length;
-
-        const prioCounts = { Critical: 0, High: 0, Medium: 0, Low: 0 };
-        mRecords.forEach((r: any) => {
-          const p = (r.priority || r["Priority"] || "Medium").trim();
-          if (p in prioCounts) (prioCounts as any)[p]++;
-          else prioCounts.Medium++;
+      if (user?.role !== "Admin" && user?.role !== "Supervisor" && (assignedAsset || assignedName)) {
+        mRecords = mRecords.filter((r: any) => {
+          const rAsset = (r.assetId || r["Asset ID"] || "").trim().toLowerCase();
+          const rName = (r.machineName || r["Machine Name"] || r["Machine / Equipment"] || r["Machine"] || "").trim().toLowerCase();
+          return (assignedAsset && rAsset && (rAsset === assignedAsset || rAsset.includes(assignedAsset) || assignedAsset.includes(rAsset))) ||
+            (assignedName && rName && (rName === assignedName || rName.includes(assignedName) || assignedName.includes(rName)));
         });
 
-        const recent = [
-          ...mRecords.map((r: any) => ({
-            id: String(r.recordId || r["Record ID"] || "MNT-001"),
-            type: "Breakdown Ticket",
-            title: String(r.problem || r["Problem / Breakdown"] || r["Problem / Request"] || "Machine Maintenance"),
-            priority: String(r.priority || r["Priority"] || "Medium"),
-            status: String(r.status || r["Status"] || "Open"),
-            date: String(r.date || r["Date"] || (r.createdAt ? String(r.createdAt).slice(0, 10) : "Today")),
-          })),
-          ...sRecords.map((r: any) => ({
-            id: String(r.recordId || r["Record ID"] || "SAF-001"),
-            type: "Safety Hazard",
-            title: String(r.hazardDescription || r["Observation Details"] || "Safety Observation"),
-            priority: String(r.riskLevel || r["Risk Level"] || "Medium"),
-            status: String(r.status || r["Status"] || "Open"),
-            date: String(r.date || r["Date"] || (r.createdAt ? String(r.createdAt).slice(0, 10) : "Today")),
-          })),
-        ].sort((a, b) => String(b.date || "").localeCompare(String(a.date || ""))).slice(0, 5);
-
-        setStats({
-          openBreakdowns,
-          safetyHazards,
-          checklistsToday: 1,
-          totalMaintenance: mRecords.length,
-          totalSafety: sRecords.length,
-          recentActivity: recent,
-          priorityCounts: prioCounts,
+        sRecords = sRecords.filter((r: any) => {
+          const rAsset = (r.assetId || r["Asset ID"] || "").trim().toLowerCase();
+          const rName = (r.machineName || r["Machine Name"] || r["Machine / Equipment"] || r["Machine"] || "").trim().toLowerCase();
+          return (assignedAsset && rAsset && (rAsset === assignedAsset || rAsset.includes(assignedAsset) || assignedAsset.includes(rAsset))) ||
+            (assignedName && rName && (rName === assignedName || rName.includes(assignedName) || assignedName.includes(rName)));
         });
-      } catch (err) {
-        console.warn("Error loading dashboard stats", err);
       }
+
+      const openBreakdowns = mRecords.filter((r: any) => {
+        const st = (r.status || r["Status"] || "").toLowerCase();
+        return st === "open" || st === "in progress" || st === "pending";
+      }).length;
+
+      const safetyHazards = sRecords.filter((r: any) => {
+        const st = (r.status || r["Status"] || "").toLowerCase();
+        return st === "open" || st === "in progress" || st === "pending";
+      }).length;
+
+      const prioCounts = { Critical: 0, High: 0, Medium: 0, Low: 0 };
+      mRecords.forEach((r: any) => {
+        const p = (r.priority || r["Priority"] || "Medium").trim();
+        if (p in prioCounts) (prioCounts as any)[p]++;
+        else prioCounts.Medium++;
+      });
+
+      const recent = [
+        ...mRecords.map((r: any) => ({
+          id: String(r.recordId || r["Record ID"] || "BD-001"),
+          type: "Breakdown Ticket",
+          title: String(r.problem || r["Problem / Breakdown"] || r["Problem / Request"] || r["Breakdown Issue"] || "Machine Maintenance"),
+          priority: String(r.priority || r["Priority"] || "Medium"),
+          status: String(r.status || r["Status"] || "Open"),
+          date: String(r.date || r["Date"] || (r.createdAt ? String(r.createdAt).slice(0, 10) : "Today")),
+        })),
+        ...sRecords.map((r: any) => ({
+          id: String(r.recordId || r["Record ID"] || "SAF-001"),
+          type: "Safety Hazard",
+          title: String(r.hazardDescription || r["Observation Details"] || "Safety Observation"),
+          priority: String(r.riskLevel || r["Risk Level"] || "Medium"),
+          status: String(r.status || r["Status"] || "Open"),
+          date: String(r.date || r["Date"] || (r.createdAt ? String(r.createdAt).slice(0, 10) : "Today")),
+        })),
+      ].sort((a, b) => String(b.date || "").localeCompare(String(a.date || ""))).slice(0, 5);
+
+      setStats({
+        openBreakdowns,
+        safetyHazards,
+        checklistsToday: 1,
+        totalMaintenance: mRecords.length,
+        totalSafety: sRecords.length,
+        recentActivity: recent,
+        priorityCounts: prioCounts,
+      });
+    } catch (err) {
+      console.warn("Error loading dashboard stats", err);
     }
+  }, [currentMachine, user]);
+
+  useEffect(() => {
     loadDashboardStats();
-  }, [assignedMachine, user]);
+  }, [loadDashboardStats]);
 
   useEffect(() => {
     setActiveAction(getInitialAction(initialTab));
@@ -468,8 +494,52 @@ export default function OperatorPortal({
                   <p className="text-xs sm:text-sm text-slate-200 max-w-2xl mt-1">
                     Inspect your assigned workstation, complete shift checklists, report breakdown tickets, and log safety observations.
                   </p>
+
+                  {/* Multi-machine switcher for operators with > 1 machines assigned */}
+                  {assignedMachines.length > 1 && (
+                    <div className="mt-3.5 flex items-center gap-2.5 flex-wrap bg-white/10 backdrop-blur-xs p-2.5 rounded-xl border border-white/20">
+                      <span className="text-xs font-bold text-white flex items-center gap-1.5">
+                        <span>⚙️</span> Active Workstation:
+                      </span>
+                      <select
+                        value={currentMachine?.["Asset ID"] || ""}
+                        onChange={(e) => {
+                          const m = assignedMachines.find((x) => x["Asset ID"] === e.target.value);
+                          if (m) setCurrentMachine(m);
+                        }}
+                        className="rounded-lg bg-slate-900 text-white text-xs font-bold px-3 py-1.5 shadow-xs border border-white/20 outline-hidden cursor-pointer"
+                      >
+                        {assignedMachines.map((m) => (
+                          <option key={m["Asset ID"]} value={m["Asset ID"]}>
+                            {m["Asset ID"]} — {m["Machine Name"]} ({m.Department || "Plant"})
+                          </option>
+                        ))}
+                      </select>
+                      <span className="text-[11px] text-rose-200 font-medium">
+                        ({assignedMachines.length} machines assigned to you)
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
+
+              {/* Empty state alert when operator has 0 machines assigned */}
+              {!currentMachine && assignedMachines.length === 0 && (
+                <div className="rounded-2xl border-2 border-dashed border-amber-300 bg-amber-50/90 p-5 text-slate-800 space-y-2 shadow-xs">
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-2xl">⚠️</span>
+                    <div>
+                      <h3 className="font-extrabold text-amber-900 text-sm">No Machines Assigned</h3>
+                      <p className="text-xs text-amber-800 font-medium">
+                        Your user account ({user?.userId || user?.name}) currently has no machines assigned.
+                      </p>
+                    </div>
+                  </div>
+                  <p className="text-xs text-slate-600">
+                    To perform machine inspections, daily checklists, or raise breakdown work orders, please contact your supervisor or plant administrator to assign machines to your profile in <strong>User Management / Machine Master</strong>.
+                  </p>
+                </div>
+              )}
 
               {/* Stat Cards Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -478,10 +548,12 @@ export default function OperatorPortal({
                   <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">ASSIGNED MACHINE</span>
                   <div className="mt-2 flex items-center justify-between gap-2 flex-wrap">
                     <span className="text-base sm:text-lg font-black text-slate-900 truncate">
-                      {assignedMachine?.["Asset ID"] || "ALL STATIONS"}
+                      {currentMachine?.["Asset ID"] || "NO MACHINE"}
                     </span>
-                    <span className="text-[10px] font-extrabold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full border border-emerald-300 shrink-0">
-                      {assignedMachine?.Department || "Ready"}
+                    <span className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border shrink-0 ${
+                      currentMachine ? "text-emerald-800 bg-emerald-100 border-emerald-300" : "text-slate-600 bg-slate-100 border-slate-300"
+                    }`}>
+                      {currentMachine?.Department || "Unassigned"}
                     </span>
                   </div>
                 </div>
@@ -528,17 +600,17 @@ export default function OperatorPortal({
                       MY WORKSTATION
                     </span>
                     <h3 className="text-base font-black mt-2">
-                      {assignedMachine?.["Machine Name"] || "Machine Station Directory"}
+                      {currentMachine?.["Machine Name"] || "No Machine Assigned"}
                     </h3>
                     <p className="text-xs text-rose-100 mt-1">
-                      {assignedMachine?.["Asset ID"]
-                        ? `Asset ID: ${assignedMachine["Asset ID"]}`
-                        : "Select or scan any machine on the floor to inspect."}
+                      {currentMachine?.["Asset ID"]
+                        ? `Asset ID: ${currentMachine["Asset ID"]}`
+                        : "Contact your supervisor to assign a machine to your account."}
                     </p>
                   </div>
-                  {assignedMachine?.["Asset ID"] && (
+                  {currentMachine?.["Asset ID"] ? (
                     <Link
-                      href={`/operator/machine/${encodeURIComponent(assignedMachine["Asset ID"])}`}
+                      href={`/operator/machine/${encodeURIComponent(currentMachine["Asset ID"])}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="mt-4 inline-flex items-center gap-1.5 text-xs font-extrabold text-white bg-white/20 hover:bg-white hover:text-[#880b13] px-3.5 py-2 rounded-xl transition w-fit"
@@ -546,6 +618,10 @@ export default function OperatorPortal({
                       <span>Open Station</span>
                       <span>→</span>
                     </Link>
+                  ) : (
+                    <span className="mt-4 inline-block text-[11px] font-semibold text-rose-200">
+                      Unassigned
+                    </span>
                   )}
                 </div>
 
@@ -560,7 +636,7 @@ export default function OperatorPortal({
                     </p>
                   </div>
                   <Link
-                    href={assignedMachine?.["Asset ID"] ? `/operator/checklist/${encodeURIComponent(assignedMachine["Asset ID"])}` : "/operator/checklist"}
+                    href={currentMachine?.["Asset ID"] ? `/operator/checklist/${encodeURIComponent(currentMachine["Asset ID"])}` : "/operator/checklist"}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-4 inline-flex items-center gap-1.5 text-xs font-extrabold text-white bg-white/20 hover:bg-white hover:text-indigo-950 px-3.5 py-2 rounded-xl transition w-fit"
@@ -763,17 +839,20 @@ export default function OperatorPortal({
           {/* PAGE VIEW 2: BREAKDOWN TICKET */}
           {activeAction === "maintenance" && (
             <MaintenanceForm
-              machine={assignedMachine || ({} as Machine)}
+              machine={currentMachine || ({} as Machine)}
               user={user}
               showForm={showMaintenanceForm}
               onToggleForm={setShowMaintenanceForm}
+              onSaved={() => {
+                loadDashboardStats();
+              }}
             />
           )}
 
           {/* PAGE VIEW 3: SAFETY OBSERVATION */}
           {activeAction === "safety" && (
             <SafetyForm
-              machine={assignedMachine || ({} as Machine)}
+              machine={currentMachine || ({} as Machine)}
               user={user}
               showForm={showSafetyForm}
               onToggleForm={setShowSafetyForm}
@@ -796,7 +875,7 @@ export default function OperatorPortal({
                   </p>
                 </div>
                 <Link
-                  href={assignedMachine?.["Asset ID"] ? `/checklist/${encodeURIComponent(assignedMachine["Asset ID"])}` : "/checklist"}
+                  href={currentMachine?.["Asset ID"] ? `/checklist/${encodeURIComponent(currentMachine["Asset ID"])}` : "/checklist"}
                   className="px-4 py-2 bg-[#880b13] hover:bg-rose-700 text-white font-black text-xs rounded-xl shadow-md transition flex items-center gap-1.5"
                 >
                   <span>✏️ Open Full Interactive Checklist</span>

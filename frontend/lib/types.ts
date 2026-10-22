@@ -15,11 +15,39 @@ export interface Machine {
   "AMC Contact"?: string;
   "AMC Expiry"?: string;
   "Installation Date"?: string;
+  "QR Link"?: string;
   "Created At"?: string;
   "Last Updated"?: string;
+  assignedUsers?: string[];
+  "Assigned Users"?: string;
 }
 
-export type TableId = "machines" | "users" | "maintenance" | "safety";
+export interface Asset {
+  "Asset ID": string;
+  "Asset Name"?: string;
+  "Machine Name"?: string;
+  Category?: string;
+  Department?: string;
+  Location?: string;
+  Make?: string;
+  Model?: string;
+  "Serial No."?: string;
+  Criticality?: string;
+  "Responsible Person"?: string;
+  Status?: string;
+  "PM Frequency"?: string;
+  "AMC Vendor"?: string;
+  "AMC Contact"?: string;
+  "AMC Expiry"?: string;
+  "Installation Date"?: string;
+  "QR Link"?: string;
+  "Created At"?: string;
+  "Last Updated"?: string;
+  assignedUsers?: string[];
+  "Assigned Users"?: string;
+}
+
+export type TableId = "machines" | "assets" | "users" | "maintenance" | "safety";
 
 export interface UserRecord {
   "Login Email": string;
@@ -36,6 +64,8 @@ export interface UserRecord {
   department?: string;
   Mobile?: string;
   mobile?: string;
+  assignedMachines?: string[];
+  "Assigned Machines"?: string;
   // --- kept by the app in app-access.json, not in the spreadsheet ---
   /** "Admin" can do everything and opens the dashboard. */
   "App Access"?: "Admin" | "User" | string;
@@ -51,6 +81,22 @@ export interface UserRecord {
   "Can Edit Machine"?: "Yes" | "No" | string;
 }
 
+export interface MachineAssignment {
+  assignmentId: string;
+  userId: string;
+  userName?: string;
+  userRole?: string;
+  userEmail?: string;
+  assetId: string;
+  machineName?: string;
+  department?: string;
+  status: "Active" | "Removed";
+  assignedAt: string;
+  assignedBy: string;
+  removedAt?: string;
+  removedBy?: string;
+}
+
 export const PERMISSIONS = [
   "Can Submit Maintenance",
   "Can Submit Safety",
@@ -63,6 +109,7 @@ export type Permission = (typeof PERMISSIONS)[number];
 
 export interface MaintenanceRecord {
   recordId: string;
+  requestId?: string;
   recordType: string;
   date: string;
   assetId: string;
@@ -116,12 +163,42 @@ export interface SafetyRecord {
   closedBy: string;
 }
 
+export interface ChecklistRecord {
+  recordId: string;
+  submissionId?: string;
+  date: string;
+  shift?: string;
+  assetId: string;
+  machineName: string;
+  checklistId?: string;
+  templateId?: string;
+  checkPoint: string;
+  category?: string;
+  standardRequirement?: string;
+  frequency?: string;
+  response: string; // OK, Not OK, NA
+  status: string; // OK, Not OK, NA, PASSED, FAILED
+  remarks?: string;
+  actionIfNotOk?: string;
+  photoEvidence?: string;
+  operator?: string;
+  userName?: string;
+  userId?: string;
+  submittedBy?: string;
+  maintenanceTicketId?: string; // Linked breakdown/maintenance record ID if Not OK
+  createdAt?: string;
+  lastUpdated?: string;
+  [key: string]: any;
+}
+
 export interface Database {
   machines: Machine[];
+  assets?: Asset[];
   users: UserRecord[];
   maintenanceRecords: MaintenanceRecord[];
   safetyRecords: SafetyRecord[];
   checklists?: Array<Record<string, string>>;
+  checklistRecords?: ChecklistRecord[];
   pmParts?: Array<Record<string, string>>;
   documentRegister?: Array<Record<string, string>>;
   notifications?: Array<Record<string, string>>;

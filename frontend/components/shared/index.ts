@@ -7,3 +7,4 @@ export { default as StatusBanner } from "./StatusBanner";
 export { default as ChangePasswordForm } from "./ChangePasswordForm";
 export { default as ChecklistReminder } from "./ChecklistReminder";
 export { default as HomeClient } from "./HomeClient";
+export { default as ExportDropdown } from "./ExportDropdown";

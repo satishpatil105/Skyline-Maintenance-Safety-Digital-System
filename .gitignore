@@ -52,5 +52,10 @@ frontend/data/*.xlsx
 frontend/data/app-access.json
 frontend/data/backups/
 frontend/data/uploads/
+frontend/data/*backup*.json
+backend/data/*backup*.json
 frontend/public/uploads/*
 !frontend/public/uploads/.gitkeep
+
+# Local scratch and test artifacts
+scratch/

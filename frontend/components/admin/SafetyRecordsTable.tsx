@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import type { Row } from "./UserMasterTable";
 
 interface SafetyRecordsTableProps {
@@ -61,6 +61,7 @@ export default function SafetyRecordsTable({
         }
         return pages;
     };
+
 
     return (
         <div className="space-y-3.5 w-full font-sans antialiased">
@@ -133,6 +134,7 @@ export default function SafetyRecordsTable({
                                 Clear Filters
                             </button>
                         )}
+
                     </div>
                 </div>
             </div>

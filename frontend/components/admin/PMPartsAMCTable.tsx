@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import type { Row } from "./UserMasterTable";
 
 interface PMPartsAMCTableProps {
@@ -48,11 +48,12 @@ export default function PMPartsAMCTable({
         return pages;
     };
 
+
     return (
         <div className="space-y-3.5 w-full font-sans antialiased">
-            {/* Search Toolbar */}
-            <div className="rounded-xl border border-slate-200 bg-white p-3.5 shadow-2xs">
-                <div className="relative">
+            {/* Search & Export Toolbar */}
+            <div className="rounded-xl border border-slate-200 bg-white p-3.5 shadow-2xs flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+                <div className="relative flex-1">
                     <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400 text-sm">🔍</span>
                     <input
                         type="text"
@@ -73,6 +74,7 @@ export default function PMPartsAMCTable({
                         </button>
                     )}
                 </div>
+
             </div>
 
             {/* Main Table Grid */}

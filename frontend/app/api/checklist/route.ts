@@ -41,10 +41,14 @@ export const GET = safe(async (request: NextRequest) => {
 
   const assetId = request.nextUrl.searchParams.get("assetId") || "";
   if (!assetId) {
+    let machines = await listChecklistMachines();
+    if (auth.user.role !== "Admin") {
+      machines = machines.filter((m) => isMachineAuthorized(auth.user, m).allowed);
+    }
     return NextResponse.json({
       success: true,
       isWeeklyOff: isSunday(todayString()),
-      machines: await listChecklistMachines(),
+      machines,
     });
   }
 
@@ -89,7 +93,7 @@ export const POST = safe(async (request: NextRequest) => {
   // "Submitted by" is always the logged-in user, never something the browser claims.
   const result = await saveChecklist(
     { email: auth.user.email, name: auth.user.name },
-    { assetId, answers: body.answers }
+    { assetId, answers: body.answers, allowRecheck: Boolean(body.allowRecheck) }
   );
 
   return NextResponse.json(

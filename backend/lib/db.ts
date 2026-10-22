@@ -357,16 +357,38 @@ export async function bootstrapAdmin(email: string, password: string): Promise<U
 export async function findMachineByAssetId(
   assetId: string
 ): Promise<{ success: boolean; machine?: Machine; message?: string }> {
-  if (!assetId) {
+  if (!assetId || !String(assetId).trim()) {
     return { success: false, message: "Please enter an Asset ID." };
   }
 
   const db = await readDb();
-  const search = normalize(assetId);
+  const raw = String(assetId).trim();
+  const search = normalize(raw);
 
-  const machine = db.machines.find(
-    (m) => normalize(m["Asset ID"]) === search
-  );
+  let machine = (db.machines || []).find((m: any) => {
+    const aid = normalize(m["Asset ID"] || m.assetId || m["Machine ID"] || m.machineId || m.machineCode || "");
+    return aid === search;
+  });
+
+  if (!machine) {
+    machine = (db.machines || []).find((m: any) => {
+      const name = normalize(m["Machine Name"] || m.machineName || m.name || "");
+      const qr = normalize(m["QR Link"] || m["QR Legacy Link"] || "");
+      const serial = normalize(m["Serial No."] || m["Serial No"] || m.serialNo || "");
+      return (
+        name === search ||
+        serial === search ||
+        (qr && (qr === search || qr.endsWith(`/${search}`) || qr.includes(`/machine/${search}`)))
+      );
+    });
+  }
+
+  if (!machine && search.length >= 4) {
+    machine = (db.machines || []).find((m: any) => {
+      const aid = normalize(m["Asset ID"] || m.assetId || m["Machine ID"] || "");
+      return aid && (aid.includes(search) || search.includes(aid));
+    });
+  }
 
   if (!machine) {
     return { success: false, message: "Machine not found: " + assetId };
@@ -848,17 +870,39 @@ export function updateMachine(
 
 /** Machine plus its most recent maintenance/safety history, for the QR page. */
 export async function getMachineProfile(assetId: string) {
+  if (!assetId || !String(assetId).trim()) return null;
   const db = await readDb();
-  const search = normalize(assetId);
-  const machine =
-    db.machines.find((m) => normalize(m["Asset ID"]) === search) ||
-    db.machines.find((m) => normalize(m["Machine Name"]) === search) ||
-    db.machines.find(
-      (m) =>
-        normalize(m["Asset ID"]).includes(search) ||
-        search.includes(normalize(m["Asset ID"]))
-    );
+  const raw = String(assetId).trim();
+  const search = normalize(raw);
+
+  let machine = (db.machines || []).find((m: any) => {
+    const aid = normalize(m["Asset ID"] || m.assetId || m["Machine ID"] || m.machineId || m.machineCode || "");
+    return aid === search;
+  });
+
+  if (!machine) {
+    machine = (db.machines || []).find((m: any) => {
+      const name = normalize(m["Machine Name"] || m.machineName || m.name || "");
+      const qr = normalize(m["QR Link"] || m["QR Legacy Link"] || "");
+      const serial = normalize(m["Serial No."] || m["Serial No"] || m.serialNo || "");
+      return (
+        name === search ||
+        serial === search ||
+        (qr && (qr === search || qr.endsWith(`/${search}`) || qr.includes(`/machine/${search}`)))
+      );
+    });
+  }
+
+  if (!machine && search.length >= 4) {
+    machine = (db.machines || []).find((m: any) => {
+      const aid = normalize(m["Asset ID"] || m.assetId || m["Machine ID"] || "");
+      return aid && (aid.includes(search) || search.includes(aid));
+    });
+  }
+
   if (!machine) return null;
+
+  const canonId = normalize(machine["Asset ID"] || "");
 
   // Sheets filled in by hand may have no "Created At", so fall back to Date.
   const stamp = (r: { createdAt?: string; date?: string }) => r.createdAt || r.date || "";
@@ -867,11 +911,17 @@ export async function getMachineProfile(assetId: string) {
 
   return {
     machine,
-    maintenance: db.maintenanceRecords
-      .filter((r) => normalize(r.assetId) === search)
+    maintenance: (db.maintenanceRecords || [])
+      .filter((r) => {
+        const rId = normalize(r.assetId || (r as any)["Asset ID"] || "");
+        return (canonId && rId === canonId) || (search && rId === search);
+      })
       .sort(newestFirst),
-    safety: db.safetyRecords
-      .filter((r) => normalize(r.assetId) === search)
+    safety: (db.safetyRecords || [])
+      .filter((r) => {
+        const rId = normalize(r.assetId || (r as any)["Asset ID"] || "");
+        return (canonId && rId === canonId) || (search && rId === search);
+      })
       .sort(newestFirst),
   };
 }

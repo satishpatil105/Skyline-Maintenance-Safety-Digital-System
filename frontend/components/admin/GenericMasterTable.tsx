@@ -6,6 +6,7 @@ import type { Row } from "./UserMasterTable";
 interface GenericMasterTableProps {
     cols: string[];
     rows: Row[];
+    title?: string;
     onEdit: (row: Row) => void;
     onDelete: (row: Row) => void;
     renderStatusCell?: (colKey: string, val: string) => React.ReactNode;
@@ -14,6 +15,7 @@ interface GenericMasterTableProps {
 export default function GenericMasterTable({
     cols,
     rows,
+    title = "System Records",
     onEdit,
     onDelete,
     renderStatusCell,
@@ -301,6 +303,7 @@ export default function GenericMasterTable({
                             )}
                         </div>
                     )}
+
                 </div>
             </div>
 

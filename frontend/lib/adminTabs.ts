@@ -46,6 +46,25 @@ export async function listTabs(fresh = false) {
     rowCount: t.rows.length,
     columnCount: t.headers.filter(Boolean).length,
   }));
+
+  // Ensure Checklist Records module tab is always present in tab summaries
+  try {
+    const { readDb } = await import("./db");
+    const db = await readDb();
+    const chkCount = (db.checklistRecords || []).length;
+    const existing = summaries.find((s) => s.name.toLowerCase().includes("checklist record"));
+    if (existing) {
+      existing.rowCount = chkCount;
+    } else {
+      summaries.splice(5, 0, {
+        name: "Checklist Records",
+        known: null,
+        rowCount: chkCount,
+        columnCount: 11,
+      });
+    }
+  } catch {}
+
   return { store: store.describe(), tabs: summaries };
 }
 
@@ -93,10 +112,34 @@ export async function getTab(
 
     if (normReq.includes("machine")) {
       const machines = db.machines || [];
-      const headers = ["Asset ID", "Machine Name", "Category", "Department", "Location", "Make", "Model", "Serial No.", "Criticality", "Responsible Person", "Status", "PM Frequency", "AMC Vendor"];
+      const headers = [
+        "Asset ID",
+        "Machine Name",
+        "Category",
+        "Department",
+        "Location",
+        "Make",
+        "Model",
+        "Serial No.",
+        "Criticality",
+        "Responsible Person",
+        "Status",
+        "PM Frequency",
+        "AMC Vendor",
+        "AMC Contact",
+        "AMC Expiry",
+        "Installation Date",
+        "QR Link",
+      ];
       const rows = machines.map((item: any, idx: number) => ({
         row: idx + 2,
-        cells: headers.map((h) => String(item[h] ?? item[h.toLowerCase()] ?? "").trim()),
+        cells: headers.map((h) => {
+          if (h === "QR Link" && !item["QR Link"]) {
+            const aid = item["Asset ID"] || item["assetId"] || "";
+            return aid ? `http://localhost:3000/machine/${encodeURIComponent(aid)}` : "";
+          }
+          return String(item[h] ?? item[h.toLowerCase()] ?? "").trim();
+        }),
       }));
       return { tab: { name: "1. Machine Master", headers, rows } };
     }
@@ -113,20 +156,40 @@ export async function getTab(
 
     if (normReq.includes("maintenance")) {
       const records = db.maintenanceRecords || [];
-      const headers = ["Record ID", "Machine / Asset", "Problem / Breakdown", "Priority", "Assigned To", "Status", "Date"];
+      const headers = [
+        "Record ID",
+        "Date",
+        "Asset ID",
+        "Machine Name",
+        "User ID",
+        "User Name",
+        "Checklist ID",
+        "Problem / Breakdown",
+        "Priority",
+        "Assigned To",
+        "Action Taken",
+        "Status",
+        "Completion Date",
+      ];
       const rows = records.map((m: any, idx: number) => ({
         row: idx + 2,
         cells: [
-          m.recordId || m["Record ID"] || "",
-          `${m.machineName || ""} (${m.assetId || ""})`,
-          m.problem || m["Problem / Breakdown"] || "",
-          m.priority || m["Priority"] || "Normal",
-          m.assignedTo || m["Assigned To"] || "Unassigned",
-          m.status || m["Status"] || "Pending",
+          m.recordId || m["Record ID"] || m["Maintenance ID"] || `WO-${idx + 1}`,
           m.date || m["Date"] || "Today",
+          m.assetId || m["Asset ID"] || "",
+          m.machineName || m["Machine Name"] || "",
+          m.userId || m["User ID"] || "",
+          m.userName || m["User Name"] || m.submittedBy || "",
+          m.checklistId || m["Checklist ID"] || "",
+          m.problem || m["Problem / Breakdown"] || m["Problem"] || "",
+          m.priority || m["Priority"] || "Medium",
+          m.assignedTo || m["Assigned To"] || m.technicianName || "Unassigned",
+          m.actionTaken || m["Action Taken"] || m.correctiveAction || m["Corrective Action"] || "",
+          m.status || m["Status"] || "Open",
+          m.completionDate || m["Completion Date"] || "",
         ],
       }));
-      return { tab: { name: "4. Maintenance Log", headers, rows } };
+      return { tab: { name: "4. Maintenance Records", headers, rows } };
     }
 
     if (normReq.includes("safety")) {
@@ -147,17 +210,70 @@ export async function getTab(
       return { tab: { name: "5. Safety Record", headers, rows } };
     }
 
+    // Check if Checklist Records/Logs is requested
+    if (
+      normReq.includes("checklistrecord") ||
+      normReq.includes("checklistlog") ||
+      (normReq.includes("checklist") && (normReq.includes("record") || normReq.includes("log") || normReq.includes("audit") || normReq.includes("history")))
+    ) {
+      const records = rawDb.checklistRecords || [];
+      const headers = [
+        "Record ID",
+        "Date",
+        "Machine / Asset",
+        "Check Point",
+        "Frequency",
+        "Response / Status",
+        "Remarks",
+        "Action if Not OK",
+        "Operator",
+        "Maintenance Ticket",
+        "Photo Evidence",
+      ];
+      const rows = records.map((r: any, idx: number) => ({
+        row: idx + 2,
+        cells: [
+          r.recordId || r["Record ID"] || r["Log ID"] || "",
+          r.date || r["Date"] || "",
+          `${r.machineName || r["Machine Name"] || ""} (${r.assetId || r["Asset ID"] || ""})`,
+          r.checkPoint || r["Check Point"] || "",
+          r.frequency || r["Frequency"] || "Daily",
+          r.status || r["Status"] || r.response || "OK",
+          r.remarks || r["Remarks"] || "",
+          r.actionIfNotOk || r["Action if Not OK"] || "",
+          r.operator || r.userName || r["Operator"] || "",
+          r.maintenanceTicketId || r["Maintenance Ticket ID"] || "-",
+          r.photoEvidence || r["Photo Evidence"] || "",
+        ],
+      }));
+      return { tab: { name: "Checklist Records", headers, rows } };
+    }
+
     if (normReq.includes("checklist")) {
       const checklists = rawDb.checklists || [];
-      const headers = ["Asset ID / Machine", "Check Point", "Status", "Remarks / Value", "Shift / Date"];
+      const headers = [
+        "Asset ID",
+        "Category",
+        "Check Point",
+        "Standard Requirement",
+        "Frequency",
+        "Response",
+        "Required Photo",
+        "If Not OK Action",
+        "Active",
+      ];
       const rows = checklists.map((item: any, idx: number) => ({
         row: idx + 2,
         cells: [
-          item["Machine / Asset"] || item["Asset ID / Machine"] || item["Asset ID"] || item["Machine"] || item["Checklist ID"] || item["assetId"] || "",
-          item["Check Point / Task"] || item["Check Point"] || item["checkPoint"] || item["Task"] || "",
-          item["Status"] || item["status"] || "Active",
-          item["Standard Parameter"] || item["Remarks / Value"] || item["Remarks"] || item["remarks"] || item["Frequency"] || "",
-          item["Created Date"] || item["Shift / Date"] || item["Date"] || item["date"] || "Today",
+          item["Asset ID"] || item["Asset ID / Machine"] || item["Machine / Asset"] || item["Machine"] || item["assetId"] || "",
+          item["Category"] || item["category"] || "General",
+          item["Check Point"] || item["Check Point / Task"] || item["checkPoint"] || item["Task"] || "",
+          item["Standard Requirement"] || item["Standard / Requirement"] || item["Standard Parameter"] || item["standard"] || "Visual / Normal",
+          item["Frequency"] || item["frequency"] || "Daily",
+          item["Response"] || item["response"] || "OK / Not OK / NA",
+          item["Required Photo"] || item["requiredPhoto"] || "No",
+          item["If Not OK Action"] || item["IF Not ok Action"] || item["actionIfNotOk"] || "Report to Maintenance",
+          item["Active"] || item["Status"] || item["status"] || "Yes",
         ],
       }));
       return { tab: { name: "2. Checklist Master", headers, rows } };
@@ -488,11 +604,22 @@ export function createTabRow(name: string, cells: unknown): Promise<AdminResult>
         doc[`Field_${idx + 1}`] = val;
       });
       if (colName === "checklist_master") {
+        doc["Asset ID"] = cellArr[0] || "";
         doc["Asset ID / Machine"] = cellArr[0] || "";
-        doc["Check Point / Task"] = cellArr[1] || "";
-        doc["Status"] = cellArr[2] || "Active";
+        doc["Machine / Asset"] = cellArr[0] || "";
+        doc["Category"] = cellArr[1] || "General";
+        doc["Check Point"] = cellArr[2] || "";
+        doc["Check Point / Task"] = cellArr[2] || "";
+        doc["Standard Requirement"] = cellArr[3] || "";
         doc["Standard Parameter"] = cellArr[3] || "";
-        doc["Created Date"] = cellArr[4] || "Today";
+        doc["Standard / Requirement"] = cellArr[3] || "";
+        doc["Frequency"] = cellArr[4] || "Daily";
+        doc["Response"] = cellArr[5] || "OK / Not OK / NA";
+        doc["Required Photo"] = cellArr[6] || "No";
+        doc["If Not OK Action"] = cellArr[7] || "Report to Maintenance";
+        doc["Active"] = cellArr[8] || "Yes";
+        doc["Status"] = cellArr[8] || "Active";
+        doc["Created Date"] = new Date().toISOString().split("T")[0];
       } else if (colName === "spare_parts") {
         doc["Part ID"] = cellArr[0] || `PRT-${Date.now()}`;
         doc["Part Name"] = cellArr[1] || "";
@@ -661,6 +788,7 @@ export function updateTabRow(
     else if (normReq.includes("fire")) { colName = "fire_safety"; pkField = "Equipment ID"; }
     else if (normReq.includes("environmental") || normReq.includes("environment")) { colName = "environmental"; pkField = "Log ID"; }
     else if (normReq.includes("monthly") || normReq.includes("compliance")) { colName = "monthly_compliance"; pkField = "Compliance ID"; }
+    else if (normReq.includes("checklist")) { colName = "checklist_master"; pkField = "Check Point"; }
 
     if (mDb && colName) {
       // Build update doc from cells array — use pkField value from first cell for lookup
@@ -701,13 +829,42 @@ export function updateTabRow(
         updateDoc["Environmental Aspect"] = cellArr[1] || "";
         updateDoc["Monitoring Frequency"] = cellArr[2] || "";
         updateDoc["Observed Parameter"] = cellArr[3] || "";
-        updateDoc["Compliance Status"] = cellArr[4] || "✓ Compliant";
+      } else if (colName === "checklist_master") {
+        updateDoc["Asset ID"] = cellArr[0] || "";
+        updateDoc["Asset ID / Machine"] = cellArr[0] || "";
+        updateDoc["Category"] = cellArr[1] || "General";
+        updateDoc["Check Point"] = cellArr[2] || "";
+        updateDoc["Check Point / Task"] = cellArr[2] || "";
+        updateDoc["Standard Requirement"] = cellArr[3] || "";
+        updateDoc["Standard / Requirement"] = cellArr[3] || "";
+        updateDoc["Frequency"] = cellArr[4] || "Daily";
+        updateDoc["Response"] = cellArr[5] || "OK / Not OK / NA";
+        updateDoc["Required Photo"] = cellArr[6] || "No";
+        updateDoc["If Not OK Action"] = cellArr[7] || "Report to Maintenance";
+        updateDoc["Active"] = cellArr[8] || "Yes";
+        updateDoc["Status"] = cellArr[8] || "Active";
       } else {
         cellArr.forEach((val, i) => { updateDoc[`Field_${i + 1}`] = val; });
       }
 
       const pkVal = updateDoc[pkField] || cellArr[0];
-      if (pkVal) {
+
+      if (colName === "checklist_master") {
+        const originalCp = (Array.isArray(expected) && expected[2]) || pkVal;
+        const originalAsset = (Array.isArray(expected) && expected[0]) || updateDoc["Asset ID"];
+        await mDb.collection(colName).updateOne(
+          {
+            $or: [
+              ...(originalAsset && originalCp ? [{ "Check Point": originalCp, "Asset ID": originalAsset }] : []),
+              { "Check Point": originalCp },
+              { "Check Point / Task": originalCp },
+              { "Template ID": originalCp },
+            ],
+          },
+          { $set: { ...updateDoc, updatedAt: new Date().toISOString() } },
+          { upsert: true }
+        );
+      } else if (pkVal) {
         await mDb.collection(colName).updateOne(
           { [pkField]: pkVal },
           { $set: { ...updateDoc, updatedAt: new Date().toISOString() } },
@@ -733,11 +890,19 @@ export function updateTabRow(
 
       if (normReq.includes("checklist") && rawDb.checklists?.[idx]) {
         rawDb.checklists[idx] = {
-          "Asset ID / Machine": cellArr[0] || rawDb.checklists[idx]["Asset ID / Machine"],
-          "Check Point": cellArr[1] || rawDb.checklists[idx]["Check Point"],
-          "Status": cellArr[2] || rawDb.checklists[idx]["Status"],
-          "Remarks / Value": cellArr[3] || rawDb.checklists[idx]["Remarks / Value"],
-          "Shift / Date": cellArr[4] || rawDb.checklists[idx]["Shift / Date"],
+          ...rawDb.checklists[idx],
+          "Asset ID": cellArr[0] || rawDb.checklists[idx]["Asset ID"] || "",
+          "Asset ID / Machine": cellArr[0] || rawDb.checklists[idx]["Asset ID / Machine"] || "",
+          "Category": cellArr[1] || rawDb.checklists[idx]["Category"] || "General",
+          "Check Point": cellArr[2] || rawDb.checklists[idx]["Check Point"] || "",
+          "Check Point / Task": cellArr[2] || rawDb.checklists[idx]["Check Point / Task"] || "",
+          "Standard Requirement": cellArr[3] || rawDb.checklists[idx]["Standard Requirement"] || "",
+          "Frequency": cellArr[4] || rawDb.checklists[idx]["Frequency"] || "Daily",
+          "Response": cellArr[5] || rawDb.checklists[idx]["Response"] || "OK / Not OK / NA",
+          "Required Photo": cellArr[6] || rawDb.checklists[idx]["Required Photo"] || "No",
+          "If Not OK Action": cellArr[7] || rawDb.checklists[idx]["If Not OK Action"] || "Report to Maintenance",
+          "Active": cellArr[8] || rawDb.checklists[idx]["Active"] || "Yes",
+          "Status": cellArr[8] || rawDb.checklists[idx]["Status"] || "Active",
         };
       } else if ((normReq.includes("part") || normReq.includes("amc")) && rawDb.pmParts?.[idx]) {
         rawDb.pmParts[idx] = {
@@ -816,8 +981,27 @@ export function deleteTabRow(name: string, rowNumber: number, expected: unknown,
     else if (normReq.includes("maintenance")) targetCollection = "maintenance_records";
     else if (normReq.includes("safety")) targetCollection = "safety_records";
 
-    if (targetCollection && idToUse) {
-      await deleteRecordFromDb(targetCollection, idToUse);
+    if (targetCollection && (idToUse || (Array.isArray(expected) && expected.length > 0))) {
+      if (targetCollection === "checklist_master") {
+        const cp = (Array.isArray(expected) && expected[2]) || identifier || idToUse;
+        const asset = (Array.isArray(expected) && expected[0]) || "";
+        const filterConditions: any[] = [];
+        if (cp && asset) {
+          filterConditions.push({ "Check Point": cp, "Asset ID": asset });
+          filterConditions.push({ "Check Point / Task": cp, "Asset ID / Machine": asset });
+        }
+        if (cp) {
+          filterConditions.push({ "Check Point": cp });
+          filterConditions.push({ "Check Point / Task": cp });
+          filterConditions.push({ "Template ID": cp });
+        }
+        if (asset && filterConditions.length === 0) {
+          filterConditions.push({ "Asset ID": asset });
+        }
+        await deleteRecordFromDb(targetCollection, filterConditions.length > 0 ? { $or: filterConditions } : idToUse);
+      } else {
+        await deleteRecordFromDb(targetCollection, idToUse);
+      }
     }
 
     if (

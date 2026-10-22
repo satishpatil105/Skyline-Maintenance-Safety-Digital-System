@@ -303,40 +303,108 @@ export interface CategoryStat {
 }
 
 export async function safetyOverview(): Promise<CategoryStat[]> {
-  const tabs = await getStore().readAll();
-  const now = todayOf();
-  return CATEGORIES.map((c) => {
-    const tab = findDeptTab(tabs, c);
-    const stat: CategoryStat = { id: c.id, label: c.label, blurb: c.blurb, exists: !!tab, total: 0, open: 0, overdue: 0, highRisk: 0 };
-    if (!tab) return stat;
+  try {
+    const { getMongoDb } = await import("./mongodb");
+    const mongoDb = await Promise.race([
+      getMongoDb(),
+      new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error("safetyOverview mongo timeout")), 10000)
+      ),
+    ]);
+    const [fire, emp, hira, env, other] = await Promise.race([
+      Promise.all([
+        mongoDb.collection("fire_safety").find({}).toArray().catch(() => []),
+        mongoDb.collection("employee_safety").find({}).toArray().catch(() => []),
+        mongoDb.collection("hira").find({}).toArray().catch(() => []),
+        mongoDb.collection("environmental").find({}).toArray().catch(() => []),
+        mongoDb.collection("other_safety").find({}).toArray().catch(() => []),
+      ]),
+      new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error("safetyOverview query timeout")), 10000)
+      ),
+    ]);
 
-    const cols = columnMap(tab);
-    for (const row of tab.rows) {
-      const r = toRecord(c, row, cols, now);
-      if (!r.recordId && !r.title) continue;
-      stat.total++;
-      if (FINISHED.test(r.status)) continue;
-      stat.open++;
-      if (r.overdue) stat.overdue++;
-      if (c.id === "hira" && /^(high|critical)$/i.test(r.values["Risk Rating"])) stat.highRisk++;
-    }
-    return stat;
-  });
+    const stats: CategoryStat[] = [
+      {
+        id: "fire",
+        label: "Fire Safety",
+        blurb: "Fire extinguishers, hydrants & alarms",
+        exists: true,
+        total: fire.length,
+        open: fire.filter((r: any) => !/closed|completed|ok|passed/i.test(r.status || r["Compliance Status"] || "")).length,
+        overdue: 0,
+        highRisk: 0,
+      },
+      {
+        id: "employee",
+        label: "Employee Safety",
+        blurb: "PPE, incidents & near misses",
+        exists: true,
+        total: emp.length,
+        open: emp.filter((r: any) => !/closed|completed|resolved/i.test(r.status || r.Status || "")).length,
+        overdue: 0,
+        highRisk: 0,
+      },
+      {
+        id: "hira",
+        label: "HIRA",
+        blurb: "Hazard identification & risk assessments",
+        exists: true,
+        total: hira.length,
+        open: hira.length,
+        overdue: 0,
+        highRisk: hira.filter((r: any) => /high|critical/i.test(r["Initial Risk Rating"] || r["Residual Risk Rating"] || r.riskLevel || "")).length,
+      },
+      {
+        id: "environmental",
+        label: "Environmental",
+        blurb: "Waste, emissions & spill compliance",
+        exists: true,
+        total: env.length,
+        open: env.filter((r: any) => !/compliant|closed|ok/i.test(r.Status || r.status || "")).length,
+        overdue: 0,
+        highRisk: 0,
+      },
+      {
+        id: "other",
+        label: "Other Safety",
+        blurb: "General safety observations",
+        exists: true,
+        total: other.length,
+        open: other.filter((r: any) => !/closed|completed|ok/i.test(r["Audit Status"] || r.status || "")).length,
+        overdue: 0,
+        highRisk: 0,
+      },
+    ];
+
+    return stats;
+  } catch (err) {
+    console.warn("[safetyOverview] Fast query fallback:", err);
+    return [];
+  }
 }
 
 // ------------------------------------------------------------------ writing
 
+let safetyTabsEnsured = false;
+
 /** Create any missing Safety Department tabs (harmless when they all exist). */
 export function ensureSafetyTabs(): Promise<void> {
+  if (safetyTabsEnsured) return Promise.resolve();
   return withDbLock(async () => {
+    if (safetyTabsEnsured) return;
     const store = getStore();
-    const tabs = await store.readAll({ fresh: true });
+    const tabs = await store.readAll();
     if (!tabs.length) return; // the workbook isn't created yet
     const missing = CATEGORIES.filter((c) => !findDeptTab(tabs, c));
-    if (!missing.length) return;
+    if (!missing.length) {
+      safetyTabsEnsured = true;
+      return;
+    }
     await store.apply(
       missing.map((c) => ({ type: "ensureTab" as const, tab: c.tab, headers: headersFor(c), dropdowns: dropdownsFor(c) }))
     );
+    safetyTabsEnsured = true;
   });
 }
 

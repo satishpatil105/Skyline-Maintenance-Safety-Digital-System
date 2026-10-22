@@ -69,7 +69,7 @@ export default function ChecklistReminder() {
         </div>
 
         <p className="mt-2 rounded-lg border border-blue-200 bg-blue-50/80 p-3 text-sm text-blue-900 leading-relaxed">
-          <strong>Sunday is a weekly off.</strong> No checklist filling or daily inspections are pending today. All routine checkpoints will resume on Monday.
+          <strong>Sunday is a weekly off.</strong> Factory operates on <strong>General Shift: 9:00 AM – 8:00 PM (Monday to Saturday)</strong>. No checklist filling or daily inspections are pending today. All routine checkpoints will resume on Monday at 9:00 AM.
         </p>
 
         {dueTomorrow > 0 && (

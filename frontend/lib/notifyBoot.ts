@@ -17,7 +17,7 @@ interface BootState {
 const holder = globalThis as unknown as { __skylineNotify?: BootState };
 const state: BootState = (holder.__skylineNotify ??= {});
 
-const enabled = () => (process.env.NOTIFY_AUTO ?? "on").toLowerCase() !== "off";
+const enabled = () => (process.env.NOTIFY_AUTO ?? "off").toLowerCase() === "on";
 
 async function run(reason: string): Promise<void> {
   try {

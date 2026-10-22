@@ -13,6 +13,7 @@ export interface SessionUser {
   name: string;
   role: "Admin" | "Supervisor" | "Operator" | "User" | string;
   departmentMachine?: string;
+  assignedMachines?: string[];
   permissions: Permission[];
 }
 
@@ -84,12 +85,23 @@ export function toSessionUser(user: UserRecord): SessionUser {
     role = "Operator";
   }
 
+  let assignedMachines: string[] = [];
+  if (Array.isArray(user.assignedMachines)) {
+    assignedMachines = user.assignedMachines.map((m) => String(m).trim()).filter(Boolean);
+  } else if (user["Assigned Machines"]) {
+    assignedMachines = String(user["Assigned Machines"])
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+  }
+
   return {
     email: user["Login Email"],
     userId: user["User ID"],
     name: user.Name || user["Login Email"],
     role,
     departmentMachine: user["Department / Machine"] || "",
+    assignedMachines,
     permissions: permissionsFor(user),
   };
 }
@@ -136,79 +148,187 @@ function expandDepartmentTokens(dept: string): string[] {
 }
 
 /**
- * Validates whether an operator is authorized to open or access a specific machine.
- * Admins can access all machines. Operators can ONLY open their assigned machine.
+ * Validates whether a user is authorized to access or perform operations on a specific machine.
+ * - Admins can access all machines.
+ * - Operators and technicians can ONLY access machines assigned to them.
+ * - Supervisors can access assigned machines + machines in their authorized scope/department.
+ * - Users without assignments see a clear unauthorized message.
  */
 export function isMachineAuthorized(
   user: SessionUser | null | undefined,
   machine:
-    | { "Asset ID"?: string; "Machine Name"?: string; Category?: string; Department?: string; assetId?: string; name?: string }
+    | { "Asset ID"?: string; "Machine Name"?: string; Category?: string; Department?: string; Status?: string; status?: string; assetId?: string; name?: string }
     | string
     | null
     | undefined
 ): { allowed: boolean; reason?: string } {
   if (!user) return { allowed: false, reason: "Please sign in to access this machine." };
   const roleLower = (user.role || "").toLowerCase();
-  if (roleLower === "admin" || roleLower === "supervisor") return { allowed: true };
-
-  const dept = (user.departmentMachine || "").trim().toLowerCase();
-  if (!dept) {
-    // If no specific machine is assigned to this user, allow general access
-    return { allowed: true };
-  }
+  if (roleLower === "admin") return { allowed: true };
 
   if (!machine) return { allowed: false, reason: "Machine not found." };
 
   const machineObj =
     typeof machine === "string"
-      ? { "Asset ID": machine, "Machine Name": machine, Category: "", Department: "" }
+      ? { "Asset ID": machine, "Machine Name": machine, Category: "", Department: "", Status: "Active" }
       : machine;
 
-  const assetId = ((machineObj["Asset ID"] || (machineObj as any).assetId || "") as string).toLowerCase();
-  const name = ((machineObj["Machine Name"] || (machineObj as any).name || "") as string).toLowerCase();
-  const cat = (((machineObj as any).Category || "") as string).toLowerCase();
-  const machineDept = (((machineObj as any).Department || "") as string).toLowerCase();
+  // Rule 9: If a machine is inactive, prevent new operational work
+  const mStatus = String(machineObj.Status || (machineObj as any).status || "").toLowerCase();
+  if (mStatus.includes("inact") || mStatus.includes("decomm") || mStatus.includes("disabl")) {
+    return {
+      allowed: false,
+      reason: "This machine is currently marked Inactive. Operational work is disabled for inactive machines.",
+    };
+  }
 
-  // Extract keywords & abbreviations: e.g. "laser" -> "lsr", "bending" -> "bnd"
-  const tokens = expandDepartmentTokens(dept);
+  const assetId = ((machineObj["Asset ID"] || (machineObj as any).assetId || "") as string).trim().toUpperCase();
+  const name = ((machineObj["Machine Name"] || (machineObj as any).name || "") as string).trim();
+  const machineDept = (((machineObj as any).Department || "") as string).trim().toLowerCase();
 
-  const matches =
-    dept === name ||
-    dept === assetId ||
-    dept === cat ||
-    name.includes(dept) ||
-    dept.includes(name) ||
-    (tokens.length > 0 &&
-      tokens.some(
-        (token) =>
-          name.includes(token) ||
-          cat.includes(token) ||
-          assetId.includes(token) ||
-          machineDept.includes(token)
-      ));
+  const assigned = (user.assignedMachines || []).map((m) => m.trim().toUpperCase());
 
-  if (matches) {
-    return { allowed: true };
+  // 1. Direct match on assigned machine IDs or names
+  if (assigned.length > 0) {
+    const isDirectlyAssigned = assigned.some(
+      (mId) =>
+        mId === assetId ||
+        mId === name.toUpperCase() ||
+        (assetId && assetId.includes(mId)) ||
+        (mId && assetId.includes(mId))
+    );
+    if (isDirectlyAssigned) {
+      return { allowed: true };
+    }
+  }
+
+  // 2. Supervisor authorization scope: assigned machines OR authorized department scope
+  if (roleLower === "supervisor") {
+    const supDept = (user.departmentMachine || "").trim().toLowerCase();
+    if (!supDept || supDept === "all" || supDept === "management") {
+      return { allowed: true };
+    }
+    const tokens = expandDepartmentTokens(supDept);
+    if (
+      supDept === machineDept ||
+      machineDept.includes(supDept) ||
+      tokens.some((t) => machineDept.includes(t) || name.toLowerCase().includes(t))
+    ) {
+      return { allowed: true };
+    }
+    return {
+      allowed: false,
+      reason: `Access Restricted: This machine is outside your authorized supervision scope (${user.departmentMachine}).`,
+    };
+  }
+
+  // 3. Operators & technicians: strictly assigned machines only
+  if (assigned.length === 0) {
+    // Check legacy department/machine field as a graceful fallback if present
+    const dept = (user.departmentMachine || "").trim().toLowerCase();
+    if (dept) {
+      const tokens = expandDepartmentTokens(dept);
+      const matches =
+        dept === name.toLowerCase() ||
+        dept === assetId.toLowerCase() ||
+        name.toLowerCase().includes(dept) ||
+        (tokens.length > 0 && tokens.some((t) => name.toLowerCase().includes(t) || assetId.toLowerCase().includes(t)));
+      if (matches) return { allowed: true };
+    }
+    return {
+      allowed: false,
+      reason: "No machines have been assigned to your account. Please contact your supervisor or administrator.",
+    };
   }
 
   return {
     allowed: false,
-    reason: `Access Restricted: You are assigned strictly to ${user.departmentMachine}. Another machine cannot be opened.`,
+    reason: `Access Restricted: You are assigned to [${user.assignedMachines?.join(", ")}]. You are not authorized for machine ${assetId || name}.`,
   };
 }
 
 /**
- * Finds the Machine record corresponding to an operator's assigned department/machine.
+ * Finds all Machine records assigned to a user.
+ */
+export async function findMachinesForUser(user: SessionUser | UserRecord): Promise<Machine[]> {
+  let machines: Machine[] = [];
+  try {
+    const { getMongoDb } = await import("./mongodb");
+    const mongoDb = await getMongoDb();
+    const rawMachines = await mongoDb.collection("machines").find({}).toArray();
+    if (rawMachines && rawMachines.length > 0) {
+      machines = rawMachines.map((m) => {
+        const { _id, ...rest } = m;
+        return rest as unknown as Machine;
+      });
+    }
+  } catch {
+    const db = await readDb();
+    machines = db.machines || [];
+  }
+
+  const assignedList = "assignedMachines" in user && Array.isArray(user.assignedMachines)
+    ? user.assignedMachines
+    : (user as UserRecord)["Assigned Machines"]
+      ? String((user as UserRecord)["Assigned Machines"]).split(",").map((s) => s.trim()).filter(Boolean)
+      : [];
+
+  if (assignedList.length > 0) {
+    const upperList = assignedList.map((id) => id.toUpperCase());
+    const matched = machines.filter((m) => {
+      const aid = (m["Asset ID"] || "").toUpperCase();
+      const mName = (m["Machine Name"] || "").toUpperCase();
+      return upperList.includes(aid) || upperList.includes(mName);
+    });
+    if (matched.length > 0) return matched;
+  }
+
+  // Fallback to department matching
+  const single = await findMachineForUser(user);
+  return single ? [single] : [];
+}
+
+/**
+ * Finds the primary Machine record corresponding to an operator's assigned machine.
  */
 export async function findMachineForUser(user: SessionUser | UserRecord): Promise<Machine | null> {
+  let machines: Machine[] = [];
+  try {
+    const { getMongoDb } = await import("./mongodb");
+    const mongoDb = await getMongoDb();
+    const rawMachines = await mongoDb.collection("machines").find({}).toArray();
+    if (rawMachines && rawMachines.length > 0) {
+      machines = rawMachines.map((m) => {
+        const { _id, ...rest } = m;
+        return rest as unknown as Machine;
+      });
+    }
+  } catch {
+    const db = await readDb();
+    machines = db.machines || [];
+  }
+
+  // 1. Check assignedMachines first
+  const assignedList = "assignedMachines" in user && Array.isArray(user.assignedMachines)
+    ? user.assignedMachines
+    : (user as UserRecord)["Assigned Machines"]
+      ? String((user as UserRecord)["Assigned Machines"]).split(",").map((s) => s.trim()).filter(Boolean)
+      : [];
+
+  if (assignedList.length > 0) {
+    const firstId = assignedList[0].trim().toUpperCase();
+    const found = machines.find((m) => (m["Asset ID"] || "").toUpperCase() === firstId);
+    if (found) return found;
+  }
+
+  // 2. Fallback to department/machine string matching
   const deptRaw = "departmentMachine" in user ? user.departmentMachine : (user as UserRecord)["Department / Machine"];
   const dept = String(deptRaw || "").trim().toLowerCase();
   if (!dept) return null;
 
-  const db = await readDb();
   const tokens = expandDepartmentTokens(dept);
 
-  const match = db.machines.find((m) => {
+  const match = machines.find((m) => {
     const assetId = (m["Asset ID"] || "").toLowerCase();
     const name = (m["Machine Name"] || "").toLowerCase();
     const cat = (m.Category || "").toLowerCase();

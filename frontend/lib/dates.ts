@@ -83,3 +83,55 @@ export function skipSunday(date: string): string {
   if (!date) return date;
   return isSunday(date) ? addDays(date, 1) : date;
 }
+
+// ----------------------------------------------------------------- Factory Shift & Weekly Off
+export const GENERAL_SHIFT_START_HOUR = 9;  // 09:00 AM
+export const GENERAL_SHIFT_END_HOUR = 20;   // 08:00 PM (20:00)
+export const SHIFT_NAME = "General Shift";
+export const SHIFT_HOURS_LABEL = "9:00 AM – 8:00 PM";
+export const WEEKLY_OFF_DAY = "Sunday";
+
+export interface FactoryShiftInfo {
+  name: string;
+  hours: string;
+  startHour: number;
+  endHour: number;
+  weeklyOff: string;
+  isSunday: boolean;
+  isWithinShiftHours: boolean;
+  statusLabel: string;
+}
+
+/**
+ * Returns factory operating shift and Sunday weekly off schedule.
+ * General Shift: 9:00 AM to 8:00 PM (Monday – Saturday).
+ * Weekly Off: Sunday (Checklist submissions are closed).
+ */
+export function getFactoryShiftInfo(nowDate: Date = new Date()): FactoryShiftInfo {
+  const hours = nowDate.getHours();
+  const day = nowDate.getDay(); // 0 is Sunday
+  const isSun = day === 0;
+  const isWithinHours = !isSun && hours >= GENERAL_SHIFT_START_HOUR && hours < GENERAL_SHIFT_END_HOUR;
+
+  let statusLabel = "";
+  if (isSun) {
+    statusLabel = "Sunday (Weekly Off) — Checklist Filling Closed";
+  } else if (isWithinHours) {
+    statusLabel = "General Shift Active (9:00 AM – 8:00 PM)";
+  } else if (hours < GENERAL_SHIFT_START_HOUR) {
+    statusLabel = "Before General Shift (Starts at 9:00 AM)";
+  } else {
+    statusLabel = "After General Shift (Ended at 8:00 PM)";
+  }
+
+  return {
+    name: SHIFT_NAME,
+    hours: SHIFT_HOURS_LABEL,
+    startHour: GENERAL_SHIFT_START_HOUR,
+    endHour: GENERAL_SHIFT_END_HOUR,
+    weeklyOff: WEEKLY_OFF_DAY,
+    isSunday: isSun,
+    isWithinShiftHours: isWithinHours,
+    statusLabel,
+  };
+}

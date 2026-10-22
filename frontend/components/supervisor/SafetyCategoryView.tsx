@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import SafetySidebar from "./SafetySidebar";
 import SafetyDeptClient from "@/components/supervisor/SafetyDeptClient";
+import HiraModule from "@/components/hira/HiraModule";
 import MachineQrScannerModal from "@/components/operator/MachineQrScannerModal";
 import type { SessionUser } from "@/lib/auth";
 import type { DeptCategory } from "@/lib/safetyDeptConfig";
@@ -90,8 +91,8 @@ export default function SafetyCategoryView({ user, category, canSubmit, canClose
                             <span className="hidden sm:inline">Scan Machine QR</span>
                         </button>
 
-                        {/* TOP-RIGHT + NEW RECORD BUTTON */}
-                        {canSubmit && (
+                        {/* TOP-RIGHT + NEW RECORD BUTTON (For non-HIRA categories) */}
+                        {canSubmit && category.id !== "hira" && (
                             <button
                                 type="button"
                                 onClick={() => setShowForm((s) => !s)}
@@ -105,13 +106,17 @@ export default function SafetyCategoryView({ user, category, canSubmit, canClose
 
                 {/* MAIN BODY CONTENT */}
                 <main className="flex-1 p-4 sm:p-6 max-w-7xl w-full mx-auto space-y-6">
-                    <SafetyDeptClient
-                        category={category.id}
-                        canSubmit={canSubmit}
-                        canClose={canClose}
-                        externalShowForm={showForm}
-                        onToggleForm={() => setShowForm((s) => !s)}
-                    />
+                    {category.id === "hira" ? (
+                        <HiraModule user={user} />
+                    ) : (
+                        <SafetyDeptClient
+                            category={category.id}
+                            canSubmit={canSubmit}
+                            canClose={canClose}
+                            externalShowForm={showForm}
+                            onToggleForm={() => setShowForm((s) => !s)}
+                        />
+                    )}
                 </main>
             </div>
 

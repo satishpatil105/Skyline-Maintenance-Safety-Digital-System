@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import OperatorPortal from "@/components/operator/OperatorPortal";
-import { findMachineForUser, getDashboardForRole, getSessionUser } from "@/lib/auth";
+import { findMachineForUser, findMachinesForUser, getDashboardForRole, getSessionUser } from "@/lib/auth";
 import { readDb } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
@@ -21,9 +21,10 @@ export default async function OperatorSlugPage({
         redirect(getDashboardForRole(user.role));
     }
 
-    const [db, assignedMachine] = await Promise.all([
+    const [db, assignedMachine, assignedMachines] = await Promise.all([
         readDb(),
         findMachineForUser(user),
+        findMachinesForUser(user),
     ]);
 
     const allMachines = (db.machines || []).map((m) => ({
@@ -38,7 +39,8 @@ export default async function OperatorSlugPage({
         <OperatorPortal
             user={user}
             initialTab={params?.slug || "dashboard"}
-            assignedMachine={assignedMachine || null}
+            assignedMachine={assignedMachine || (assignedMachines.length > 0 ? assignedMachines[0] : null)}
+            assignedMachines={assignedMachines}
             allMachines={allMachines}
         />
     );

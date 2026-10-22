@@ -8,10 +8,10 @@ import PhotoInput from "./PhotoInput";
 import StatusBanner, { StatusType } from "@/components/shared/StatusBanner";
 
 const MAINTENANCE_TYPES = [
-  "Preventive Maintenance",
   "Breakdown Maintenance",
+  "Emergency Repair",
   "Corrective Maintenance",
-  "Inspection",
+  "Preventive Maintenance",
   "Lubrication",
   "Calibration",
   "Other",
@@ -120,7 +120,7 @@ export default function MaintenanceForm({
     userName: user?.name || "",
     assignedTo: initialMachine["Responsible Person"] || user?.name || "",
     technicianName: user?.name || "",
-    maintenanceType: "Corrective Maintenance",
+    maintenanceType: "Breakdown Maintenance",
     maintenanceDate: today,
     priority: "Medium",
     status: "Open",
@@ -161,6 +161,13 @@ export default function MaintenanceForm({
       const res = await fetch("/api/maintenance");
       const json = await res.json();
       if (json.success && Array.isArray(json.records)) {
+        // Strictly exclude routine checklist inspection records (CHK-...) so only genuine breakdown tickets appear
+        const cleanBreakdownRecords = json.records.filter((r: any) => {
+          const id = String(r.recordId || r["Record ID"] || r.logId || r["Log ID"] || "");
+          const type = String(r.recordType || r["Record Type"] || r.maintenanceType || "").toLowerCase();
+          return !id.startsWith("CHK-") && type !== "inspection";
+        });
+
         const roleLower = (user?.role || "").toLowerCase();
         const isSuperOrAdmin = roleLower === "admin" || roleLower === "supervisor";
 
@@ -178,7 +185,7 @@ export default function MaintenanceForm({
         ).trim().toLowerCase();
 
         if (!isSuperOrAdmin && (assignedAsset || assignedName)) {
-          const filtered = json.records.filter((r: MaintenanceRecordItem) => {
+          const filtered = cleanBreakdownRecords.filter((r: MaintenanceRecordItem) => {
             const item = r as any;
             const rAsset = (item.assetId || item["Asset ID"] || "").trim().toLowerCase();
             const rName = (
@@ -204,7 +211,7 @@ export default function MaintenanceForm({
 
           setMyRecords(filtered);
         } else {
-          setMyRecords(json.records);
+          setMyRecords(cleanBreakdownRecords);
         }
       }
     } catch (e) {
@@ -245,8 +252,12 @@ export default function MaintenanceForm({
 
   function handleAssetIdChange(newAssetId: string) {
     setMachineData((prev) => ({ ...prev, assetId: newAssetId }));
+    const cleanId = newAssetId.trim().toLowerCase();
     const match = machinesList.find(
-      (m) => m.assetId.trim().toLowerCase() === newAssetId.trim().toLowerCase()
+      (m) =>
+        m.assetId.trim().toLowerCase() === cleanId ||
+        cleanId.includes(m.assetId.trim().toLowerCase()) ||
+        m.machineName.trim().toLowerCase() === cleanId
     );
     if (match) {
       setMachineData({
@@ -265,8 +276,12 @@ export default function MaintenanceForm({
 
   function handleUserIdChange(newUserId: string) {
     update("userId", newUserId);
+    const cleanUid = newUserId.trim().toLowerCase();
     const match = usersList.find(
-      (u) => u.userId.trim().toLowerCase() === newUserId.trim().toLowerCase()
+      (u) =>
+        u.userId.trim().toLowerCase() === cleanUid ||
+        cleanUid.includes(u.userId.trim().toLowerCase()) ||
+        u.name.trim().toLowerCase() === cleanUid
     );
     if (match) {
       setForm((prev) => ({
@@ -293,20 +308,27 @@ export default function MaintenanceForm({
   }
 
   async function saveMaintenance() {
-    const finalAssetId = machineData.assetId.trim() || initialMachine["Asset ID"] || "";
-    const finalUserId = form.userId.trim() || user?.userId || "";
-    const finalUserName = form.userName.trim() || user?.name || user?.email || "";
+    const finalAssetId =
+      machineData.assetId.trim() ||
+      initialMachine["Asset ID"] ||
+      (initialMachine as any)?.assetId ||
+      "";
+    const finalUserId =
+      form.userId.trim() ||
+      user?.userId ||
+      (user?.email ? user.email.split("@")[0].toUpperCase() : "OP-001");
+    const finalUserName =
+      form.userName.trim() ||
+      user?.name ||
+      user?.email ||
+      "Operator";
 
     if (!finalAssetId) {
-      setStatus({ type: "error", message: "Asset ID is required." });
-      return;
-    }
-    if (!finalUserId || !finalUserName) {
-      setStatus({ type: "error", message: "User ID and User Name are required." });
+      setStatus({ type: "error", message: "Please select or enter an Asset ID for the machine." });
       return;
     }
     if (!form.problem.trim()) {
-      setStatus({ type: "error", message: "Problem / Work Request is required." });
+      setStatus({ type: "error", message: "Please describe the maintenance problem or breakdown issue." });
       return;
     }
 
@@ -347,7 +369,7 @@ export default function MaintenanceForm({
           userName: user?.name || "",
           assignedTo: initialMachine["Responsible Person"] || user?.name || "",
           technicianName: user?.name || "",
-          maintenanceType: "Corrective Maintenance",
+          maintenanceType: "Breakdown Maintenance",
           maintenanceDate: today,
           priority: "Medium",
           status: "Open",
@@ -395,9 +417,10 @@ export default function MaintenanceForm({
     ).toLowerCase();
     const problem = (
       item.problem ||
+      item["Problem / Breakdown"] ||
       item["Problem / Request"] ||
+      item["Breakdown Issue"] ||
       item["Problem"] ||
-      item["Check Point"] ||
       item["Remarks"] ||
       ""
     ).toLowerCase();
@@ -480,12 +503,20 @@ export default function MaintenanceForm({
                 </label>
                 <input
                   id="maint-asset-input"
+                  list="asset-list-suggestions"
                   autoComplete="off"
                   className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-xs font-mono font-bold text-slate-900 uppercase focus:border-[#880b13] focus:ring-2 focus:ring-[#880b13]/20 outline-none transition"
                   placeholder="e.g. SKY-LSR-MCH-001"
                   value={machineData.assetId}
                   onChange={(e) => handleAssetIdChange(e.target.value)}
                 />
+                <datalist id="asset-list-suggestions">
+                  {machinesList.map((m) => (
+                    <option key={m.assetId} value={m.assetId}>
+                      {m.assetId} - {m.machineName}
+                    </option>
+                  ))}
+                </datalist>
               </div>
 
               <div>
@@ -542,12 +573,20 @@ export default function MaintenanceForm({
                 </label>
                 <input
                   id="maint-user-id"
+                  list="user-list-suggestions"
                   autoComplete="off"
                   className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-xs font-mono font-bold text-slate-900 focus:border-[#880b13] focus:ring-2 focus:ring-[#880b13]/20 outline-none transition"
                   placeholder="e.g. OP-001"
                   value={form.userId}
                   onChange={(e) => handleUserIdChange(e.target.value)}
                 />
+                <datalist id="user-list-suggestions">
+                  {usersList.map((u) => (
+                    <option key={u.userId} value={u.userId}>
+                      {u.userId} - {u.name}
+                    </option>
+                  ))}
+                </datalist>
               </div>
 
               <div>
@@ -774,8 +813,8 @@ export default function MaintenanceForm({
         <section className="rounded-2xl bg-white p-6 border border-slate-200 shadow-xs space-y-4">
           <div className="border-b border-slate-100 pb-4">
             <h3 className="text-base sm:text-lg font-black text-slate-900 flex items-center gap-2">
-              <span>📋</span>
-              <span>My Submitted Maintenance Records ({myRecords.length})</span>
+              <span>🛠️</span>
+              <span>Breakdown Tickets ({myRecords.length})</span>
             </h3>
           </div>
 
@@ -787,7 +826,7 @@ export default function MaintenanceForm({
             <div className="relative">
               <input
                 type="text"
-                placeholder="Search by ID, machine, problem..."
+                placeholder="Search by ticket ID, machine, breakdown issue..."
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
@@ -885,11 +924,23 @@ export default function MaintenanceForm({
               Loading your live records...
             </div>
           ) : filteredRecords.length === 0 ? (
-            <div className="py-12 text-center text-xs text-slate-400 bg-slate-50/80 rounded-2xl border border-dashed border-slate-200 p-6 space-y-3">
-              <p className="font-bold text-slate-600">No matching maintenance records found.</p>
-              <p className="text-slate-400">
-                Try adjusting your search query or filter dropdowns above.
-              </p>
+            <div className="py-12 text-center text-xs text-slate-400 bg-slate-50/80 rounded-2xl border border-dashed border-slate-200 p-8 space-y-4">
+              <div className="w-12 h-12 mx-auto rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center text-xl shadow-xs border border-amber-200">
+                🛠️
+              </div>
+              <div className="space-y-1">
+                <p className="font-black text-sm text-slate-800">No Breakdown Tickets Reported</p>
+                <p className="text-slate-500 max-w-md mx-auto">
+                  All machines and workstations are running normally. When a machine fault occurs, click &quot;Raise Breakdown Ticket&quot; to log the issue.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowForm(true)}
+                className="px-4 py-2 bg-gradient-to-r from-[#880b13] to-[#b71520] hover:from-[#70090f] hover:to-[#991019] text-white text-xs font-black rounded-xl shadow-sm transition inline-flex items-center gap-1.5 cursor-pointer"
+              >
+                <span>➕ Raise Breakdown Ticket</span>
+              </button>
             </div>
           ) : (
             <>
@@ -897,19 +948,19 @@ export default function MaintenanceForm({
                 <table className="w-full text-left text-xs text-slate-700">
                   <thead className="bg-slate-50/90 text-[11px] font-black uppercase text-slate-500 border-b border-slate-200">
                     <tr>
-                      <th className="p-3">Record ID</th>
+                      <th className="p-3">Ticket ID</th>
                       <th className="p-3">Machine / Asset</th>
-                      <th className="p-3">Problem / Breakdown</th>
+                      <th className="p-3">Breakdown Issue</th>
                       <th className="p-3">Priority</th>
                       <th className="p-3">Status</th>
-                      <th className="p-3">Date</th>
+                      <th className="p-3">Reported Date</th>
                       <th className="p-3 text-right">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
                     {paginatedRecords.map((r, i) => {
                       const item = r as any;
-                      const logId = item.logId || item["Log ID"] || item["Record ID"] || item.id || `MNT-${i + 1}`;
+                      const logId = item.recordId || item["Record ID"] || item["Breakdown Ticket"] || item.logId || item["Log ID"] || item.id || `BD-${i + 1}`;
                       const asset = item.assetId || item["Asset ID"] || "SKY-LSR-MCH-001";
                       const name =
                         item.machineName ||
@@ -919,8 +970,8 @@ export default function MaintenanceForm({
                         initialMachine["Machine Name"] ||
                         "Laser Machine";
                       const prob =
-                        item.problem || item["Problem / Request"] || item["Problem"] || item["Check Point"] || "Maintenance Request";
-                      const date = item.maintenanceDate || item["Date"] || "Today";
+                        item.problem || item["Problem / Breakdown"] || item["Problem / Request"] || item["Breakdown Issue"] || item["Problem"] || "Breakdown Ticket";
+                      const date = item.maintenanceDate || item.date || item["Date"] || "Today";
                       const prio = item.priority || item["Priority"] || "Medium";
                       const st = item.status || item["Status"] || "Open";
 

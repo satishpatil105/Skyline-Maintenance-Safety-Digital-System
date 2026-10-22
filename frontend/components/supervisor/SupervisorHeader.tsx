@@ -7,25 +7,33 @@ interface SupervisorHeaderProps {
     activeTab: string;
     sidebarCollapsed: boolean;
     mobileMenuOpen: boolean;
+    dueAlertsCount?: number;
+    pendingAlertsCount?: number;
     onToggleSidebar: () => void;
     onToggleMobileMenu: () => void;
     onOpenQrModal: () => void;
     onOpenCreateModal: () => void;
+    onNavigateToAlerts?: () => void;
 }
 
 export default function SupervisorHeader({
     activeTab,
     sidebarCollapsed,
     mobileMenuOpen,
+    dueAlertsCount = 0,
+    pendingAlertsCount = 0,
     onToggleSidebar,
     onToggleMobileMenu,
     onOpenQrModal,
     onOpenCreateModal,
+    onNavigateToAlerts,
 }: SupervisorHeaderProps) {
     const currentTabObj = SUPERVISOR_TABS.find((t) => t.key === activeTab) || SUPERVISOR_TABS[0];
 
     const getAddButtonText = (tabKey: string) => {
         switch (tabKey) {
+            case "assets":
+                return "Add Asset";
             case "maintenance":
                 return "Add Maintenance Record";
             case "safety":
@@ -81,6 +89,40 @@ export default function SupervisorHeader({
 
             {/* Right: Action Controls */}
             <div className="flex items-center gap-2 shrink-0">
+                {/* Notification Bell Button */}
+                <button
+                    type="button"
+                    onClick={onNavigateToAlerts}
+                    className={`relative p-2 rounded-xl border transition-all cursor-pointer flex items-center justify-center ${
+                        dueAlertsCount > 0
+                            ? "bg-rose-50 text-rose-700 border-rose-300 shadow-2xs hover:bg-rose-100"
+                            : pendingAlertsCount > 0
+                            ? "bg-amber-50 text-amber-700 border-amber-300 shadow-2xs hover:bg-amber-100"
+                            : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
+                    }`}
+                    title={
+                        dueAlertsCount > 0
+                            ? `${dueAlertsCount} Due/Overdue alert(s) requiring attention`
+                            : pendingAlertsCount > 0
+                            ? `${pendingAlertsCount} Pending alert(s)`
+                            : "Notifications & Alerts"
+                    }
+                    aria-label="Notifications"
+                >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth="2.2" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+                    </svg>
+                    {(dueAlertsCount > 0 || pendingAlertsCount > 0) && (
+                        <span
+                            className={`absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] px-1 rounded-full text-[10px] font-black text-white flex items-center justify-center shadow-xs ${
+                                dueAlertsCount > 0 ? "bg-rose-600 animate-pulse" : "bg-amber-500"
+                            }`}
+                        >
+                            {dueAlertsCount > 0 ? dueAlertsCount : pendingAlertsCount}
+                        </span>
+                    )}
+                </button>
+
                 <button
                     type="button"
                     onClick={onOpenQrModal}

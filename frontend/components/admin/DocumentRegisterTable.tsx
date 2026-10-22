@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import type { Row } from "./UserMasterTable";
+import { downloadOriginalDocument } from "@/lib/exportUtils";
 
 interface DocumentRegisterTableProps {
     rows: Row[];
@@ -48,11 +49,23 @@ export default function DocumentRegisterTable({
         return pages;
     };
 
+
+    const handleDownloadOriginal = (r: Row) => {
+        const fileUrl = r["File URL"] || r["fileUrl"] || r["Attachment"] || r["url"] || r["File Name"] || "";
+        const docId = r["Doc ID"] || r["Document ID"] || r["docId"] || "document";
+        const title = r["Document Title"] || r["title"] || docId;
+        if (fileUrl) {
+            downloadOriginalDocument(fileUrl, `${docId}_${title.replace(/\s+/g, "_")}.pdf`);
+        } else {
+            window.open(`/api/export?module=documents&format=pdf`, "_blank");
+        }
+    };
+
     return (
         <div className="space-y-3.5 w-full font-sans antialiased">
-            {/* Search Toolbar */}
-            <div className="rounded-xl border border-slate-200 bg-white p-3.5 shadow-2xs">
-                <div className="relative">
+            {/* Search & Export Toolbar */}
+            <div className="rounded-xl border border-slate-200 bg-white p-3.5 shadow-2xs flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+                <div className="relative flex-1">
                     <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400 text-sm">🔍</span>
                     <input
                         type="text"
@@ -73,6 +86,7 @@ export default function DocumentRegisterTable({
                         </button>
                     )}
                 </div>
+
             </div>
 
             {/* Main Table Grid */}
@@ -115,6 +129,14 @@ export default function DocumentRegisterTable({
                                             <td className="px-4 py-2.5 whitespace-nowrap font-mono text-[11px] font-bold text-slate-700">{ver}</td>
                                             <td className="px-4 py-2.5 text-right whitespace-nowrap">
                                                 <div className="flex items-center justify-end gap-1.5">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleDownloadOriginal(r)}
+                                                        className="rounded-lg border border-indigo-200 bg-indigo-50/70 hover:bg-indigo-100 px-2.5 py-1 text-[11px] font-bold text-indigo-700 shadow-2xs transition-colors flex items-center gap-1 cursor-pointer"
+                                                        title="Download original document file"
+                                                    >
+                                                        <span>📥</span> Download
+                                                    </button>
                                                     <button
                                                         type="button"
                                                         onClick={() => onEdit(r)}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import type { Row } from "./UserMasterTable";
 
 interface NotificationsAlertsTableProps {
@@ -14,11 +14,27 @@ export default function NotificationsAlertsTable({
     onEdit,
     onDelete,
 }: NotificationsAlertsTableProps) {
+    const [selectedCategory, setSelectedCategory] = useState<"all" | "due" | "pending" | "upcoming">("all");
     const [search, setSearch] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
 
     const filtered = rows.filter((r) => {
+        if (selectedCategory !== "all") {
+            const rowStr = Object.values(r).join(" ").toLowerCase();
+            const sev = String(r["Severity"] || "").toLowerCase();
+            const title = String(r["Alert Title"] || "").toLowerCase();
+            if (selectedCategory === "due") {
+                const isDue = /due|overdue|expired|critical/i.test(`${rowStr} ${sev}`);
+                if (!isDue) return false;
+            } else if (selectedCategory === "pending") {
+                const isPending = /pending|defect|open|breakdown|not ok/i.test(`${rowStr} ${title}`);
+                if (!isPending) return false;
+            } else if (selectedCategory === "upcoming") {
+                const isUpcoming = /upcoming|renewal|notice|scheduled/i.test(`${rowStr} ${title}`) || (!/critical|overdue|expired|breakdown/i.test(rowStr));
+                if (!isUpcoming) return false;
+            }
+        }
         const s = search.toLowerCase().trim();
         if (!s) return true;
         return Object.values(r).some((v) => (v || "").toLowerCase().includes(s));
@@ -48,8 +64,51 @@ export default function NotificationsAlertsTable({
         return pages;
     };
 
+
     return (
         <div className="space-y-3.5 w-full font-sans antialiased">
+            {/* Category Filter Pills (Due, Pending, Upcoming) */}
+            <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="flex flex-wrap items-center gap-2">
+                    <button
+                        type="button"
+                        onClick={() => { setSelectedCategory("all"); setCurrentPage(1); }}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                            selectedCategory === "all" ? "bg-slate-900 text-white shadow-xs" : "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200"
+                        }`}
+                    >
+                        All Alerts ({rows.length})
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => { setSelectedCategory("due"); setCurrentPage(1); }}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                            selectedCategory === "due" ? "bg-rose-600 text-white shadow-xs" : "bg-rose-50 text-rose-800 hover:bg-rose-100 border border-rose-200"
+                        }`}
+                    >
+                        🔴 Due &amp; Overdue
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => { setSelectedCategory("pending"); setCurrentPage(1); }}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                            selectedCategory === "pending" ? "bg-amber-600 text-white shadow-xs" : "bg-amber-50 text-amber-800 hover:bg-amber-100 border border-amber-200"
+                        }`}
+                    >
+                        🟡 Pending Action
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => { setSelectedCategory("upcoming"); setCurrentPage(1); }}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                            selectedCategory === "upcoming" ? "bg-blue-600 text-white shadow-xs" : "bg-blue-50 text-blue-800 hover:bg-blue-100 border border-blue-200"
+                        }`}
+                    >
+                        🔵 Upcoming Schedules
+                    </button>
+                </div>
+            </div>
+
             {/* Search Toolbar */}
             <div className="rounded-xl border border-slate-200 bg-white p-3.5 shadow-2xs">
                 <div className="relative">

@@ -1,4 +1,4 @@
-export { default as AdminSidebar, getSidebarIcon, cleanSidebarLabel } from "./AdminSidebar";
+export { default as AdminSidebar, getSidebarIcon, cleanSidebarLabel, DEFAULT_ADMIN_VIEWS } from "./AdminSidebar";
 export { default as AdminHeader } from "./AdminHeader";
 export { default as UserMasterTable, UserPasswordBadge } from "./UserMasterTable";
 export { default as MachineMasterTable } from "./MachineMasterTable";
@@ -9,6 +9,9 @@ export { default as DocumentRegisterTable } from "./DocumentRegisterTable";
 export { default as NotificationsAlertsTable } from "./NotificationsAlertsTable";
 export { default as MonthlyComplianceTable } from "./MonthlyComplianceTable";
 export { default as BreakdownsRepairsTable } from "./BreakdownsRepairsTable";
+export { default as ChecklistMasterTable } from "./ChecklistMasterTable";
+export { default as ChecklistRecordsTable } from "./ChecklistRecordsTable";
 export { default as GenericMasterTable } from "./GenericMasterTable";
 export { default as AdminRecordModal } from "./AdminRecordModal";
 export { default as MachineQrModal } from "./MachineQrModal";
+export { default as AssetMasterTable } from "./AssetMasterTable";

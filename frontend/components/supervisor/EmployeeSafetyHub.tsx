@@ -413,6 +413,7 @@ export default function EmployeeSafetyHub({
     return filteredAccidentRecords.slice(start, start + rowsPerPage);
   }, [filteredAccidentRecords, currentPage, rowsPerPage]);
 
+
   const renderPagination = (totalItems: number) => {
     const totalPages = Math.ceil(totalItems / rowsPerPage) || 1;
     const startIndex = totalItems === 0 ? 0 : (currentPage - 1) * rowsPerPage;
@@ -908,18 +909,20 @@ export default function EmployeeSafetyHub({
             </form>
           )}
 
-          {/* Search bar */}
-          <div className="relative">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
-              🔍
+          {/* Search bar & Export */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+            <div className="relative flex-1">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                🔍
+              </div>
+              <input
+                type="text"
+                placeholder="Search by Employee ID, Name, Department, Role..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full rounded-xl border border-slate-300 bg-white pl-10 pr-4 py-2.5 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-100 transition"
+              />
             </div>
-            <input
-              type="text"
-              placeholder="Search by Employee ID, Name, Department, Role..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full rounded-xl border border-slate-300 bg-white pl-10 pr-4 py-2.5 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-100 transition"
-            />
           </div>
 
           {/* Employees Table */}
@@ -1200,16 +1203,18 @@ export default function EmployeeSafetyHub({
             </form>
           )}
 
-          {/* Search Input for PPE Records */}
-          <div className="relative">
-            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">🔍</span>
-            <input
-              type="text"
-              placeholder="Search PPE records by ID, Employee, Department, Details..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full rounded-xl border border-slate-300 bg-white pl-10 pr-4 py-2 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-100 transition"
-            />
+          {/* Search Input & Export for PPE Records */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+            <div className="relative flex-1">
+              <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">🔍</span>
+              <input
+                type="text"
+                placeholder="Search PPE records by ID, Employee, Department, Details..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full rounded-xl border border-slate-300 bg-white pl-10 pr-4 py-2 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-100 transition"
+              />
+            </div>
           </div>
 
           {/* PPE Records Table */}
@@ -1544,16 +1549,18 @@ export default function EmployeeSafetyHub({
             </form>
           )}
 
-          {/* Search Input for Training Records */}
-          <div className="relative">
-            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">🔍</span>
-            <input
-              type="text"
-              placeholder="Search training records by ID, Employee, Topic, Trainer..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full rounded-xl border border-slate-300 bg-white pl-10 pr-4 py-2 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-100 transition"
-            />
+          {/* Search Input & Export for Training Records */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+            <div className="relative flex-1">
+              <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">🔍</span>
+              <input
+                type="text"
+                placeholder="Search training records by ID, Employee, Topic, Trainer..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full rounded-xl border border-slate-300 bg-white pl-10 pr-4 py-2 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-100 transition"
+              />
+            </div>
           </div>
 
           {/* Training Records Table */}
@@ -1914,16 +1921,18 @@ export default function EmployeeSafetyHub({
             </form>
           )}
 
-          {/* Search Input for Accident / Incident Records */}
-          <div className="relative">
-            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">🔍</span>
-            <input
-              type="text"
-              placeholder="Search accident records by ID, Employee, Location, Classification..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full rounded-xl border border-slate-300 bg-white pl-10 pr-4 py-2 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-rose-600 focus:outline-none focus:ring-2 focus:ring-rose-100 transition"
-            />
+          {/* Search Input & Export for Accident / Incident Records */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+            <div className="relative flex-1">
+              <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">🔍</span>
+              <input
+                type="text"
+                placeholder="Search accident records by ID, Employee, Location, Classification..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full rounded-xl border border-slate-300 bg-white pl-10 pr-4 py-2 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-rose-600 focus:outline-none focus:ring-2 focus:ring-rose-100 transition"
+              />
+            </div>
           </div>
 
           {/* Accident Records Table */}

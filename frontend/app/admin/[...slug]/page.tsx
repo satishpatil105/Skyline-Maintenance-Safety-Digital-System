@@ -36,6 +36,7 @@ export default async function AdminSlugPage({
 
     const initialDb = {
         machines: (db?.machines || []) as unknown as Record<string, string>[],
+        assets: (db?.assets || []) as unknown as Record<string, string>[],
         maintenance: (db?.maintenanceRecords || []) as unknown as Record<string, string>[],
         safety: (db?.safetyRecords || []) as unknown as Record<string, string>[],
         users: (db?.users || []) as unknown as Record<string, string>[],

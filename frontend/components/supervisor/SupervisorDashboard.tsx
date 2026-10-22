@@ -4,19 +4,25 @@ import React, { useState } from "react";
 import Link from "next/link";
 import StatusBanner, { StatusType } from "@/components/shared/StatusBanner";
 import AlertsPanel from "./AlertsPanel";
+import SupervisorAlertsModule from "./SupervisorAlertsModule";
 import SupervisorSidebar, { SUPERVISOR_TABS } from "./SupervisorSidebar";
 import SupervisorHeader from "./SupervisorHeader";
 import GenericMasterTable from "../admin/GenericMasterTable";
+import MaintenanceRecordsTable from "../admin/MaintenanceRecordsTable";
+import ChecklistMasterTable from "../admin/ChecklistMasterTable";
+import ChecklistRecordsTable from "../admin/ChecklistRecordsTable";
 import PMPartsAMCTable from "../admin/PMPartsAMCTable";
 import AdminRecordModal from "../admin/AdminRecordModal";
 import MachineQrModal from "../admin/MachineQrModal";
 import DeleteConfirmModal from "../admin/DeleteConfirmModal";
+import AssetMasterTable from "../admin/AssetMasterTable";
 import type { SessionUser } from "@/lib/auth";
 import type { Row } from "../admin/UserMasterTable";
 
 interface SupervisorDashboardProps {
   initialTab?: string;
   user: SessionUser;
+  notificationData?: any;
   stats?: {
     totalMachines: number;
     openMaintenance: number;
@@ -37,11 +43,16 @@ interface SupervisorDashboardProps {
     recordId: string;
     machineName: string;
     assetId: string;
+    userId?: string;
+    userName?: string;
+    checklistId?: string;
     problem: string;
     priority: string;
     status: string;
     date: string;
     assignedTo: string;
+    actionTaken?: string;
+    completionDate?: string;
   }>;
   recentSafety?: Array<{
     recordId: string;
@@ -58,6 +69,7 @@ interface SupervisorDashboardProps {
   documents?: Array<Record<string, string>>;
   notifications?: Array<Record<string, string>>;
   allMachines?: Row[];
+  allAssets?: Row[];
   allUsers?: Row[];
 }
 
@@ -65,8 +77,10 @@ export function normalizeSupervisorTab(tabKey?: string): string {
   if (!tabKey) return "overview";
   const l = tabKey.toLowerCase().trim();
   if (l === "overview" || l.includes("dash") || l.includes("9.")) return "overview";
+  if (l.includes("asset") || l.includes("machine")) return "assets";
   if (l.includes("maint") || l.includes("4.")) return "maintenance";
   if (l.includes("safety") || l.includes("5.")) return "safety";
+  if (l.includes("checklist_record") || l.includes("checklist-record") || l.includes("checklist record") || l.includes("checklist_log")) return "checklist_records";
   if (l.includes("check") || l.includes("2.")) return "checklist";
   if (l.includes("part") || l.includes("amc") || l.includes("6.")) return "parts";
   if (l.includes("doc") || l.includes("register") || l.includes("7.")) return "documents";
@@ -76,7 +90,9 @@ export function normalizeSupervisorTab(tabKey?: string): string {
 
 const TAB_SLUGS: Record<string, string> = {
   overview: "dashboard",
+  assets: "asset-master",
   maintenance: "maintenance-records",
+  checklist_records: "checklist-records",
   safety: "safety-records",
   checklist: "checklist-master",
   parts: "pm-parts-amc",
@@ -102,19 +118,62 @@ export default function SupervisorDashboard({
   documents = [],
   notifications = [],
   allMachines = [],
+  allAssets = [],
   allUsers = [],
+  notificationData = null,
 }: SupervisorDashboardProps) {
   const [activeTab, setActiveTab] = useState<string>(() => normalizeSupervisorTab(initialTab));
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Local record collections for immediate UI updates & CRUD
+  const [localAssets, setLocalAssets] = useState<Row[]>(allAssets || []);
   const [localMaintenance, setLocalMaintenance] = useState(recentMaintenance);
   const [localSafety, setLocalSafety] = useState(recentSafety);
   const [localChecklists, setLocalChecklists] = useState(checklists);
   const [localPMParts, setLocalPMParts] = useState(pmParts);
   const [localDocuments, setLocalDocuments] = useState(documents);
   const [localNotifications, setLocalNotifications] = useState(notifications);
+  const [localChecklistRecords, setLocalChecklistRecords] = useState<Row[]>([]);
+
+  // Computed alert badges for notification bell and alert strips
+  const dueCount = React.useMemo(() => {
+    if (notificationData?.counts?.due !== undefined) return notificationData.counts.due;
+    return (localNotifications || []).filter((n: any) => (n.daysLeft !== null && n.daysLeft <= 0) || n.categoryType === "due" || /overdue|due/i.test(n.status || n["Status"] || "")).length;
+  }, [notificationData, localNotifications]);
+
+  const pendingCount = React.useMemo(() => {
+    if (notificationData?.counts?.pending !== undefined) return notificationData.counts.pending;
+    return (localNotifications || []).filter((n: any) => n.categoryType === "pending" || /breakdown|defect|pending|open|progress|not ok/i.test(n.status || n["Status"] || n["Severity"] || "")).length;
+  }, [notificationData, localNotifications]);
+
+  // Fetch checklist inspection records when tab is checklist_records
+  React.useEffect(() => {
+    if (activeTab === "checklist_records" || activeTab.includes("checklist")) {
+      fetch("/api/checklist/records")
+        .then((r) => r.json())
+        .then((data) => {
+          if (data.records && Array.isArray(data.records)) {
+            const formatted = data.records.map((r: any, idx: number) => ({
+              __row: String(idx + 2),
+              "Record ID": r.recordId || "",
+              "Date": r.date || "",
+              "Machine / Asset": `${r.machineName || ""} (${r.assetId || ""})`,
+              "Check Point": r.checkPoint || "",
+              "Frequency": r.frequency || "Daily",
+              "Response / Status": r.status || r.response || "OK",
+              "Remarks": r.remarks || "",
+              "Action if Not OK": r.actionIfNotOk || "",
+              "Operator": r.operator || r.userName || "",
+              "Maintenance Ticket": r.maintenanceTicketId || "-",
+              "Photo Evidence": r.photoEvidence || "",
+            }));
+            setLocalChecklistRecords(formatted);
+          }
+        })
+        .catch(console.error);
+    }
+  }, [activeTab]);
 
   // Sync state if initialTab prop changes
   React.useEffect(() => {
@@ -123,13 +182,14 @@ export default function SupervisorDashboard({
 
   // Sync state when props update from server hydration
   React.useEffect(() => {
+    if (allMachines?.length) setLocalAssets(allMachines);
     if (recentMaintenance?.length) setLocalMaintenance(recentMaintenance);
     if (recentSafety?.length) setLocalSafety(recentSafety);
     if (checklists?.length) setLocalChecklists(checklists);
     if (pmParts?.length) setLocalPMParts(pmParts);
     if (documents?.length) setLocalDocuments(documents);
     if (notifications?.length) setLocalNotifications(notifications);
-  }, [recentMaintenance, recentSafety, checklists, pmParts, documents, notifications]);
+  }, [allMachines, recentMaintenance, recentSafety, checklists, pmParts, documents, notifications]);
 
   // Sync state with popstate event for back/forward navigation
   React.useEffect(() => {
@@ -197,16 +257,33 @@ export default function SupervisorDashboard({
       }
 
       // Update local state dynamically
-      if (activeTab === "maintenance") {
+      if (activeTab === "assets") {
+        const assetId = savedRow["Asset ID"] || savedRow["assetId"] || `AST-${Date.now().toString().slice(-4)}`;
+        const astRow: Row = {
+          ...savedRow,
+          "Asset ID": assetId,
+          "Machine Name": savedRow["Machine Name"] || savedRow["Asset Name"] || "Industrial Asset",
+          "Category": savedRow["Category"] || "General Equipment",
+          "Status": savedRow["Status"] || "Operational",
+        };
+        setLocalAssets((prev) =>
+          isNew ? [astRow, ...prev] : prev.map((item) => ((item["Asset ID"] || item["assetId"]) === assetId ? astRow : item))
+        );
+      } else if (activeTab === "maintenance") {
         const mRow = {
-          recordId: savedRow.recordId || savedRow["Record ID"] || `MNT-2026-${Date.now().toString().slice(-4)}`,
-          machineName: savedRow["Machine / Asset"] || savedRow.machineName || "Laser Machine",
-          assetId: savedRow.assetId || "SKY-001",
-          problem: savedRow.problem || savedRow["Problem / Breakdown"] || "Routine Inspection",
-          priority: savedRow.priority || savedRow["Priority"] || "Normal",
+          recordId: savedRow.recordId || savedRow["Record ID"] || savedRow["Maintenance ID"] || `MNT-2026-${Date.now().toString().slice(-4)}`,
+          date: savedRow.date || savedRow["Date"] || new Date().toISOString().split("T")[0],
+          assetId: savedRow.assetId || savedRow["Asset ID"] || "SKY-001",
+          machineName: savedRow.machineName || savedRow["Machine Name"] || savedRow["Machine / Asset"] || "Machine",
+          userId: savedRow.userId || savedRow["User ID"] || "",
+          userName: savedRow.userName || savedRow["User Name"] || savedRow.submittedBy || "",
+          checklistId: savedRow.checklistId || savedRow["Checklist ID"] || "",
+          problem: savedRow.problem || savedRow["Problem / Breakdown"] || savedRow["Problem"] || savedRow["Issue"] || "Routine Inspection",
+          priority: savedRow.priority || savedRow["Priority"] || "Medium",
+          assignedTo: savedRow.assignedTo || savedRow["Assigned To"] || savedRow.technicianName || "Unassigned",
+          actionTaken: savedRow.actionTaken || savedRow["Action Taken"] || savedRow.correctiveAction || "",
           status: savedRow.status || savedRow["Status"] || "Open",
-          date: savedRow.date || savedRow["Date"] || "2026-10-09",
-          assignedTo: savedRow.assignedTo || savedRow["Assigned To"] || "Unassigned",
+          completionDate: savedRow.completionDate || savedRow["Completion Date"] || "",
         };
         setLocalMaintenance((prev) => (isNew ? [mRow, ...prev] : prev.map((item) => (item.recordId === mRow.recordId ? mRow : item))));
       } else if (activeTab === "safety") {
@@ -263,7 +340,9 @@ export default function SupervisorDashboard({
         throw new Error(resData.message || "Failed to delete record");
       }
 
-      if (activeTab === "maintenance") {
+      if (activeTab === "assets") {
+        setLocalAssets((prev) => prev.filter((a) => (a["Asset ID"] || a["assetId"] || a["Machine ID"]) !== id));
+      } else if (activeTab === "maintenance") {
         setLocalMaintenance((prev) => prev.filter((m) => m.recordId !== id && (m as any)["Record ID"] !== id));
       } else if (activeTab === "safety") {
         setLocalSafety((prev) => prev.filter((s) => s.recordId !== id && (s as any)["Record ID"] !== id));
@@ -312,23 +391,37 @@ export default function SupervisorDashboard({
     );
   };
 
-  const formattedMaintenanceRows = (localMaintenance || []).map((m) => ({
-    "Record ID": m.recordId,
-    "Machine / Asset": `${m.machineName} (${m.assetId})`,
-    "Problem / Breakdown": m.problem || "Routine Inspection",
-    "Priority": m.priority || "Normal",
-    "Assigned To": m.assignedTo || "Unassigned",
-    "Status": m.status || "Pending",
-    "Date": m.date || "Today",
-    __id: m.recordId,
-    recordId: m.recordId,
-    machineName: m.machineName,
-    assetId: m.assetId,
-    problem: m.problem,
-    priority: m.priority,
-    assignedTo: m.assignedTo,
-    status: m.status,
-    date: m.date,
+  const formattedMaintenanceRows = (localMaintenance || []).map((m: any) => ({
+    "Record ID": m.recordId || m["Record ID"] || m["Maintenance ID"] || "",
+    "Maintenance ID": m.recordId || m["Record ID"] || m["Maintenance ID"] || "",
+    recordId: m.recordId || m["Record ID"] || m["Maintenance ID"] || "",
+    date: m.date || m["Date"] || "",
+    "Date": m.date || m["Date"] || "",
+    assetId: m.assetId || m["Asset ID"] || "",
+    "Asset ID": m.assetId || m["Asset ID"] || "",
+    machineName: m.machineName || m["Machine Name"] || "",
+    "Machine Name": m.machineName || m["Machine Name"] || "",
+    "Machine / Asset": `${m.machineName || ""} (${m.assetId || ""})`,
+    userId: m.userId || m["User ID"] || "",
+    "User ID": m.userId || m["User ID"] || "",
+    userName: m.userName || m["User Name"] || m.submittedBy || "",
+    "User Name": m.userName || m["User Name"] || m.submittedBy || "",
+    checklistId: m.checklistId || m["Checklist ID"] || "",
+    "Checklist ID": m.checklistId || m["Checklist ID"] || "",
+    problem: m.problem || m["Problem / Breakdown"] || m["Problem"] || m["Issue"] || "",
+    "Problem / Breakdown": m.problem || m["Problem / Breakdown"] || m["Problem"] || m["Issue"] || "",
+    priority: m.priority || m["Priority"] || "Medium",
+    "Priority": m.priority || m["Priority"] || "Medium",
+    assignedTo: m.assignedTo || m["Assigned To"] || m.technicianName || "",
+    "Assigned To": m.assignedTo || m["Assigned To"] || m.technicianName || "",
+    actionTaken: m.actionTaken || m["Action Taken"] || m.correctiveAction || m["Corrective Action"] || "",
+    "Action Taken": m.actionTaken || m["Action Taken"] || m.correctiveAction || m["Corrective Action"] || "",
+    correctiveAction: m.actionTaken || m["Action Taken"] || m.correctiveAction || m["Corrective Action"] || "",
+    status: m.status || m["Status"] || "Open",
+    "Status": m.status || m["Status"] || "Open",
+    completionDate: m.completionDate || m["Completion Date"] || "",
+    "Completion Date": m.completionDate || m["Completion Date"] || "",
+    __id: m.recordId || m["Record ID"] || "",
   })) as unknown as Row[];
 
   const formattedSafetyRows = (localSafety || []).map((s) => ({
@@ -351,12 +444,19 @@ export default function SupervisorDashboard({
   })) as unknown as Row[];
 
   const formattedChecklistRows = (localChecklists || []).map((c, i) => ({
-    "Asset ID / Machine": c["Machine / Asset"] || c["Asset ID / Machine"] || c["Asset ID"] || c["Machine"] || c["Checklist ID"] || c["assetId"] || `CHK-${i + 1}`,
+    "Asset ID": c["Asset ID"] || c["Asset ID / Machine"] || c["Machine / Asset"] || c["Machine"] || c["assetId"] || `CHK-${i + 1}`,
+    "Asset ID / Machine": c["Asset ID"] || c["Asset ID / Machine"] || c["Machine / Asset"] || c["Machine"] || c["assetId"] || `CHK-${i + 1}`,
+    "Category": c["Category"] || c["category"] || "General",
     "Check Point": c["Check Point / Task"] || c["Check Point"] || c["checkPoint"] || c["Task"] || "Shift Verification",
-    "Status": c["Status"] || c["status"] || "Active",
-    "Remarks / Value": c["Standard Parameter"] || c["Remarks / Value"] || c["Remarks"] || c["remarks"] || c["Frequency"] || "Verified",
-    "Shift / Date": c["Created Date"] || c["Shift / Date"] || c["Date"] || c["date"] || "Today",
+    "Standard Requirement": c["Standard Requirement"] || c["Standard / Requirement"] || c["Standard Parameter"] || "Visual / Normal",
+    "Frequency": c["Frequency"] || c["frequency"] || "Daily",
+    "Response": c["Response"] || c["response"] || "OK / Not OK / NA",
+    "Required Photo": c["Required Photo"] || c["requiredPhoto"] || "No",
+    "If Not OK Action": c["If Not OK Action"] || c["IF Not ok Action"] || "Report to Maintenance",
+    "Active": c["Active"] || c["Status"] || "Yes",
+    "Status": c["Active"] || c["Status"] || "Active",
     __id: String(i + 1),
+    ...c,
   })) as unknown as Row[];
 
   const formattedPMPartsRows = (localPMParts || []).map((p, i) => ({
@@ -434,10 +534,13 @@ export default function SupervisorDashboard({
           activeTab={activeTab}
           sidebarCollapsed={sidebarCollapsed}
           mobileMenuOpen={mobileMenuOpen}
+          dueAlertsCount={dueCount}
+          pendingAlertsCount={pendingCount}
           onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)}
           onToggleMobileMenu={() => setMobileMenuOpen(!mobileMenuOpen)}
           onOpenQrModal={() => setQrModalOpen(true)}
           onOpenCreateModal={handleCreateNew}
+          onNavigateToAlerts={() => setActiveTab("alerts")}
         />
 
         {statusMsg && (
@@ -464,6 +567,42 @@ export default function SupervisorDashboard({
                   </h2>
                 </div>
               </div>
+
+              {/* URGENT NOTIFICATIONS & ALERTS STRIP */}
+              {(dueCount > 0 || pendingCount > 0) && (
+                <div
+                  onClick={() => setActiveTab("alerts")}
+                  className="p-4 rounded-2xl bg-gradient-to-r from-rose-950 via-[#880b13] to-slate-900 text-white border border-rose-500/40 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 cursor-pointer group hover:shadow-md transition-all"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl p-2 rounded-xl bg-white/10 shrink-0">⚠️</span>
+                    <div>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-xs font-black uppercase tracking-wider text-rose-200">
+                          Plant Floor Attention Required
+                        </span>
+                        {dueCount > 0 && (
+                          <span className="px-2 py-0.5 rounded-md bg-rose-500 text-white text-[10px] font-black animate-pulse">
+                            {dueCount} Due / Overdue
+                          </span>
+                        )}
+                        {pendingCount > 0 && (
+                          <span className="px-2 py-0.5 rounded-md bg-amber-500 text-white text-[10px] font-black">
+                            {pendingCount} Pending Action
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-xs text-rose-100/90 font-medium mt-0.5">
+                        Overdue PM inspections, machine defects, or breakdown tickets require supervisor action.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-xs font-black text-rose-100 group-hover:translate-x-1 transition-transform shrink-0">
+                    <span>Open Alerts Center</span>
+                    <span>→</span>
+                  </div>
+                </div>
+              )}
 
               {/* 2. CORE SUPERVISOR METRICS CARDS */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -620,10 +759,19 @@ export default function SupervisorDashboard({
             </div>
           )}
 
-          {/* TAB 2: MAINTENANCE WORK ORDERS USING ADMIN MASTER TABLE ENGINE */}
+          {/* TAB 1b: DEDICATED ASSET MASTER MODULE */}
+          {activeTab === "assets" && (
+            <AssetMasterTable
+              rows={localAssets}
+              onEdit={handleEditRow}
+              onDelete={handleDeleteRow}
+              onAddNew={handleCreateNew}
+            />
+          )}
+
+          {/* TAB 2: MAINTENANCE WORK ORDERS USING DEDICATED MAINTENANCE RECORDS TABLE */}
           {activeTab === "maintenance" && (
-            <GenericMasterTable
-              cols={["Record ID", "Machine / Asset", "Problem / Breakdown", "Priority", "Assigned To", "Status", "Date"]}
+            <MaintenanceRecordsTable
               rows={formattedMaintenanceRows}
               onEdit={handleEditRow}
               onDelete={handleDeleteRow}
@@ -642,36 +790,24 @@ export default function SupervisorDashboard({
             />
           )}
 
-          {/* TAB 4: INSPECTION CHECKLISTS USING ADMIN MASTER TABLE ENGINE */}
-          {activeTab === "checklist" && (
-            <div className="space-y-4">
-              <div className="flex flex-wrap items-center justify-between gap-3 bg-gradient-to-r from-indigo-50 via-white to-slate-50 p-4 rounded-2xl border border-indigo-200 shadow-2xs">
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl p-2 rounded-xl bg-indigo-100 text-indigo-900">📋</span>
-                  <div>
-                    <h4 className="text-xs font-black text-indigo-950 uppercase tracking-wider">Live Operator Shift Checklist Portal</h4>
-                    <p className="text-[11px] text-slate-600 font-medium mt-0.5">Open the real-time checklist form to inspect or fill check points for any machine.</p>
-                  </div>
-                </div>
-                <Link
-                  href="/operator/checklist"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-xl bg-indigo-700 hover:bg-indigo-800 active:scale-95 text-white px-4 py-2 text-xs font-bold shadow-xs transition-all cursor-pointer no-underline"
-                >
-                  <span>Open Live Checklist (New Tab)</span>
-                  <span className="text-xs font-black">↗</span>
-                </Link>
-              </div>
+          {/* TAB 3b: DEDICATED CHECKLIST RECORDS MODULE */}
+          {activeTab === "checklist_records" && (
+            <ChecklistRecordsTable
+              rows={localChecklistRecords}
+              onDelete={handleDeleteRow}
+              renderStatusCell={renderStatusCell}
+            />
+          )}
 
-              <GenericMasterTable
-                cols={["Asset ID / Machine", "Check Point", "Status", "Remarks / Value", "Shift / Date"]}
-                rows={formattedChecklistRows}
-                onEdit={handleEditRow}
-                onDelete={handleDeleteRow}
-                renderStatusCell={renderStatusCell}
-              />
-            </div>
+          {/* TAB 4: INSPECTION CHECKLISTS USING DEDICATED CHECKLIST MASTER TABLE ENGINE */}
+          {activeTab === "checklist" && (
+            <ChecklistMasterTable
+              rows={formattedChecklistRows}
+              onEdit={handleEditRow}
+              onDelete={handleDeleteRow}
+              onAddNew={handleCreateNew}
+              currentUser={user}
+            />
           )}
 
           {/* TAB 5: PM PARTS & AMC USING DEDICATED TABLE ENGINE */}
@@ -694,14 +830,13 @@ export default function SupervisorDashboard({
             />
           )}
 
-          {/* TAB 7: ALERTS & NOTIFICATIONS USING ADMIN MASTER TABLE ENGINE */}
+          {/* TAB 7: DEDICATED NOTIFICATIONS & ALERTS MODULE (PENDING, UPCOMING & DUE) */}
           {activeTab === "alerts" && (
-            <GenericMasterTable
-              cols={["Alert ID", "Alert Title", "Severity", "Source / Machine", "Date & Time"]}
-              rows={formattedNotificationRows}
-              onEdit={handleEditRow}
-              onDelete={handleDeleteRow}
-              renderStatusCell={renderStatusCell}
+            <SupervisorAlertsModule
+              initialAlerts={localNotifications as any}
+              initialData={notificationData}
+              user={user}
+              allMachines={allMachines}
             />
           )}
         </main>
@@ -714,10 +849,12 @@ export default function SupervisorDashboard({
           activeViewKey={activeTab}
           activeView={activeTab}
           singularName={
-            activeTab === "maintenance"
-              ? "Maintenance Record"
-              : activeTab === "safety"
-                ? "Safety Record"
+            activeTab === "assets"
+              ? "Asset"
+              : activeTab === "maintenance"
+                ? "Maintenance Record"
+                : activeTab === "safety"
+                  ? "Safety Record"
                 : activeTab === "checklist"
                   ? "Checklist Item"
                   : activeTab === "parts"

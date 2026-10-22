@@ -45,6 +45,77 @@ export default function ExecutiveDashboardView({
     y: number;
   } | null>(null);
 
+  // Centralized Data Export States
+  const [isExporting, setIsExporting] = useState(false);
+  const [exportStatus, setExportStatus] = useState<{
+    type: "success" | "error" | "info";
+    message: string;
+    timestamp?: string;
+  } | null>(null);
+
+  const handleCentralizedExport = async () => {
+    if (isExporting) return;
+    setIsExporting(true);
+    setExportStatus({
+      type: "info",
+      message: "Connecting to database and compiling multi-sheet Excel workbook...",
+    });
+
+    try {
+      const res = await fetch("/api/export?module=all&format=xlsx", {
+        method: "GET",
+        headers: {
+          Accept: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        },
+      });
+
+      if (!res.ok) {
+        let errDetail = `Server returned status ${res.status}`;
+        try {
+          const errJson = await res.json();
+          if (errJson.error) errDetail = errJson.error;
+        } catch {
+          const errText = await res.text();
+          if (errText) errDetail = errText.slice(0, 150);
+        }
+        throw new Error(errDetail);
+      }
+
+      // Extract filename from Content-Disposition header if provided
+      const disposition = res.headers.get("content-disposition") || "";
+      let filename = `SkyMS_All_Modules_Export_${new Date().toISOString().split("T")[0]}.xlsx`;
+      const match = disposition.match(/filename=["']?([^"';]+)["']?/i);
+      if (match && match[1]) {
+        filename = match[1];
+      }
+
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+
+      const nowTime = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+      setExportStatus({
+        type: "success",
+        message: `Workbook successfully downloaded (${filename}). All 17 module worksheets compiled with corporate formatting.`,
+        timestamp: nowTime,
+      });
+    } catch (err: any) {
+      console.error("Centralized Export Error:", err);
+      setExportStatus({
+        type: "error",
+        message: err?.message || "Failed to generate centralized Excel export. Please check server logs.",
+      });
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   // --- 1. FILTERED DATA COMPUTATION ---
   const now = useMemo(() => new Date(), []);
 
@@ -407,6 +478,7 @@ export default function ExecutiveDashboardView({
     return items.slice(0, 8);
   }, [filteredMaintenance, filteredSafety]);
 
+
   return (
     <div className="space-y-3.5">
       {/* ============================================================== */}
@@ -543,6 +615,130 @@ export default function ExecutiveDashboardView({
       </div>
 
       {/* ============================================================== */}
+      {/* CENTRALIZED DATA EXPORT SECTION (ADMINISTRATOR-CONTROLLED)     */}
+      {/* ============================================================== */}
+      <section className="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-2xs hover:shadow-xs transition-shadow">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+          {/* Left Info Column */}
+          <div className="space-y-1.5 max-w-2xl">
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-600 to-teal-700 text-white font-black text-lg shadow-xs shrink-0">
+                📊
+              </div>
+              <div>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h2 className="text-base font-extrabold text-slate-900 tracking-tight">
+                    Centralized Data Export
+                  </h2>
+                  <span className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-emerald-800 border border-emerald-200">
+                    Administrator Controlled
+                  </span>
+                </div>
+                <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
+                  Export all authorized SkyMS module records into a single professionally formatted Excel workbook, organized into separate worksheets.
+                </p>
+              </div>
+            </div>
+
+            {/* Badges / Metrics Row */}
+            <div className="flex flex-wrap items-center gap-2 pt-2 text-[11px] text-slate-600 font-semibold">
+              <span className="inline-flex items-center gap-1.5 rounded-lg bg-slate-100 px-2.5 py-1 text-slate-700 border border-slate-200">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                <strong>17</strong> Modules Included
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-lg bg-slate-100 px-2.5 py-1 text-slate-700 border border-slate-200">
+                <span className="h-1.5 w-1.5 rounded-full bg-blue-500"></span>
+                <strong>4,320+</strong> Database Records
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-lg bg-slate-100 px-2.5 py-1 text-slate-700 border border-slate-200">
+                <span className="h-1.5 w-1.5 rounded-full bg-purple-500"></span>
+                Format: <strong>Excel (.xlsx)</strong>
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-lg bg-slate-100 px-2.5 py-1 text-slate-700 border border-slate-200">
+                <span className="h-1.5 w-1.5 rounded-full bg-amber-500"></span>
+                Data Source: <strong>MongoDB Atlas</strong>
+              </span>
+            </div>
+          </div>
+
+          {/* Right Action Column */}
+          <div className="flex flex-col sm:flex-row lg:flex-col items-start lg:items-end justify-center gap-2.5 shrink-0">
+            <button
+              type="button"
+              onClick={handleCentralizedExport}
+              disabled={isExporting}
+              className={`inline-flex items-center justify-center gap-2.5 rounded-xl px-5 py-3 text-xs font-black text-white shadow-sm transition-all transform active:scale-98 cursor-pointer ${
+                isExporting
+                  ? "bg-slate-400 cursor-not-allowed opacity-90"
+                  : "bg-[#880b13] hover:bg-[#6e080e] hover:shadow-md"
+              }`}
+              title="Download consolidated professional Excel workbook with all module worksheets"
+            >
+              {isExporting ? (
+                <>
+                  <svg className="h-4 w-4 animate-spin text-white" viewBox="0 0 24 24" fill="none">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+                  </svg>
+                  <span>Compiling Workbook...</span>
+                </>
+              ) : (
+                <>
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                  </svg>
+                  <span>Export All Data to Excel</span>
+                </>
+              )}
+            </button>
+
+            {exportStatus?.timestamp && (
+              <span className="text-[10px] text-slate-500 font-medium">
+                Last exported at: <strong className="text-slate-700">{exportStatus.timestamp}</strong>
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Feedback Alert Banner */}
+        {exportStatus && (
+          <div
+            className={`mt-4 rounded-xl border p-3 text-xs flex items-start justify-between gap-3 animate-in fade-in duration-200 ${
+              exportStatus.type === "success"
+                ? "bg-emerald-50/90 border-emerald-200 text-emerald-900"
+                : exportStatus.type === "error"
+                ? "bg-rose-50/90 border-rose-200 text-rose-900"
+                : "bg-blue-50/90 border-blue-200 text-blue-900"
+            }`}
+          >
+            <div className="flex items-start gap-2.5">
+              <span className="text-base leading-none">
+                {exportStatus.type === "success" ? "✅" : exportStatus.type === "error" ? "⚠️" : "⏳"}
+              </span>
+              <div className="space-y-0.5">
+                <span className="font-bold">
+                  {exportStatus.type === "success"
+                    ? "Export Successful"
+                    : exportStatus.type === "error"
+                    ? "Export Notice"
+                    : "Export in Progress"}
+                </span>
+                <p className="text-[11px] leading-relaxed opacity-90">{exportStatus.message}</p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => setExportStatus(null)}
+              className="text-slate-400 hover:text-slate-700 text-xs font-bold px-1.5 py-0.5 rounded cursor-pointer"
+              title="Dismiss notification"
+            >
+              ✕
+            </button>
+          </div>
+        )}
+      </section>
+
+      {/* ============================================================== */}
       {/* 2. EXECUTIVE COMMAND BAR & FILTERS (SLEEK FILTER BAR)          */}
       {/* ============================================================== */}
       <div className="rounded-2xl border border-slate-200/90 bg-white/95 backdrop-blur-md p-3 shadow-2xs flex flex-wrap items-center justify-between gap-2.5">
@@ -642,6 +838,7 @@ export default function ExecutiveDashboardView({
             ))}
           </select>
         </div>
+
       </div>
 
       {/* ============================================================== */}

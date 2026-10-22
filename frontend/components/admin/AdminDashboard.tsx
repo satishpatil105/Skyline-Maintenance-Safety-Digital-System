@@ -8,6 +8,7 @@ import ExecutiveDashboardView from "./ExecutiveDashboardView";
 import {
   AdminSidebar,
   AdminHeader,
+  DEFAULT_ADMIN_VIEWS,
   UserMasterTable,
   MachineMasterTable,
   MaintenanceRecordsTable,
@@ -17,11 +18,16 @@ import {
   NotificationsAlertsTable,
   MonthlyComplianceTable,
   BreakdownsRepairsTable,
+  ChecklistMasterTable,
+  ChecklistRecordsTable,
   GenericMasterTable,
   AdminRecordModal,
   MachineQrModal,
+  AssetMasterTable,
   cleanSidebarLabel,
 } from "./index";
+import MaintenanceHub from "./maintenance/MaintenanceHub";
+import HiraModule from "@/components/hira/HiraModule";
 import DeleteConfirmModal from "./DeleteConfirmModal";
 import type { View } from "./AdminSidebar";
 import type { Row } from "./UserMasterTable";
@@ -32,6 +38,7 @@ interface AdminDashboardProps {
   initialView?: string;
   initialDb?: {
     machines?: Row[];
+    assets?: Row[];
     maintenance?: Row[];
     safety?: Row[];
     users?: Row[];
@@ -40,8 +47,10 @@ interface AdminDashboardProps {
 
 const getSlugForViewKey = (key: string): string => {
   const k = key.toLowerCase();
+  if (k.includes("asset") && !k.includes("machine")) return "assets";
   if (k.includes("machine")) return "machines";
   if (k.includes("user")) return "users";
+  if (k.includes("checklist record") || k.includes("checklist_record") || k.includes("checklist log") || k.includes("checklist_log")) return "checklist-records";
   if (k.includes("checklist")) return "checklists";
   if (k.includes("breakdown")) return "breakdowns";
   if (k.includes("maintenance")) return "maintenance";
@@ -64,8 +73,10 @@ const getSlugForViewKey = (key: string): string => {
 const resolveInitialViewKey = (initial?: string): string => {
   if (!initial) return "9. Dashboard";
   const norm = initial.toLowerCase().replace(/[^a-z0-9]/g, "");
+  if (norm.includes("checklistrecord") || norm.includes("checklistlog") || (norm.includes("checklist") && (norm.includes("record") || norm.includes("log")))) return "checklist_records";
   if (norm.includes("checklist")) return "2. Checklist Master";
   if (norm.includes("breakdown")) return "breakdowns";
+  if (norm.includes("asset")) return "assets";
   if (norm.includes("machine")) return "machines";
   if (norm.includes("user")) return "users";
   if (norm.includes("maintenance")) return "maintenance";
@@ -86,7 +97,7 @@ const resolveInitialViewKey = (initial?: string): string => {
 };
 
 export default function AdminDashboard({ user, initialView, initialDb }: AdminDashboardProps) {
-  const [views, setViews] = useState<View[]>([]);
+  const [views, setViews] = useState<View[]>(DEFAULT_ADMIN_VIEWS);
   const [activeView, setActiveView] = useState<string>(resolveInitialViewKey(initialView));
   const [rows, setRows] = useState<Row[]>([]);
   const [columns, setColumns] = useState<string[]>([]);
@@ -96,6 +107,8 @@ export default function AdminDashboard({ user, initialView, initialDb }: AdminDa
   // Responsive Layout State
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [allMachines, setAllMachines] = useState<any[]>([]);
+  const [allUsers, setAllUsers] = useState<any[]>([]);
 
   // Modal Dialog States
   const [editor, setEditor] = useState<EditorState | null>(null);
@@ -121,9 +134,11 @@ export default function AdminDashboard({ user, initialView, initialDb }: AdminDa
 
   const DEFAULT_VIEWS: View[] = [
     { key: "9. Dashboard", label: "Dashboard", known: null },
+    { key: "assets", label: "Asset Master", known: "assets" },
     { key: "machines", label: "Machine Master", known: "machines" },
     { key: "maintenance", label: "Maintenance Records", known: "maintenance" },
     { key: "breakdowns", label: "Breakdowns & Repairs", known: null },
+    { key: "checklist_records", label: "Checklist Records", known: null },
     { key: "6. PM Parts AMC", label: "PM Parts & AMC", known: null },
     { key: "2. Checklist Master", label: "Checklist Master", known: null },
     { key: "safety", label: "Safety Records", known: "safety" },
@@ -149,7 +164,20 @@ export default function AdminDashboard({ user, initialView, initialDb }: AdminDa
       const isSameView = (keyA: string, keyB: string) => {
         const normA = keyA.toLowerCase().replace(/[^a-z0-9]/g, "");
         const normB = keyB.toLowerCase().replace(/[^a-z0-9]/g, "");
-        if (normA.includes("machine") && normB.includes("machine")) return true;
+
+        const isChkRecA = normA.includes("checklistrecord") || normA.includes("checklistlog") || (normA.includes("checklist") && (normA.includes("record") || normA.includes("log")));
+        const isChkRecB = normB.includes("checklistrecord") || normB.includes("checklistlog") || (normB.includes("checklist") && (normB.includes("record") || normB.includes("log")));
+        if (isChkRecA && isChkRecB) return true;
+        if (isChkRecA !== isChkRecB && (normA.includes("checklist") || normB.includes("checklist"))) return false;
+
+        // Assets and Machines are strictly separate modules
+        if (normA.includes("asset") || normB.includes("asset")) {
+          return normA.includes("asset") && normB.includes("asset");
+        }
+        if (normA.includes("machine") || normB.includes("machine")) {
+          return normA.includes("machine") && normB.includes("machine");
+        }
+
         if (normA.includes("user") && normB.includes("user")) return true;
         if (normA.includes("maintenance") && normB.includes("maintenance")) return true;
         if (normA.includes("safety") && normB.includes("safety")) return true;
@@ -202,16 +230,17 @@ export default function AdminDashboard({ user, initialView, initialDb }: AdminDa
     setError(null);
     try {
       const normalizedKey = viewKey.toLowerCase();
-      if (normalizedKey.includes("dashboard") || normalizedKey === "9. dashboard") {
+      if (normalizedKey.includes("dashboard") || normalizedKey === "9. dashboard" || normalizedKey.includes("hira")) {
         setRows([]);
         setColumns([]);
         setLoading(false);
         return;
       }
 
-      // 1. Check if it's one of the four core app tables
+      // 1. Check if it's one of the core app tables
       let targetTable: string | null = null;
-      if (normalizedKey === "machines" || normalizedKey.includes("machine master") || normalizedKey.includes("machine")) targetTable = "machines";
+      if (normalizedKey === "assets" || (normalizedKey.includes("asset") && !normalizedKey.includes("machine"))) targetTable = "assets";
+      else if (normalizedKey === "machines" || normalizedKey.includes("machine")) targetTable = "machines";
       else if (normalizedKey === "users" || normalizedKey.includes("user master") || normalizedKey.includes("user & role") || normalizedKey.includes("user")) targetTable = "users";
       else if (normalizedKey === "maintenance" || normalizedKey.includes("maintenance records") || normalizedKey.includes("maintenance")) targetTable = "maintenance";
       else if (normalizedKey === "safety" || normalizedKey.includes("safety records") || normalizedKey.includes("safety")) targetTable = "safety";
@@ -221,12 +250,92 @@ export default function AdminDashboard({ user, initialView, initialDb }: AdminDa
           const res = await fetch(`/api/admin/${targetTable}`);
           if (res.ok) {
             const data = await res.json();
-            setRows(data.rows || []);
+            const fetchedRows = data.rows || [];
+            setRows(fetchedRows);
             setColumns(normalizeCols(data.columns || []));
+            if (targetTable === "machines" && Array.isArray(fetchedRows) && fetchedRows.length > 0) {
+              setAllMachines(fetchedRows);
+            }
+            setLoading(false);
             return;
           }
         } catch (e) {
           console.warn(`Fallback for targetTable ${targetTable}:`, e);
+        }
+      }
+
+      // 1b. Checklist Records Module
+      if (
+        normalizedKey.includes("checklist record") ||
+        normalizedKey.includes("checklist_record") ||
+        normalizedKey.includes("checklist log") ||
+        normalizedKey.includes("checklist_log")
+      ) {
+        try {
+          const res = await fetch("/api/checklist/records");
+          if (res.ok) {
+            const data = await res.json();
+            const chkRecords = data.records || [];
+            const headers = [
+              "Record ID",
+              "Date",
+              "Machine / Asset",
+              "Check Point",
+              "Frequency",
+              "Response / Status",
+              "Remarks",
+              "Action if Not OK",
+              "Operator",
+              "Maintenance Ticket",
+              "Photo Evidence",
+            ];
+            const formatted = chkRecords.map((r: any, idx: number) => {
+              const rowObj: any = {
+                __row: String(idx + 2),
+                "Record ID": r.recordId || "",
+                "Date": r.date || "",
+                "Machine / Asset": `${r.machineName || ""} (${r.assetId || ""})`.trim(),
+                "Check Point": r.checkPoint || "",
+                "Category": r.category || "General Maintenance",
+                "Standard Requirement": r.standardRequirement || "",
+                "Frequency": r.frequency || "Daily",
+                "Response / Status": r.status || r.response || "Pending",
+                "Remarks": r.remarks || "",
+                "Action if Not OK": r.actionIfNotOk || "",
+                "Operator": r.operator || r.userName || "Unassigned",
+                "Maintenance Ticket": r.maintenanceTicketId || "-",
+                "Photo Evidence": r.photoEvidence || "",
+                isHistoricalScheduled: Boolean(r.isHistoricalScheduled),
+                requiresVerification: Boolean(r.requiresVerification),
+                isSunday: Boolean(r.isSunday),
+                status: r.status || "Pending",
+                response: r.response || "",
+                assetId: r.assetId || "",
+                machineName: r.machineName || "",
+                rawDoc: r,
+              };
+              rowObj.cells = [
+                rowObj["Record ID"],
+                rowObj["Date"],
+                rowObj["Machine / Asset"],
+                rowObj["Check Point"],
+                rowObj["Frequency"],
+                rowObj["Response / Status"],
+                rowObj["Remarks"],
+                rowObj["Action if Not OK"],
+                rowObj["Operator"],
+                rowObj["Maintenance Ticket"],
+                rowObj["Photo Evidence"],
+              ];
+              return rowObj;
+            });
+            setRows(formatted);
+            setColumns(headers);
+            setLoading(false);
+            return;
+          }
+        } catch (chkErr) {
+          console.warn("Checklist records API error, falling back:", chkErr);
         }
       }
 
@@ -268,6 +377,24 @@ export default function AdminDashboard({ user, initialView, initialDb }: AdminDa
 
   useEffect(() => {
     fetchViews();
+    // Cache machines and users from MongoDB Atlas so modals have complete live data
+    fetch("/api/admin/machines")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data && Array.isArray(data.rows) && data.rows.length > 0) {
+          setAllMachines(data.rows);
+        }
+      })
+      .catch(() => {});
+
+    fetch("/api/admin/users")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data && Array.isArray(data.rows) && data.rows.length > 0) {
+          setAllUsers(data.rows);
+        }
+      })
+      .catch(() => {});
   }, [fetchViews]);
 
   useEffect(() => {
@@ -278,16 +405,20 @@ export default function AdminDashboard({ user, initialView, initialDb }: AdminDa
 
   const machinesList = useMemo(() => {
     let source: any[] = [];
-    if (activeView.toLowerCase().includes("machine") && rows.length > 0) {
+    if ((activeView.toLowerCase().includes("machine") || activeView.toLowerCase().includes("asset")) && rows.length > 0) {
       source = rows;
+    } else if (allMachines.length > 0) {
+      source = allMachines;
     } else if (initialDb?.machines && initialDb.machines.length > 0) {
       source = initialDb.machines;
     }
 
     const list = source.map((r: any, idx: number) => ({
       assetId: String(r["Asset ID"] || r["assetId"] || r["Machine ID"] || `SKY-00${idx + 1}`),
-      name: String(r["Name"] || r["machineName"] || r["Machine Name"] || "Machine"),
-      department: String(r["Category"] || r["Department"] || "Shopfloor"),
+      name: String(r["Machine Name"] || r["Name"] || r["machineName"] || "Machine"),
+      department: String(r["Department"] || r["Category"] || "Shopfloor"),
+      category: String(r["Category"] || r["Department"] || "Equipment"),
+      location: String(r["Location"] || "Bay 1"),
       status: String(r["Status"] || "Active"),
     }));
 
@@ -309,27 +440,37 @@ export default function AdminDashboard({ user, initialView, initialDb }: AdminDa
       ];
     }
     return list;
-  }, [rows, activeView, initialDb]);
+  }, [rows, activeView, allMachines, initialDb]);
 
   const usersList = useMemo(() => {
     let source: any[] = [];
     if (activeView.toLowerCase().includes("user") && rows.length > 0) {
       source = rows;
+    } else if (allUsers.length > 0) {
+      source = allUsers;
     } else if (initialDb?.users && initialDb.users.length > 0) {
       source = initialDb.users;
     }
 
     return source.map((r: any, idx: number) => ({
-      userId: String(r["User ID"] || r["__id"] || `USR-00${idx + 1}`),
-      name: String(r["Name"] || r["userName"] || "User"),
+      userId: String(r["User ID"] || r["userId"] || r["Login Email"] || r["__id"] || `USR-00${idx + 1}`).trim(),
+      name: String(r["Name"] || r["name"] || r["userName"] || "User").trim(),
+      role: String(r["Role"] || r["role"] || "Operator").trim(),
+      email: String(r["Login Email"] || r["email"] || "").trim(),
     }));
-  }, [rows, activeView, initialDb]);
+  }, [rows, activeView, allUsers, initialDb]);
 
   const currentViewObj = views.find((v) => v.key === activeView);
   const currentTitle = currentViewObj ? currentViewObj.label : activeView;
   const isDashboardView = activeView.toLowerCase().includes("dashboard") || activeView === "9. Dashboard";
 
-  const singularName = cleanSidebarLabel(currentTitle).replace(/s$/, "").replace(/Records$/, "Record");
+  const singularName = useMemo(() => {
+    const k = activeView.toLowerCase();
+    if (k.includes("asset") && !k.includes("machine")) return "Asset";
+    if (k.includes("machine")) return "Machine";
+    if (k.includes("user")) return "User";
+    return cleanSidebarLabel(currentTitle).replace(/s$/, "").replace(/Records$/, "Record");
+  }, [activeView, currentTitle]);
 
   const handleCreateNew = () => {
     const newRow: Row = {};
@@ -348,18 +489,23 @@ export default function AdminDashboard({ user, initialView, initialDb }: AdminDa
       const isNew = editor?.isNew ?? false;
       const normalizedKey = activeView.toLowerCase().trim();
       let targetTable: string | null = null;
-      if (normalizedKey === "machines" || normalizedKey.includes("machine master")) targetTable = "machines";
+      if (normalizedKey === "assets" || (normalizedKey.includes("asset") && !normalizedKey.includes("machine"))) targetTable = "assets";
+      else if (normalizedKey === "machines" || normalizedKey.includes("machine")) targetTable = "machines";
       else if (normalizedKey === "users" || normalizedKey.includes("user master")) targetTable = "users";
       else if (normalizedKey === "maintenance" || normalizedKey.includes("maintenance records")) targetTable = "maintenance";
       else if (normalizedKey === "safety" || normalizedKey === "safety records") targetTable = "safety";
 
       if (targetTable) {
         const rowId =
+          (targetTable === "machines" || targetTable === "assets" ? updatedRow["Asset ID"] || updatedRow["assetId"] || updatedRow["Machine ID"] : "") ||
+          (targetTable === "users" ? updatedRow["Login Email"] || updatedRow["User ID"] : "") ||
           updatedRow["recordId"] ||
-          updatedRow["User ID"] ||
-          updatedRow["Asset ID"] ||
+          updatedRow["Record ID"] ||
+          updatedRow["Maintenance ID"] ||
+          updatedRow["Safety Record ID"] ||
+          updatedRow["__id"] ||
           updatedRow["id"] ||
-          updatedRow["__id"];
+          updatedRow["Asset ID"];
 
         const res = await fetch(`/api/admin/${targetTable}`, {
           method: isNew ? "POST" : "PUT",
@@ -393,9 +539,44 @@ export default function AdminDashboard({ user, initialView, initialDb }: AdminDa
         }
       }
 
+      // Optimistic update so the changes appear immediately on screen
+      if (isNew) {
+        setRows((prev) => [updatedRow, ...prev]);
+      } else {
+        setRows((prev) =>
+          prev.map((r) => {
+            const rId = r["Asset ID"] || r["assetId"] || r["Machine ID"] || r["recordId"] || r["Maintenance ID"] || r["User ID"] || r["__id"];
+            const uId = updatedRow["Asset ID"] || updatedRow["assetId"] || updatedRow["Machine ID"] || updatedRow["recordId"] || updatedRow["Maintenance ID"] || updatedRow["User ID"] || updatedRow["__id"];
+            if (rId && uId && String(rId).trim().toLowerCase() === String(uId).trim().toLowerCase()) {
+              return { ...r, ...updatedRow };
+            }
+            return r;
+          })
+        );
+      }
+
       showStatus(`Successfully ${isNew ? "created" : "updated"} record`, "success");
       setEditor(null);
-      fetchTableData(activeView);
+      await fetchTableData(activeView);
+
+      // Re-cache machines and users in background
+      fetch("/api/admin/machines")
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+          if (data && Array.isArray(data.rows) && data.rows.length > 0) {
+            setAllMachines(data.rows);
+          }
+        })
+        .catch(() => {});
+
+      fetch("/api/admin/users")
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+          if (data && Array.isArray(data.rows) && data.rows.length > 0) {
+            setAllUsers(data.rows);
+          }
+        })
+        .catch(() => {});
     } catch (err: any) {
       console.error("Save error:", err);
       showStatus(err.message || "Failed to save record", "error");
@@ -409,34 +590,69 @@ export default function AdminDashboard({ user, initialView, initialDb }: AdminDa
   const handleConfirmDelete = async () => {
     if (!deleteModalRow) return;
     const rowToDelete = deleteModalRow;
+    const isChecklist = activeView.toLowerCase().includes("checklist");
     const identifier =
-      rowToDelete["User ID"] ||
-      rowToDelete["Asset ID"] ||
-      rowToDelete["recordId"] ||
-      rowToDelete["Template ID"] ||
-      rowToDelete["Alert ID"] ||
-      rowToDelete["partId"] ||
-      rowToDelete["docId"] ||
-      rowToDelete["Name"] ||
-      rowToDelete["Machine Name"] ||
-      "this record";
+      isChecklist
+        ? (rowToDelete["Check Point"] || rowToDelete["Check Point / Task"] || rowToDelete["Template ID"] || rowToDelete["Asset ID"] || "Checklist Point")
+        : (
+            rowToDelete["User ID"] ||
+            rowToDelete["Asset ID"] ||
+            rowToDelete["recordId"] ||
+            rowToDelete["Template ID"] ||
+            rowToDelete["Alert ID"] ||
+            rowToDelete["partId"] ||
+            rowToDelete["docId"] ||
+            rowToDelete["Name"] ||
+            rowToDelete["Machine Name"] ||
+            "this record"
+          );
 
     setIsDeleting(true);
     try {
       const normalizedKey = activeView.toLowerCase().trim();
       let targetTable: string | null = null;
-      if (normalizedKey === "machines" || normalizedKey.includes("machine master")) targetTable = "machines";
-      else if (normalizedKey === "users" || normalizedKey.includes("user master")) targetTable = "users";
-      else if (normalizedKey === "maintenance" || normalizedKey.includes("maintenance records")) targetTable = "maintenance";
-      else if (normalizedKey === "safety" || normalizedKey.includes("safety records")) targetTable = "safety";
+      if (
+        normalizedKey === "assets" ||
+        (normalizedKey.includes("asset") && !normalizedKey.includes("machine"))
+      ) {
+        targetTable = "assets";
+      } else if (
+        normalizedKey === "machines" ||
+        normalizedKey.includes("machine")
+      ) {
+        targetTable = "machines";
+      } else if (
+        normalizedKey === "users" ||
+        normalizedKey.includes("user master") ||
+        normalizedKey.includes("user & role") ||
+        normalizedKey.includes("user")
+      ) {
+        targetTable = "users";
+      } else if (
+        normalizedKey === "maintenance" ||
+        normalizedKey.includes("maintenance records") ||
+        normalizedKey.includes("maintenance")
+      ) {
+        targetTable = "maintenance";
+      } else if (
+        normalizedKey === "safety" ||
+        normalizedKey.includes("safety records") ||
+        normalizedKey.includes("safety")
+      ) {
+        targetTable = "safety";
+      }
 
       if (targetTable) {
         const rowId =
+          (targetTable === "machines" || targetTable === "assets" ? rowToDelete["Asset ID"] || rowToDelete["assetId"] || rowToDelete["Machine ID"] : "") ||
+          (targetTable === "users" ? rowToDelete["Login Email"] || rowToDelete["User ID"] : "") ||
           rowToDelete["recordId"] ||
-          rowToDelete["User ID"] ||
-          rowToDelete["Asset ID"] ||
-          rowToDelete["id"] ||
+          rowToDelete["Record ID"] ||
+          rowToDelete["Maintenance ID"] ||
+          rowToDelete["Safety Record ID"] ||
           rowToDelete["__id"] ||
+          rowToDelete["id"] ||
+          rowToDelete["Asset ID"] ||
           identifier;
 
         const res = await fetch(`/api/admin/${targetTable}?id=${encodeURIComponent(rowId)}`, {
@@ -449,10 +665,21 @@ export default function AdminDashboard({ user, initialView, initialDb }: AdminDa
         }
       } else {
         const rowIndex = rowToDelete["__row"] ? Number(rowToDelete["__row"]) : undefined;
+        const expectedCells = [
+          rowToDelete["Asset ID"] || rowToDelete["Asset ID / Machine"] || "",
+          rowToDelete["Category"] || "",
+          rowToDelete["Check Point"] || rowToDelete["Check Point / Task"] || "",
+          rowToDelete["Standard Requirement"] || "",
+          rowToDelete["Frequency"] || "",
+          rowToDelete["Response"] || "",
+          rowToDelete["Required Photo"] || "",
+          rowToDelete["If Not OK Action"] || "",
+          rowToDelete["Active"] || "",
+        ];
         const res = await fetch(`/api/admin/tabs?name=${encodeURIComponent(activeView)}`, {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ row: rowIndex, identifier }),
+          body: JSON.stringify({ row: rowIndex, identifier, expected: expectedCells }),
         });
 
         if (!res.ok) {
@@ -557,14 +784,23 @@ export default function AdminDashboard({ user, initialView, initialDb }: AdminDa
                 Retry Load
               </button>
             </div>
+          ) : activeView.toLowerCase().includes("hira") ? (
+            <HiraModule user={user} />
           ) : activeView.toLowerCase().includes("user") ? (
             <UserMasterTable rows={rows} onEdit={handleEditRow} onDelete={handleDeleteRow} />
+          ) : activeView.toLowerCase().includes("asset") ? (
+            <AssetMasterTable rows={rows} onEdit={handleEditRow} onDelete={handleDeleteRow} onAddNew={handleCreateNew} />
           ) : activeView.toLowerCase().includes("machine") ? (
-            <MachineMasterTable rows={rows} onEdit={handleEditRow} onDelete={handleDeleteRow} />
+            <MachineMasterTable rows={rows} onEdit={handleEditRow} onDelete={handleDeleteRow} onAddNew={handleCreateNew} />
           ) : activeView.toLowerCase().includes("breakdown") ? (
             <BreakdownsRepairsTable rows={rows} onEdit={handleEditRow} onDelete={handleDeleteRow} renderStatusCell={renderStatusCell} />
           ) : activeView.toLowerCase().includes("maintenance") ? (
-            <MaintenanceRecordsTable rows={rows} onEdit={handleEditRow} onDelete={handleDeleteRow} renderStatusCell={renderStatusCell} />
+            <MaintenanceHub
+              user={user}
+              machinesList={machinesList}
+              usersList={usersList}
+              onRefreshParent={() => fetchTableData(activeView)}
+            />
           ) : activeView.toLowerCase().includes("safety") ? (
             <SafetyRecordsTable rows={rows} onEdit={handleEditRow} onDelete={handleDeleteRow} renderStatusCell={renderStatusCell} />
           ) : activeView.toLowerCase().includes("parts") || activeView.toLowerCase().includes("amc") ? (
@@ -575,8 +811,30 @@ export default function AdminDashboard({ user, initialView, initialDb }: AdminDa
             <NotificationsAlertsTable rows={rows} onEdit={handleEditRow} onDelete={handleDeleteRow} />
           ) : activeView.toLowerCase().includes("month") || activeView.toLowerCase().includes("compliance") ? (
             <MonthlyComplianceTable rows={rows} onEdit={handleEditRow} onDelete={handleDeleteRow} />
+          ) : (activeView.toLowerCase().includes("checklist record") || activeView.toLowerCase().includes("checklist_record") || activeView.toLowerCase().includes("checklist log") || activeView.toLowerCase().includes("checklist_log")) ? (
+            <ChecklistRecordsTable
+              rows={rows}
+              onDelete={handleDeleteRow}
+              renderStatusCell={renderStatusCell}
+            />
+          ) : activeView.toLowerCase().includes("checklist") ? (
+            <ChecklistMasterTable
+              rows={rows}
+              machinesList={machinesList}
+              onEdit={handleEditRow}
+              onDelete={handleDeleteRow}
+              onAddNew={handleCreateNew}
+              currentUser={user}
+            />
           ) : (
-            <GenericMasterTable cols={columns} rows={rows} onEdit={handleEditRow} onDelete={handleDeleteRow} renderStatusCell={renderStatusCell} />
+            <GenericMasterTable
+              cols={columns}
+              rows={rows}
+              title={cleanSidebarLabel(activeView)}
+              onEdit={handleEditRow}
+              onDelete={handleDeleteRow}
+              renderStatusCell={renderStatusCell}
+            />
           )}
         </main>
       </div>

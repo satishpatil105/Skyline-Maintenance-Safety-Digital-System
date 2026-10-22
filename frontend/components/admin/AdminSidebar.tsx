@@ -34,6 +34,15 @@ export function getSidebarIcon(key: string, label: string, isActive: boolean) {
             </span>
         );
     }
+    if (l.includes("asset")) {
+        return (
+            <span className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 transition-colors ${isActive ? "bg-white/20 text-white" : "bg-purple-100 text-purple-700"}`}>
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth="2.2" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+                </svg>
+            </span>
+        );
+    }
     if (l.includes("machine")) {
         return (
             <span className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 transition-colors ${isActive ? "bg-white/20 text-white" : "bg-amber-100 text-amber-700"}`}>
@@ -48,6 +57,15 @@ export function getSidebarIcon(key: string, label: string, isActive: boolean) {
             <span className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 transition-colors ${isActive ? "bg-white/20 text-white" : "bg-red-100 text-red-700"}`}>
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth="2.2" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                </svg>
+            </span>
+        );
+    }
+    if (l.includes("checklist record") || l.includes("checklist_record") || l.includes("checklist log") || l.includes("checklist_log")) {
+        return (
+            <span className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 transition-colors ${isActive ? "bg-white/20 text-white" : "bg-emerald-100 text-emerald-800"}`}>
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth="2.2" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
                 </svg>
             </span>
         );
@@ -191,8 +209,10 @@ export function cleanSidebarLabel(label: string): string {
     const l = (label || "").toLowerCase();
     if (l.includes("analytics") || l.includes("telemetry")) return "Analytics & Telemetry";
     if (/^9\.\s*dashboard$/i.test(label) || l === "dashboard") return "Dashboard";
+    if (l.includes("asset")) return "Asset Master";
     if (l.includes("employee") && !l.includes("safety")) return "Employee Master";
     if (/^1\.\s*user master$/i.test(label) || l.includes("user")) return "User & Role Master";
+    if (l.includes("checklist record") || l.includes("checklist_record") || l.includes("checklist log") || l.includes("checklist_log")) return "Checklist Records";
     if (/^2\.\s*checklist master$/i.test(label) || l.includes("checklist")) return "Checklist Master";
     if (l.includes("breakdown")) return "Breakdowns & Repairs";
     if (/^3\.\s*maintenance/i.test(label) || l.includes("maintenance")) return "Maintenance Records";
@@ -211,10 +231,33 @@ export function cleanSidebarLabel(label: string): string {
     return label;
 }
 
+export const DEFAULT_ADMIN_VIEWS: View[] = [
+    { key: "9. Dashboard", label: "Dashboard", known: null },
+    { key: "assets", label: "Asset Master", known: "assets" },
+    { key: "machines", label: "Machine Master", known: "machines" },
+    { key: "maintenance", label: "Maintenance Records", known: "maintenance" },
+    { key: "breakdowns", label: "Breakdowns & Repairs", known: null },
+    { key: "checklist_records", label: "Checklist Records", known: null },
+    { key: "6. PM Parts AMC", label: "PM Parts & AMC", known: null },
+    { key: "2. Checklist Master", label: "Checklist Master", known: null },
+    { key: "safety", label: "Safety Records", known: "safety" },
+    { key: "hira", label: "HIRA (Hazard ID)", known: null },
+    { key: "environmental_safety", label: "Environmental Safety", known: null },
+    { key: "fire_safety", label: "Fire Safety", known: null },
+    { key: "employee_safety", label: "Employee Safety", known: null },
+    { key: "10. Monthly Tracking", label: "Monthly Compliance", known: null },
+    { key: "users", label: "User & Role Master", known: "users" },
+    { key: "employee_master", label: "Employee Master", known: null },
+    { key: "training", label: "Training & Skill Matrix", known: null },
+    { key: "7. Document Register", label: "Document Register", known: null },
+    { key: "8. Notifications", label: "Notifications & Alerts", known: null },
+    { key: "audit_logs", label: "System Audit Logs", known: null },
+];
+
 export function getViewCategory(view: View): string {
     const l = (view.label || view.key || "").toLowerCase();
     if (l.includes("dashboard") || l.includes("analytics")) return "OVERVIEW";
-    if (l.includes("machine") || l.includes("maintenance") || l.includes("breakdown") || l.includes("part") || l.includes("amc")) return "OPERATIONS & MACHINERY";
+    if (l.includes("machine") || l.includes("asset") || l.includes("maintenance") || l.includes("breakdown") || l.includes("checklist record") || l.includes("checklist_record") || l.includes("part") || l.includes("amc")) return "OPERATIONS & MACHINERY";
     if (l.includes("safety") || l.includes("checklist") || l.includes("hira") || l.includes("environmental") || l.includes("environment") || l.includes("fire") || l.includes("compliance") || l.includes("month")) return "SAFETY & COMPLIANCE";
     if (l.includes("employee") || l.includes("user") || l.includes("training") || l.includes("document") || l.includes("register")) return "PEOPLE & DOCUMENTS";
     return "SYSTEM & LOGS";
@@ -229,13 +272,24 @@ export default function AdminSidebar({
     onSelectView,
     onCloseMobileMenu,
 }: AdminSidebarProps) {
+    const displayViews = views && views.length > 0 ? views : DEFAULT_ADMIN_VIEWS;
+
     return (
-        <aside
-            className={`fixed inset-y-0 left-0 z-50 flex flex-col bg-white border-r border-slate-200/90 shadow-lg lg:shadow-none transition-all duration-300 ease-in-out ${mobileMenuOpen
-                ? "translate-x-0 w-64"
-                : "-translate-x-full lg:translate-x-0 " + (sidebarCollapsed ? "w-16" : "w-60")
-                }`}
-        >
+        <>
+            {/* Mobile drawer backdrop */}
+            {mobileMenuOpen && (
+                <div
+                    className="fixed inset-0 z-40 bg-slate-900/60 backdrop-blur-xs lg:hidden transition-opacity"
+                    onClick={onCloseMobileMenu}
+                    aria-hidden="true"
+                />
+            )}
+            <aside
+                className={`fixed inset-y-0 left-0 z-50 flex flex-col bg-white border-r border-slate-200/90 shadow-xl lg:shadow-none transition-all duration-300 ease-in-out ${mobileMenuOpen
+                    ? "translate-x-0 w-64"
+                    : "-translate-x-full lg:translate-x-0 " + (sidebarCollapsed ? "w-16" : "w-60")
+                    }`}
+            >
             {/* Sidebar Brand Header */}
             <div className="h-16 flex items-center px-3.5 border-b border-slate-100 justify-between shrink-0 bg-white">
                 <div className={`flex items-center gap-2.5 overflow-hidden ${sidebarCollapsed ? "justify-center w-full" : ""}`}>
@@ -270,7 +324,7 @@ export default function AdminSidebar({
             {/* Scrollable Sidebar Nav Links with Categorized Section Headers */}
             <div className="flex-1 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden px-2.5 py-3 space-y-4">
                 {(["OVERVIEW", "OPERATIONS & MACHINERY", "SAFETY & COMPLIANCE", "PEOPLE & DOCUMENTS", "SYSTEM & LOGS"] as const).map((category) => {
-                    const categoryViews = views.filter((v) => getViewCategory(v) === category);
+                    const categoryViews = displayViews.filter((v) => getViewCategory(v) === category);
                     if (categoryViews.length === 0) return null;
 
                     return (
@@ -347,5 +401,6 @@ export default function AdminSidebar({
                 </div>
             </div>
         </aside>
+        </>
     );
 }

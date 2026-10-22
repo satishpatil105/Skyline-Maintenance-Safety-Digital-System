@@ -9,12 +9,28 @@ interface MachineQrModalProps {
 }
 
 function extractAssetId(text: string): string {
-    const raw = text.trim();
-    const match = raw.match(/\/machine\/([^/?#]+)/i);
-    if (match) return decodeURIComponent(match[1]);
+    let raw = String(text || "").trim();
+    if (!raw) return "";
 
-    const paramMatch = raw.match(/[?&]assetId=([^&#]+)/i);
-    if (paramMatch) return decodeURIComponent(paramMatch[1]);
+    // Strip wrapping quotes
+    raw = raw.replace(/^["']|["']$/g, "").trim();
+
+    // Try match path like /machine/:id or /operator/machine/:id or /admin/machines/:id
+    const pathMatch = raw.match(/(?:\/(?:operator|admin))?\/machines?\/([^/?#\s]+)/i);
+    if (pathMatch) return decodeURIComponent(pathMatch[1]).trim();
+
+    // Try query param like ?assetId=... or ?id=... or ?machineId=...
+    const paramMatch = raw.match(/[?&](?:assetId|machineId|id|code)=([^&#\s]+)/i);
+    if (paramMatch) return decodeURIComponent(paramMatch[1]).trim();
+
+    // If it's a JSON string like {"assetId":"..."}
+    if (raw.startsWith("{") && raw.endsWith("}")) {
+        try {
+            const parsed = JSON.parse(raw);
+            const jsonId = parsed.assetId || parsed["Asset ID"] || parsed.machineId || parsed.id;
+            if (jsonId) return String(jsonId).trim();
+        } catch {}
+    }
 
     return raw;
 }

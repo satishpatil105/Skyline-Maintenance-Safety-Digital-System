@@ -14,10 +14,10 @@ function getUri(): string {
 }
 
 const mongoOptions = {
-  serverSelectionTimeoutMS: 15000,
-  connectTimeoutMS: 15000,
+  serverSelectionTimeoutMS: 10000,
+  connectTimeoutMS: 10000,
   socketTimeoutMS: 30000,
-  maxPoolSize: 10,
+  maxPoolSize: 30,
 };
 
 /**
@@ -31,6 +31,7 @@ function createClientPromise(): Promise<MongoClient> {
     if (typeof global !== "undefined") {
       (global as any)._mongoClientPromise = undefined;
     }
+    clientPromise = null;
     console.error("[MongoDB] Failed to connect to MongoDB Atlas cluster:", err?.message ?? err);
     throw new Error(
       `MongoDB Connection Error: Unable to connect to MongoDB Atlas database 'Skyline_Project_Engineers'. ${err?.message || err}`
@@ -58,14 +59,26 @@ function getClientPromise(): Promise<MongoClient> {
   return clientPromise;
 }
 
+export function resetClientPromise() {
+  if (typeof global !== "undefined") {
+    (global as any)._mongoClientPromise = undefined;
+  }
+  clientPromise = null;
+}
+
 /**
  * Get the active database instance connected to MongoDB Atlas (Skyline_Project_Engineers).
- * Always creates a fresh connection attempt if the previous one failed.
+ * Always creates a fresh connection attempt if the previous one failed or disconnected.
  */
 export async function getMongoDb(): Promise<Db> {
-  const connectedClient = await getClientPromise();
   const dbName = process.env.MONGODB_DB_NAME || "Skyline_Project_Engineers";
-  return connectedClient.db(dbName);
+  try {
+    const connectedClient = await getClientPromise();
+    return connectedClient.db(dbName);
+  } catch (err) {
+    resetClientPromise();
+    throw err;
+  }
 }
 
 /**
@@ -93,6 +106,10 @@ export async function getCollections() {
     hira: db.collection("hira"),
     environmental: db.collection("environmental"),
     otherSafety: db.collection("other_safety"),
+    maintenanceRequests: db.collection("maintenance_requests"),
+    pmSchedules: db.collection("pm_schedules"),
+    amcContracts: db.collection("amc_contracts"),
+    amcServiceReports: db.collection("amc_service_reports"),
   };
 }
 
