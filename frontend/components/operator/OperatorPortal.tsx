@@ -95,12 +95,16 @@ export default function OperatorPortal({
 
   const loadDashboardStats = useCallback(async () => {
     try {
-      const [mRes, sRes] = await Promise.all([
+      const [mRes, sRes, cRes] = await Promise.all([
         fetch("/api/maintenance", { cache: "no-store" }),
         fetch("/api/safety", { cache: "no-store" }),
+        fetch("/api/checklist", { cache: "no-store" }),
       ]);
       const mJson = await mRes.json();
       const sJson = await sRes.json();
+      const cJson = await cRes.json().catch(() => ({}));
+      const checklistMachines = Array.isArray(cJson?.machines) ? cJson.machines : [];
+      const checklistsDueToday = checklistMachines.reduce((sum: number, m: any) => sum + (Number(m.dueNow) || 0), 0);
 
       const assignedAsset = (currentMachine?.["Asset ID"] || user?.departmentMachine || "").trim().toLowerCase();
       const assignedName = (currentMachine?.["Machine Name"] || user?.departmentMachine || "").trim().toLowerCase();
@@ -168,7 +172,7 @@ export default function OperatorPortal({
       setStats({
         openBreakdowns,
         safetyHazards,
-        checklistsToday: 1,
+        checklistsToday: checklistsDueToday,
         totalMaintenance: mRecords.length,
         totalSafety: sRecords.length,
         recentActivity: recent,

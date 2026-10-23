@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import type { Row } from "./UserMasterTable";
 import { uploadPhoto } from "@/lib/uploadPhoto";
+import { todayString, isSunday } from "@/lib/dates";
 
 interface MachineItem {
   assetId: string;
@@ -53,9 +54,7 @@ export default function ChecklistMasterTable({
     currentUser?.name || currentUser?.email || "Admin Inspector"
   );
   const [inspectShift, setInspectShift] = useState<string>("Shift 1 (Morning)");
-  const [inspectDate, setInspectDate] = useState<string>(
-    new Date().toISOString().split("T")[0]
-  );
+  const [inspectDate, setInspectDate] = useState<string>(() => todayString());
   const [answers, setAnswers] = useState<Record<string, InspectionAnswer>>({});
   const [submitting, setSubmitting] = useState(false);
   const [submitFeedback, setSubmitFeedback] = useState<{
@@ -64,7 +63,7 @@ export default function ChecklistMasterTable({
     details?: string;
   } | null>(null);
   const [uploadingPoint, setUploadingPoint] = useState<string | null>(null);
-  const isSundayToday = useMemo(() => new Date().getDay() === 0, []);
+  const isSundayToday = useMemo(() => isSunday(todayString()), []);
 
   // Helper to extract clean values across field name variants
   const getAssetId = (r: Row): string =>

@@ -23,10 +23,30 @@ const toUtc = (date: string) => {
   return new Date(Date.UTC(y, m - 1, d));
 };
 
-/** Today's date (server's calendar day) as yyyy-mm-dd. */
-export function todayString(): string {
-  const now = new Date();
-  return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+export const TIMEZONE_IST = "Asia/Kolkata";
+
+/** Today's date (business calendar day in Asia/Kolkata IST) as yyyy-mm-dd. */
+export function todayString(date?: Date): string {
+  const d = date || new Date();
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: TIMEZONE_IST,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(d);
+}
+
+/** Check if a yyyy-mm-dd date string equals today in IST. */
+export function isToday(dateStr: string): boolean {
+  if (!dateStr) return false;
+  return toDateString(dateStr) === todayString();
+}
+
+/** Check if a yyyy-mm-dd date string is strictly before today in IST. */
+export function isPastDate(dateStr: string): boolean {
+  if (!dateStr) return false;
+  const d = toDateString(dateStr);
+  return Boolean(d && d < todayString());
 }
 
 /**
@@ -108,9 +128,20 @@ export interface FactoryShiftInfo {
  * Weekly Off: Sunday (Checklist submissions are closed).
  */
 export function getFactoryShiftInfo(nowDate: Date = new Date()): FactoryShiftInfo {
-  const hours = nowDate.getHours();
-  const day = nowDate.getDay(); // 0 is Sunday
-  const isSun = day === 0;
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: TIMEZONE_IST,
+    hour: "numeric",
+    hour12: false,
+    weekday: "short",
+  }).formatToParts(nowDate);
+
+  let hours = 0;
+  let weekday = "";
+  for (const p of parts) {
+    if (p.type === "hour") hours = parseInt(p.value, 10);
+    if (p.type === "weekday") weekday = p.value;
+  }
+  const isSun = weekday === "Sun";
   const isWithinHours = !isSun && hours >= GENERAL_SHIFT_START_HOUR && hours < GENERAL_SHIFT_END_HOUR;
 
   let statusLabel = "";

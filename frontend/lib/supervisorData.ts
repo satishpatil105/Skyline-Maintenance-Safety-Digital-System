@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getDashboardForRole, getSessionUser, SessionUser } from "@/lib/auth";
 import { readDb } from "@/lib/db";
+import { todayString } from "@/lib/dates";
 import { ensureSafetyTabs, safetyOverview } from "@/lib/safetyDept";
 import { Row } from "@/components/admin/UserMasterTable";
 
@@ -62,11 +63,19 @@ export async function loadSupervisorPortalProps(initialTabRaw?: string) {
     return risk.includes("high") || risk.includes("critical");
   }).length;
 
+  const today = todayString();
+  const checklistRecords = (db as any)?.checklistRecords || [];
+  const completedTodayChecklists = checklistRecords.filter((cr: any) => {
+    const d = cr.date || (cr.createdAt ? String(cr.createdAt).slice(0, 10) : "");
+    const s = String(cr.status || cr.response || "").toUpperCase();
+    return d === today && (s === "OK" || s === "PASSED" || s === "NOT OK" || s === "FAILED");
+  }).length;
+
   const stats = {
     totalMachines: machines.length,
     openMaintenance,
     openSafety,
-    completedTodayChecklists: maintenanceRecords.filter((m) => m.recordType === "Checklist").length,
+    completedTodayChecklists,
     highRiskIncidents,
   };
 

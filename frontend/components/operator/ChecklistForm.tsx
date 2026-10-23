@@ -156,15 +156,24 @@ export default function ChecklistForm({
   // Track the currently loaded asset to avoid answer wipeout on re-render
   const loadedAssetRef = useRef<string>("");
 
-  const [today, setToday] = useState("October 10, 2026");
+  const [today, setToday] = useState<string>(() => {
+    return new Intl.DateTimeFormat("en-US", {
+      timeZone: "Asia/Kolkata",
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    }).format(new Date());
+  });
 
   useEffect(() => {
-    const d = new Date();
-    const months = [
-      "January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December"
-    ];
-    setToday(`${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`);
+    setToday(
+      new Intl.DateTimeFormat("en-US", {
+        timeZone: "Asia/Kolkata",
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      }).format(new Date())
+    );
   }, []);
 
   const loadChecklist = useCallback(

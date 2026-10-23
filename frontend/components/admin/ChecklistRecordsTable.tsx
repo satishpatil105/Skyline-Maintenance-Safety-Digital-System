@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo, useEffect, useCallback } from "react";
 import type { Row } from "./UserMasterTable";
+import { todayString, niceDate, addDays } from "@/lib/dates";
 
 interface ChecklistRecordsTableProps {
   rows?: Row[];
@@ -47,9 +48,10 @@ export default function ChecklistRecordsTable({
   const [loading, setLoading] = useState(false);
   const [apiStats, setApiStats] = useState<any | null>(null);
 
-  // 2. Filter States (Default historical window up to 2026-10-23)
+  // 2. Filter States (Default historical window up to current date in IST)
+  const today = useMemo(() => todayString(), []);
   const [startDate, setStartDate] = useState("2026-09-18");
-  const [endDate, setEndDate] = useState("2026-10-23");
+  const [endDate, setEndDate] = useState(today);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedMachine, setSelectedMachine] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -118,7 +120,7 @@ export default function ChecklistRecordsTable({
       };
 
       const recordId = getVal(["Record ID", "recordId", "Log ID", "logId"], 0, `REC-${index + 1}`);
-      const date = getVal(["Date", "date", "Created Date"], 1, "2026-10-21");
+      const date = getVal(["Date", "date", "Created Date"], 1, today);
       const machineWithAsset = getVal(
         ["Machine / Asset", "Machine Name", "machineName", "Asset ID", "assetId"],
         2,
@@ -147,9 +149,11 @@ export default function ChecklistRecordsTable({
       const sNorm = statusRaw.toLowerCase().trim();
       const isNotOk = sNorm === "not ok" || sNorm === "failed" || sNorm === "defect";
       const isOk = sNorm === "ok" || sNorm === "passed";
-      const isPending = sNorm === "pending";
-      const isOverdue = sNorm === "overdue";
       const isCompleted = isOk || isNotOk;
+      const isTodayRec = date === today;
+      const isPast = date < today;
+      const isOverdue = sNorm === "overdue" || (isPast && (sNorm === "pending" || !response));
+      const isPending = (sNorm === "pending" || sNorm === "not started") && isTodayRec;
       const isUnverified = requiresVerification || isHistoricalScheduled || isOverdue || isPending;
 
       return {
@@ -360,7 +364,7 @@ export default function ChecklistRecordsTable({
           <div>
             <div className="flex flex-wrap items-center gap-2">
               <h2 className="text-sm font-black text-slate-900 tracking-tight">
-                34-Day Historical Inspection Schedule (18 Sep 2026 – 21 Oct 2026)
+                Historical & Daily Inspection Schedule (18 Sep 2026 – {niceDate(today)})
               </h2>
               <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black border border-emerald-300 uppercase tracking-wide">
                 MongoDB Atlas Synced
@@ -425,7 +429,7 @@ export default function ChecklistRecordsTable({
           </div>
           <div className="mt-1.5 flex items-baseline gap-1">
             <span className="text-2xl font-black text-amber-700">{stats.pendingCount}</span>
-            <span className="text-[10px] font-semibold text-amber-800">21 Oct 2026</span>
+            <span className="text-[10px] font-semibold text-amber-800">{niceDate(today)}</span>
           </div>
           <div className="mt-1 text-[11px] font-medium text-amber-700">
             Awaiting today's shift log
@@ -523,31 +527,31 @@ export default function ChecklistRecordsTable({
                 type="button"
                 onClick={() => {
                   setStartDate("2026-09-18");
-                  setEndDate("2026-10-21");
+                  setEndDate(today);
                   setPage(1);
                 }}
                 className="px-2.5 py-1 bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 rounded-lg text-[11px] font-bold transition-colors cursor-pointer"
               >
-                34-Day Period
+                Full Schedule
               </button>
 
               <button
                 type="button"
                 onClick={() => {
-                  setStartDate("2026-10-21");
-                  setEndDate("2026-10-21");
+                  setStartDate(today);
+                  setEndDate(today);
                   setPage(1);
                 }}
-                className="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[11px] font-bold transition-colors cursor-pointer"
+                className="px-2.5 py-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border border-indigo-200 rounded-lg text-[11px] font-bold transition-colors cursor-pointer"
               >
-                Today (21 Oct)
+                Today ({niceDate(today)})
               </button>
 
               <button
                 type="button"
                 onClick={() => {
-                  setStartDate("2026-10-14");
-                  setEndDate("2026-10-21");
+                  setStartDate(addDays(today, -7));
+                  setEndDate(today);
                   setPage(1);
                 }}
                 className="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[11px] font-bold transition-colors cursor-pointer"
@@ -878,7 +882,7 @@ export default function ChecklistRecordsTable({
                     <td className="py-3 px-4 whitespace-nowrap">
                       <div className="font-bold text-slate-900 text-xs flex items-center gap-1.5">
                         <span className="font-mono">{r.date}</span>
-                        {r.date === "2026-10-21" && (
+                        {r.date === today && (
                           <span className="px-1.5 py-0.2 rounded bg-amber-100 text-amber-800 text-[9px] font-black uppercase">
                             Today
                           </span>
@@ -943,6 +947,13 @@ export default function ChecklistRecordsTable({
                           <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-300 text-[11px] font-bold">
                             <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping"></span>
                             Pending Today
+                          </span>
+                        </div>
+                      ) : r.isOverdue ? (
+                        <div className="inline-flex flex-col items-center">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-300 text-[11px] font-bold">
+                            <span className="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+                            Overdue ({r.date})
                           </span>
                         </div>
                       ) : (

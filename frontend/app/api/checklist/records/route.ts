@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { safe } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
 import { readDb } from "@/lib/db";
+import { todayString } from "@/lib/dates";
 import type { ChecklistRecord } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -91,15 +92,28 @@ export const GET = safe(async (request: NextRequest) => {
     return s === "NOT OK" || s === "FAILED" || s === "DEFECT";
   }).length;
 
-  const pendingCount = validScheduled.filter((r) => {
-    const s = String(r.status || "").toUpperCase();
-    return s === "PENDING";
-  }).length;
+  const today = todayString();
 
-  const overdueCount = validScheduled.filter((r) => {
+  const isCompletedRecord = (r: ChecklistRecord) => {
+    const s = String(r.status || r.response || "").toUpperCase();
+    return s === "OK" || s === "PASSED" || s === "NOT OK" || s === "FAILED" || s === "DEFECT";
+  };
+
+  const isTodayPendingRecord = (r: ChecklistRecord) => {
     const s = String(r.status || "").toUpperCase();
-    return s === "OVERDUE";
-  }).length;
+    return (s === "PENDING" || s === "NOT STARTED" || (!r.response && s !== "OVERDUE")) && (r.date === today);
+  };
+
+  const isOverdueRecord = (r: ChecklistRecord) => {
+    const s = String(r.status || "").toUpperCase();
+    if (s === "OVERDUE") return true;
+    if (r.date && r.date < today && !isCompletedRecord(r)) return true;
+    return false;
+  };
+
+  const todayPendingCount = validScheduled.filter(isTodayPendingRecord).length;
+  const overdueCount = validScheduled.filter(isOverdueRecord).length;
+  const pendingCount = todayPendingCount;
 
   const completedCount = okCount + notOkCount;
   const completionPercentage = totalScheduled > 0 ? Number(((completedCount / totalScheduled) * 100).toFixed(1)) : 0;
@@ -110,15 +124,17 @@ export const GET = safe(async (request: NextRequest) => {
     completedCount,
     okCount,
     notOkCount,
-    pendingCount,
+    pendingCount: todayPendingCount,
+    todayPendingCount,
     overdueCount,
     unverifiedCount,
     completionPercentage,
     sundaysExcludedCount: SUNDAYS.size,
     machinesCovered: uniqueMachines.length,
+    todayDate: today,
     dateRange: {
       startDate: startDate || "2026-09-18",
-      endDate: endDate || "2026-10-23",
+      endDate: endDate || today,
       totalDays: 36,
       workingDays: 31,
       sundayWeeklyOffs: 5,
@@ -165,9 +181,9 @@ export const GET = safe(async (request: NextRequest) => {
       const s = String(r.status || r.response || "").toLowerCase();
       if (status === "ok") return s === "ok" || s === "passed";
       if (status === "not_ok" || status === "not ok") return s === "not ok" || s === "failed";
-      if (status === "pending") return s === "pending";
-      if (status === "overdue") return s === "overdue";
-      if (status === "completed") return s === "ok" || s === "passed" || s === "not ok" || s === "failed";
+      if (status === "pending") return isTodayPendingRecord(r);
+      if (status === "overdue") return isOverdueRecord(r);
+      if (status === "completed") return isCompletedRecord(r);
       if (status === "unverified") return Boolean(r.requiresVerification || r.isHistoricalScheduled);
       return s.includes(status);
     });
