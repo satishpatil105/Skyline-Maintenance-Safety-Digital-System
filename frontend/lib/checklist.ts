@@ -520,6 +520,12 @@ function lastDoneIndex(db: Database): Map<string, LastDone> {
     if (!date) continue;
 
     const key = `${normalize(assetId)}|${normalize(chkId)}`;
+    const status = String(cr.status || "").trim().toLowerCase();
+    const resp = String(cr.response || "").trim().toLowerCase();
+    // Only completed inspection responses count as last done (do not lock out unperformed pending/overdue records)
+    if (status === "pending" || status === "overdue" || resp === "pending" || resp === "overdue") continue;
+    if (!cr.response && (status === "pending" || status === "not started")) continue;
+
     const existing = index.get(key);
     if (!existing || date >= existing.date) {
       index.set(key, {

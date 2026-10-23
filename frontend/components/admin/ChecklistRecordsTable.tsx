@@ -47,9 +47,9 @@ export default function ChecklistRecordsTable({
   const [loading, setLoading] = useState(false);
   const [apiStats, setApiStats] = useState<any | null>(null);
 
-  // 2. Filter States (Default 34-day historical window)
+  // 2. Filter States (Default historical window up to 2026-10-23)
   const [startDate, setStartDate] = useState("2026-09-18");
-  const [endDate, setEndDate] = useState("2026-10-21");
+  const [endDate, setEndDate] = useState("2026-10-23");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedMachine, setSelectedMachine] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("all");

@@ -118,9 +118,9 @@ export const GET = safe(async (request: NextRequest) => {
     machinesCovered: uniqueMachines.length,
     dateRange: {
       startDate: startDate || "2026-09-18",
-      endDate: endDate || "2026-10-21",
-      totalDays: 34,
-      workingDays: 29,
+      endDate: endDate || "2026-10-23",
+      totalDays: 36,
+      workingDays: 31,
       sundayWeeklyOffs: 5,
     },
   };

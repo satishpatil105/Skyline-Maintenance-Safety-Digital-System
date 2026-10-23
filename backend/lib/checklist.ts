@@ -430,6 +430,7 @@ function lastDoneIndex(db: Database): Map<string, LastDone> {
   const index = new Map<string, LastDone>();
   for (const r of db.maintenanceRecords) {
     if (!/^CHK-/i.test(String(r.recordId ?? "")) || !r.checklistId) continue;
+    if (!r.result || /^(pending|open|overdue)$/i.test(String(r.result).trim())) continue;
     const date = toDateString(r.date) || toDateString(r.createdAt);
     if (!date) continue;
 
